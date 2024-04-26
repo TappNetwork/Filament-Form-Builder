@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'entry-show-route' => 'dynamic-entry'
+    'entry-show-route' => 'dynamic-entry',
 ];
