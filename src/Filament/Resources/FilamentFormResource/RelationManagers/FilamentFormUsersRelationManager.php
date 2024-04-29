@@ -3,14 +3,14 @@
 namespace Tapp\FilamentForms\Filament\Resources\FilamentFormResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Tables;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Maatwebsite\Excel\Facades\Excel;
-use Filament\Tables\Actions\BulkAction;
-use Tapp\FilamentForms\Exports\FilamentFormUsersExport;
-use Illuminate\Database\Eloquent\Collection;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
+use Maatwebsite\Excel\Facades\Excel;
+use Tapp\FilamentForms\Exports\FilamentFormUsersExport;
 
 class FilamentFormUsersRelationManager extends RelationManager
 {
@@ -52,11 +52,10 @@ class FilamentFormUsersRelationManager extends RelationManager
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     BulkAction::make('Export Selected')
-                        ->action(fn (Collection $records) =>
-                                    Excel::download(
-                                        new FilamentFormUsersExport($records),
-                                        $this->getOwnerRecord()->name.'_form_entry_export'.now()->format('Y-m-dhis').'.csv')
-                                )
+                        ->action(fn (Collection $records) => Excel::download(
+                            new FilamentFormUsersExport($records),
+                            $this->getOwnerRecord()->name.'_form_entry_export'.now()->format('Y-m-dhis').'.csv')
+                        )
                         ->icon('heroicon-o-document-chart-bar')
                         ->deselectRecordsAfterCompletion(),
                 ]),

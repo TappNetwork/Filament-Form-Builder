@@ -26,6 +26,7 @@ enum FilamentFieldTypeEnum implements HasLabel
                 return $case;
             }
         }
+
         return null;  // Return null if no match is found
     }
 
@@ -36,13 +37,12 @@ enum FilamentFieldTypeEnum implements HasLabel
 
     public function fieldName(): string
     {
-        return match($this)
-        {
+        return match ($this) {
             self::TEXT => 'Text Input',
             self::TEXTAREA => 'Textarea',
             self::SELECT => 'Select',
             self::RICH_EDITOR => 'Rich Editor',
-            self::TOGGLE  => 'Toggle',
+            self::TOGGLE => 'Toggle',
             self::CHECKBOX => 'Checkbox',
             self::RADIO => 'Radio',
             self::DATE_TIME_PICKER => 'DateTime Picker',
@@ -55,13 +55,12 @@ enum FilamentFieldTypeEnum implements HasLabel
 
     public function className(): string
     {
-        return match($this)
-        {
+        return match ($this) {
             self::TEXT => 'Filament\Forms\Components\TextInput',
             self::TEXTAREA => 'Filament\Forms\Components\Textarea',
             self::SELECT => 'Filament\Forms\Components\Select',
             self::RICH_EDITOR => 'Filament\Forms\Components\RichEditor',
-            self::TOGGLE  => 'Filament\Forms\Components\Toggle',
+            self::TOGGLE => 'Filament\Forms\Components\Toggle',
             self::CHECKBOX => 'Filament\Forms\Components\Checkbox',
             self::RADIO => 'Filament\Forms\Components\Radio',
             self::DATE_TIME_PICKER => 'Filament\Forms\Components\DateTimePicker',
@@ -74,13 +73,12 @@ enum FilamentFieldTypeEnum implements HasLabel
 
     public function hasOptions(): bool
     {
-        return match($this)
-        {
+        return match ($this) {
             self::TEXT => false,
             self::TEXTAREA => false,
             self::SELECT => true,
             self::RICH_EDITOR => false,
-            self::TOGGLE  => false,
+            self::TOGGLE => false,
             self::CHECKBOX => false,
             self::RADIO => true,
             self::DATE_TIME_PICKER => false,
@@ -93,13 +91,12 @@ enum FilamentFieldTypeEnum implements HasLabel
 
     public function isBool(): bool
     {
-        return match($this)
-        {
+        return match ($this) {
             self::TEXT => false,
             self::TEXTAREA => false,
             self::SELECT => false,
             self::RICH_EDITOR => false,
-            self::TOGGLE  => true,
+            self::TOGGLE => true,
             self::CHECKBOX => true,
             self::RADIO => false,
             self::DATE_TIME_PICKER => false,

@@ -4,10 +4,10 @@ namespace Database\Seeders;
 
 use Faker\Factory;
 use Faker\Generator;
-use Tapp\FilamentForms\Models\FilamentForm;
 use Illuminate\Database\Seeder;
-use Tapp\FilamentForms\Models\FilamentFormField;
 use Tapp\FilamentForms\Enums\FilamentFieldTypeEnum;
+use Tapp\FilamentForms\Models\FilamentForm;
+use Tapp\FilamentForms\Models\FilamentFormField;
 
 class FilamentFormSeeder extends Seeder
 {
@@ -32,9 +32,9 @@ class FilamentFormSeeder extends Seeder
 
     public function generateQuestions(FilamentForm $form): void
     {
-        $count = rand(5,10);
+        $count = rand(5, 10);
 
-        for ($i = 0; $i < $count; ++$i) {
+        for ($i = 0; $i < $count; $i++) {
             $field = FilamentFormField::factory()->create([
                 'type' => $this->randomType(),
                 'filament_form_id' => $form->id,
@@ -42,7 +42,7 @@ class FilamentFormSeeder extends Seeder
             ]);
 
             if ($field->type->hasOptions()) {
-                $field->options =  $this->generateOptions();
+                $field->options = $this->generateOptions();
             }
 
             $field->save();
@@ -51,11 +51,11 @@ class FilamentFormSeeder extends Seeder
 
     public function generateOptions(): array
     {
-        $count = rand(3,6);
+        $count = rand(3, 6);
 
         $options = [];
 
-        for ($i = 0; $i < $count; ++$i) {
+        for ($i = 0; $i < $count; $i++) {
             array_push($options, $this->faker->bs());
         }
 
@@ -71,6 +71,6 @@ class FilamentFormSeeder extends Seeder
             FilamentFieldTypeEnum::CHECKBOX,
         ];
 
-        return $seededFieldTypes[rand(0,3)];
+        return $seededFieldTypes[rand(0, 3)];
     }
 }
