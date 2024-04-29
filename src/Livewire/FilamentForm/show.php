@@ -2,14 +2,14 @@
 
 namespace Tapp\FilamentForms\Livewire\FilamentForm;
 
-use Tapp\FilamentForms\Models\FilamentForm;
-use Tapp\FilamentForms\Models\FilamentFormField;
-use Tapp\FilamentForms\Models\FilamentFormUser;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Livewire\Component;
+use Tapp\FilamentForms\Models\FilamentForm;
+use Tapp\FilamentForms\Models\FilamentFormField;
+use Tapp\FilamentForms\Models\FilamentFormUser;
 
 class DynamicForm extends Component implements HasForms
 {
@@ -108,7 +108,9 @@ class DynamicForm extends Component implements HasForms
 
     public function parseValue(FilamentFormField $field, ?string $value): string
     {
-        if (!$value && !$field->type->isBool()) return '';
+        if (! $value && ! $field->type->isBool()) {
+            return '';
+        }
 
         $valueData = '';
 
@@ -124,7 +126,7 @@ class DynamicForm extends Component implements HasForms
         } elseif ($field->type->hasOptions() && ! is_array($value)) {
             $valueData = $field->options[$value];
         } elseif ($field->type->isBool()) {
-            $valueData = (bool)$value ? 'true' : 'false';
+            $valueData = (bool) $value ? 'true' : 'false';
         } else {
             $valueData = $value;
         }

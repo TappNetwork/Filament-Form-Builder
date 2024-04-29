@@ -2,20 +2,20 @@
 
 namespace Tapp\FilamentForms\Livewire\FilamentFormUser;
 
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Concerns\InteractsWithInfolists;
+use Filament\Infolists\Contracts\HasInfolists;
+use Filament\Infolists\Infolist;
 use Livewire\Component;
 use Tapp\FilamentForms\Models\FilamentFormUser;
-use Filament\Infolists\Infolist;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Contracts\HasInfolists;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Infolists\Concerns\InteractsWithInfolists;
 
 class DynamicEntry extends Component implements HasForms, HasInfolists
 {
-    use InteractsWithInfolists;
     use InteractsWithForms;
+    use InteractsWithInfolists;
 
     public FilamentFormUser $entry;
 

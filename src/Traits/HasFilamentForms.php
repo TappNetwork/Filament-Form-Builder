@@ -2,8 +2,8 @@
 
 namespace Tapp\FilamentForms\Traits;
 
-use Tapp\FilamentForms\Models\FilamentForm;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Tapp\FilamentForms\Models\FilamentForm;
 
 trait HasFilamentForms
 {

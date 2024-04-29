@@ -3,15 +3,13 @@
 namespace Tapp\FilamentForms\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Tables;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use Tapp\FilamentForms\Models\FilamentForm;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Tapp\FilamentForms\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormUsersRelationManager;
+use Filament\Tables;
+use Filament\Tables\Table;
 use Tapp\FilamentForms\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormFieldsRelationManager;
+use Tapp\FilamentForms\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormUsersRelationManager;
+use Tapp\FilamentForms\Models\FilamentForm;
 
 class FilamentFormResource extends Resource
 {

@@ -2,10 +2,10 @@
 
 namespace Tapp\FilamentForms\Models;
 
-use Tapp\FilamentForms\Enums\FilamentFieldTypeEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Tapp\FilamentForms\Enums\FilamentFieldTypeEnum;
 
 class FilamentFormField extends Model
 {

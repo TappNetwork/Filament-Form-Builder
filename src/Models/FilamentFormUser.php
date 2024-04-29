@@ -2,11 +2,10 @@
 
 namespace Tapp\FilamentForms\Models;
 
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Tapp\FilamentForms\Models\FilamentForm;
-use App\Models\User;
 
 class FilamentFormUser extends Model
 {
