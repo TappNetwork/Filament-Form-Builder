@@ -39,7 +39,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Tapp\\FilamentSurvey\\": "src"
+            "Tapp\\FilamentForms\\": "src"
         }
     },
     "config": {
@@ -52,7 +52,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tapp\\FilamentForms\\FilamentFormServiceProvider"
+                "Tapp\\FilamentForms\\FilamentFormsServiceProvider"
             ]
         }
     },

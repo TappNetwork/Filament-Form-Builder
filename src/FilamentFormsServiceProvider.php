@@ -5,7 +5,7 @@ namespace Tapp\FilamentForms;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FilamentSurveyServiceProvider extends PackageServiceProvider
+class FilamentFormsServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'filament-forms';
 

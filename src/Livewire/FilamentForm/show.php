@@ -11,7 +11,7 @@ use Tapp\FilamentForms\Models\FilamentForm;
 use Tapp\FilamentForms\Models\FilamentFormField;
 use Tapp\FilamentForms\Models\FilamentFormUser;
 
-class DynamicForm extends Component implements HasForms
+class Show extends Component implements HasForms
 {
     use InteractsWithForms;
 

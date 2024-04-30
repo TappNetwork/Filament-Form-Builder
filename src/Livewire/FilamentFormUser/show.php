@@ -12,7 +12,7 @@ use Filament\Infolists\Infolist;
 use Livewire\Component;
 use Tapp\FilamentForms\Models\FilamentFormUser;
 
-class DynamicEntry extends Component implements HasForms, HasInfolists
+class Show extends Component implements HasForms, HasInfolists
 {
     use InteractsWithForms;
     use InteractsWithInfolists;

@@ -5,7 +5,7 @@ namespace Tapp\FilamentForms;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class FilamentSurveyPlugin implements Plugin
+class FilamentFormsPlugin implements Plugin
 {
     public static function make(): static
     {
