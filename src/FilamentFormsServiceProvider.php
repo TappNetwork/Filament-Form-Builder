@@ -16,6 +16,13 @@ class FilamentFormsServiceProvider extends PackageServiceProvider
             ->hasViews('filament-forms');
     }
 
+    public function boot()
+    {
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
+
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-forms');
+    }
+
     public function packageBooted(): void
     {
         parent::packageBooted();

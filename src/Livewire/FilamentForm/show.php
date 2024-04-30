@@ -136,6 +136,6 @@ class Show extends Component implements HasForms
 
     public function render()
     {
-        return view('livewire.filament-form.show');
+        return view('filament-forms::livewire.filament-forms.show');
     }
 }

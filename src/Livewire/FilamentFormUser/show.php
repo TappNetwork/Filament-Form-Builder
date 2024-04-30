@@ -48,6 +48,6 @@ class Show extends Component implements HasForms, HasInfolists
 
     public function render()
     {
-        return view('livewire.dynamic-entry');
+        return view('filament-forms::livewire.filament-form-users.show');
     }
 }
