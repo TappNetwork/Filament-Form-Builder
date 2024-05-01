@@ -1,12 +1,12 @@
 <?php
 
-namespace Tapp\FilamentForms\Exports;
+namespace Tapp\FilamentFormBuilder\Exports;
 
 use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Tapp\FilamentForms\Models\FilamentForm;
+use Tapp\FilamentFormBuilder\Models\FilamentForm;
 
 class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMapping
 {

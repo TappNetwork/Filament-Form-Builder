@@ -1,9 +1,9 @@
 <?php
 
-namespace Tapp\FilamentForms\Traits;
+namespace Tapp\FilamentFormBuilder\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Tapp\FilamentForms\Models\FilamentForm;
+use Tapp\FilamentFormBuilder\Models\FilamentForm;
 
 trait HasFilamentForms
 {

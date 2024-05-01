@@ -1,14 +1,14 @@
 <?php
 
-namespace Tapp\FilamentForms;
+namespace Tapp\FilamentFormBuilder;
 
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Tapp\FilamentForms\Livewire\FilamentForm\Show as FilamentFormShow;
-use Tapp\FilamentForms\Livewire\FilamentFormUser\Show as FilamentFormUserShow;
+use Tapp\FilamentFormBuilder\Livewire\FilamentForm\Show as FilamentFormShow;
+use Tapp\FilamentFormBuilder\Livewire\FilamentFormUser\Show as FilamentFormUserShow;
 
-class FilamentFormsServiceProvider extends PackageServiceProvider
+class FilamentFormBuilderServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'filament-forms';
 

@@ -1,6 +1,6 @@
 <?php
 
-use Tapp\FilamentForms\Filament\Resources\FilamentFormResource;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource;
 
 return [
     'filament-form-user-show-route' => 'filament-form-users.show',

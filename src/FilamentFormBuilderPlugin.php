@@ -1,6 +1,6 @@
 <?php
 
-namespace Tapp\FilamentForms;
+namespace Tapp\FilamentFormBuilder;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tapp\FilamentForms\Enums;
+namespace Tapp\FilamentFormBuilder\Enums;
 
 use Filament\Support\Contracts\HasLabel;
 

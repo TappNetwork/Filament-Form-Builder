@@ -1,6 +1,6 @@
 <?php
 
-namespace Tapp\FilamentForms\Filament\Resources\FilamentFormResource\RelationManagers;
+namespace Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers;
 
 use Filament\Tables;
 use Filament\Forms\Get;
@@ -13,7 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
-use Tapp\FilamentForms\Enums\FilamentFieldTypeEnum;
+use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 use Filament\Resources\RelationManagers\RelationManager;
 
 class FilamentFormFieldsRelationManager extends RelationManager

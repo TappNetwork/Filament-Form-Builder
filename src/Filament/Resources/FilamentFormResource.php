@@ -1,18 +1,18 @@
 <?php
 
-namespace Tapp\FilamentForms\Filament\Resources;
+namespace Tapp\FilamentFormBuilder\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Tapp\FilamentForms\Filament\Resources\FilamentFormResource\Pages\CreateFilamentForm;
-use Tapp\FilamentForms\Filament\Resources\FilamentFormResource\Pages\EditFilamentForm;
-use Tapp\FilamentForms\Filament\Resources\FilamentFormResource\Pages\ListFilamentForms;
-use Tapp\FilamentForms\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormFieldsRelationManager;
-use Tapp\FilamentForms\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormUsersRelationManager;
-use Tapp\FilamentForms\Models\FilamentForm;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\CreateFilamentForm;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\EditFilamentForm;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\ListFilamentForms;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormFieldsRelationManager;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormUsersRelationManager;
+use Tapp\FilamentFormBuilder\Models\FilamentForm;
 
 class FilamentFormResource extends Resource
 {

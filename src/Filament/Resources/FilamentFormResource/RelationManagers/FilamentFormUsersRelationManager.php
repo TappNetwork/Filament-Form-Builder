@@ -1,6 +1,6 @@
 <?php
 
-namespace Tapp\FilamentForms\Filament\Resources\FilamentFormResource\RelationManagers;
+namespace Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +11,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Facades\Excel;
-use Tapp\FilamentForms\Exports\FilamentFormUsersExport;
+use Tapp\FilamentFormBuilder\Exports\FilamentFormUsersExport;
 
 class FilamentFormUsersRelationManager extends RelationManager
 {

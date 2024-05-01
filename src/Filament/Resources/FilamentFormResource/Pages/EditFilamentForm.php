@@ -1,10 +1,10 @@
 <?php
 
-namespace Tapp\FilamentForms\Filament\Resources\FilamentFormResource\Pages;
+namespace Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use Tapp\FilamentForms\Filament\Resources\FilamentFormResource;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource;
 
 class EditFilamentForm extends EditRecord
 {

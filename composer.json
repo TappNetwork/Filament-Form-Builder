@@ -1,14 +1,16 @@
 {
-    "name": "tapp/filament-forms",
+    "name": "tapp/filament-form-builder",
     "description": "User facing form builder using Filament components",
     "keywords": [
         "tapp network",
         "filament",
         "laravel",
         "survey",
-        "forms"
+        "forms",
+        "form builder",
+        "call to action"
     ],
-    "homepage": "https://github.com/TappNetwork/filament-forms",
+    "homepage": "https://github.com/TappNetwork/filament-form-builder",
     "license": "MIT",
     "authors": [
         {
@@ -52,7 +54,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tapp\\FilamentForms\\FilamentFormsServiceProvider"
+                "Tapp\\FilamentFormBuilder\\FilamentFormBuilderServiceProvider"
             ]
         }
     },

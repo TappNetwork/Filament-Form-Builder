@@ -43,7 +43,7 @@ php artisan vendor:publish --tag="filament-forms-config"
 Add this plugin to a panel on `plugins()` method (e.g. in `app/Providers/Filament/AdminPanelProvider.php`).
 
 ```php
-use Tapp\FilamentForms\FilamentFormsPlugin;
+use Tapp\FilamentFormBuilder\FilamentFormsPlugin;
  
 public function panel(Panel $panel): Panel
 {

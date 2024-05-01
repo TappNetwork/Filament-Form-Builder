@@ -5,9 +5,9 @@ namespace Database\Seeders;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
-use Tapp\FilamentForms\Enums\FilamentFieldTypeEnum;
-use Tapp\FilamentForms\Models\FilamentForm;
-use Tapp\FilamentForms\Models\FilamentFormField;
+use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
+use Tapp\FilamentFormBuilder\Models\FilamentForm;
+use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 
 class FilamentFormSeeder extends Seeder
 {
