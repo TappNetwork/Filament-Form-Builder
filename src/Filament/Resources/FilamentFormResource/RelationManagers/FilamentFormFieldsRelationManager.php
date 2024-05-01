@@ -13,8 +13,8 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
-use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 use Filament\Resources\RelationManagers\RelationManager;
+use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 
 class FilamentFormFieldsRelationManager extends RelationManager
 {
