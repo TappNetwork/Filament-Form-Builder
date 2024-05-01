@@ -19,7 +19,7 @@ class FilamentFormUsersRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __(config('filament-forms.admin-panel-filament-form-user-name-plural'));
+        return __(config('filament-form-builder.admin-panel-filament-form-user-name-plural'));
     }
 
     public static function getLabel(): string
@@ -41,7 +41,7 @@ class FilamentFormUsersRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('user.name')
-            ->heading(config('filament-forms.admin-panel-filament-form-user-name-plural'))
+            ->heading(config('filament-form-builder.admin-panel-filament-form-user-name-plural'))
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->sortable()
@@ -51,7 +51,7 @@ class FilamentFormUsersRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('updated_at')
                     ->sortable(),
             ])
-            ->recordUrl(fn ($record) => route(config('filament-forms.filament-form-user-show-route'), $record))
+            ->recordUrl(fn ($record) => route(config('filament-form-builder.filament-form-user-show-route'), $record))
             ->filters([
                 //
             ])

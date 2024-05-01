@@ -8,6 +8,6 @@ Route::get('filament-form-users/{entry}', FilamentFormUserShow::class)
     ->middleware('web')
     ->name('filament-form-users.show');
 
-Route::get('filament-forms/{form}', FilamentFormShow::class)
+Route::get('filament-form-builder/{form}', FilamentFormShow::class)
     ->middleware('web')
-    ->name('filament-forms.show');
+    ->name('filament-form-builder.show');

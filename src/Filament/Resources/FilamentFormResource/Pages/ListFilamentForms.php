@@ -12,7 +12,7 @@ class ListFilamentForms extends ListRecords
 
     public function getTitle(): string
     {
-        return config('filament-forms.admin-panel-resource-name');
+        return config('filament-form-builder.admin-panel-resource-name');
     }
 
     protected function getHeaderActions(): array

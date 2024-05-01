@@ -102,7 +102,7 @@ class Show extends Component implements HasForms
             ],
         );
 
-        return redirect(route(config('filament-forms.filament-form-user-show-route'), $entryModel));
+        return redirect(route(config('filament-form-builder.filament-form-user-show-route'), $entryModel));
     }
 
     public function parseValue(FilamentFormField $field, ?string $value): string
@@ -135,6 +135,6 @@ class Show extends Component implements HasForms
 
     public function render()
     {
-        return view('filament-forms::livewire.filament-form.show');
+        return view('filament-form-builder::livewire.filament-form.show');
     }
 }

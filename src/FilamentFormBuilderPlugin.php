@@ -5,7 +5,7 @@ namespace Tapp\FilamentFormBuilder;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class FilamentFormsPlugin implements Plugin
+class FilamentFormBuilderPlugin implements Plugin
 {
     public static function make(): static
     {
@@ -14,14 +14,14 @@ class FilamentFormsPlugin implements Plugin
 
     public function getId(): string
     {
-        return 'filament-forms';
+        return 'filament-form-builder';
     }
 
     public function register(Panel $panel): void
     {
         $panel
             ->resources(
-                config('filament-forms.resources')
+                config('filament-form-builder.resources')
             );
     }
 

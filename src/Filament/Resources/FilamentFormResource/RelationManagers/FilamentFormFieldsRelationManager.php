@@ -22,7 +22,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __(config('filament-forms.admin-panel-filament-form-field-name-plural'));
+        return __(config('filament-form-builder.admin-panel-filament-form-field-name-plural'));
     }
 
     public function form(Form $form): Form
@@ -60,7 +60,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('label')
-            ->heading(config('filament-forms.admin-panel-filament-form-field-name-plural'))
+            ->heading(config('filament-form-builder.admin-panel-filament-form-field-name-plural'))
             ->columns([
                 TextColumn::make('label'),
                 TextColumn::make('type')
