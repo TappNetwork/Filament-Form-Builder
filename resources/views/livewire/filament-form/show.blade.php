@@ -7,6 +7,7 @@
             {{ $this->filamentForm->description }}
         </p>
         <form wire:submit="create">
+            @csrf
             {{ $this->form }}
 
             <button

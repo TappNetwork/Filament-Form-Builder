@@ -10,6 +10,11 @@ class ListFilamentForms extends ListRecords
 {
     protected static string $resource = FilamentFormResource::class;
 
+    public function getTitle(): string
+    {
+        return config('filament-forms.admin-panel-resource-name');
+    }
+
     protected function getHeaderActions(): array
     {
         return [

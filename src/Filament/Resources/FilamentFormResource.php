@@ -20,6 +20,10 @@ class FilamentFormResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Forms';
+
+    protected static ?string $navigationLabel = 'Forms';
+
     public static function form(Form $form): Form
     {
         return $form

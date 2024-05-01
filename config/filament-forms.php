@@ -3,9 +3,11 @@
 use Tapp\FilamentForms\Filament\Resources\FilamentFormResource;
 
 return [
-    'entry-show-route' => 'filament-form-users.show',
+    'filament-form-user-show-route' => 'filament-form-users.show',
 
     'resources' => [
         'FilamentFormResource' => FilamentFormResource::class,
     ],
+
+    'admin-panel-resource-name' => 'Form',
 ];

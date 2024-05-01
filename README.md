@@ -15,7 +15,13 @@ A Filament plugin and and package that allows the creation of forms via the admi
 Install the plugin via Composer:
 
 ```bash
-composer require tapp/filament-forms:"^1.0"
+composer require tapp/filament-forms
+```
+
+public and run migrations with
+
+```bash
+php artisan vendor:publish --tag="filament-forms-migrations"
 ```
 
 #### Optional: Publish the package's views, translations, and config

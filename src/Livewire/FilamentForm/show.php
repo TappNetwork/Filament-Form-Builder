@@ -6,6 +6,8 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 use Tapp\FilamentForms\Models\FilamentForm;
 use Tapp\FilamentForms\Models\FilamentFormField;
@@ -71,7 +73,7 @@ class Show extends Component implements HasForms
         return $filamentField;
     }
 
-    public function create(): void
+    public function create()
     {
         $this->form->getState();
 
@@ -88,7 +90,6 @@ class Show extends Component implements HasForms
                 'field' => $field->label,
                 'field_id' => $field->id,
                 'answer' => $valueData,
-                // !!! DO I need to back this enum?
                 'type' => $field->type->fieldName(),
             ]);
         }
@@ -103,7 +104,7 @@ class Show extends Component implements HasForms
             ],
         );
 
-        dd($entryModel);
+        return redirect(route(config('filament-forms.filament-form-user-show-route'), $entryModel));
     }
 
     public function parseValue(FilamentFormField $field, ?string $value): string
@@ -136,6 +137,6 @@ class Show extends Component implements HasForms
 
     public function render()
     {
-        return view('filament-forms::livewire.filament-forms.show');
+        return view('filament-forms::livewire.filament-form.show');
     }
 }

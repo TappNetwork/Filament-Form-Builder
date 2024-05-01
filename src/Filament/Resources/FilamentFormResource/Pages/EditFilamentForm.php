@@ -10,6 +10,11 @@ class EditFilamentForm extends EditRecord
 {
     protected static string $resource = FilamentFormResource::class;
 
+    public function getTitle(): string
+    {
+        return 'Edit '.config('filament-forms.admin-panel-resource-name');
+    }
+
     protected function getHeaderActions(): array
     {
         return [
