@@ -11,6 +11,6 @@ class CreateFilamentForm extends CreateRecord
 
     public function getTitle(): string
     {
-        return 'Creat '.config('filament-forms.admin-panel-resource-name');
+        return 'Create '.config('filament-forms.admin-panel-resource-name');
     }
 }

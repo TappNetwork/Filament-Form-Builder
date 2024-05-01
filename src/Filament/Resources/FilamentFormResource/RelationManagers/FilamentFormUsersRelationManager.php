@@ -17,6 +17,16 @@ class FilamentFormUsersRelationManager extends RelationManager
 {
     protected static string $relationship = 'filamentFormUsers';
 
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __(config('filament-forms.admin-panel-filament-form-user-name-plural'));
+    }
+
+    public static function getLabel(): string
+    {
+        return 'Custom Posts Title';
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -31,6 +41,7 @@ class FilamentFormUsersRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('user.name')
+            ->heading(config('filament-forms.admin-panel-filament-form-user-name-plural'))
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->sortable()

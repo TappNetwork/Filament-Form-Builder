@@ -2,22 +2,28 @@
 
 namespace Tapp\FilamentForms\Filament\Resources\FilamentFormResource\RelationManagers;
 
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TagsInput;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Forms\Get;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\TextInput;
 use Tapp\FilamentForms\Enums\FilamentFieldTypeEnum;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class FilamentFormFieldsRelationManager extends RelationManager
 {
     protected static string $relationship = 'filamentFormFields';
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __(config('filament-forms.admin-panel-filament-form-field-name-plural'));
+    }
 
     public function form(Form $form): Form
     {
@@ -54,6 +60,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('label')
+            ->heading(config('filament-forms.admin-panel-filament-form-field-name-plural'))
             ->columns([
                 TextColumn::make('label'),
                 TextColumn::make('type')
