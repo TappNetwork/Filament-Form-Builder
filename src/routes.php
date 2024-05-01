@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Tapp\FilamentForms\Livewire\FilamentForm\Show as FilamentFormShow;
-use Tapp\FilamentForms\Livewire\FilamentFormUser\Show as FilamentFormUserShow;
+use Tapp\FilamentFormBuilder\Livewire\FilamentForm\Show as FilamentFormShow;
+use Tapp\FilamentFormBuilder\Livewire\FilamentFormUser\Show as FilamentFormUserShow;
 
 Route::get('filament-form-users/{entry}', FilamentFormUserShow::class)
     ->middleware('web')

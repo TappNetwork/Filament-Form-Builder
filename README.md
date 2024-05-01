@@ -15,13 +15,13 @@ A Filament plugin and and package that allows the creation of forms via the admi
 Install the plugin via Composer:
 
 ```bash
-composer require tapp/filament-forms
+composer require tapp/filament-form-builder
 ```
 
 public and run migrations with
 
 ```bash
-php artisan vendor:publish --tag="filament-forms-migrations"
+php artisan vendor:publish --tag="filament-form-builder-migrations"
 ```
 
 #### Optional: Publish the package's views, translations, and config
@@ -29,13 +29,13 @@ php artisan vendor:publish --tag="filament-forms-migrations"
 You can publish the view file with:
 
 ```bash
-php artisan vendor:publish --tag="filament-forms-views"
+php artisan vendor:publish --tag="filament-form-builder-views"
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="filament-forms-config"
+php artisan vendor:publish --tag="filament-form-builder-config"
 ```
 
 ### Adding the plugin to a panel
@@ -43,7 +43,7 @@ php artisan vendor:publish --tag="filament-forms-config"
 Add this plugin to a panel on `plugins()` method (e.g. in `app/Providers/Filament/AdminPanelProvider.php`).
 
 ```php
-use Tapp\FilamentFormBuilder\FilamentFormsPlugin;
+use Tapp\FilamentFormBuilder\FilamentFormBuilderPlugin;
  
 public function panel(Panel $panel): Panel
 {

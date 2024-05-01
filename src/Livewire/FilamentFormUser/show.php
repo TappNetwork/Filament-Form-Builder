@@ -1,6 +1,6 @@
 <?php
 
-namespace Tapp\FilamentForms\Livewire\FilamentFormUser;
+namespace Tapp\FilamentFormBuilder\Livewire\FilamentFormUser;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -10,7 +10,7 @@ use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Infolist;
 use Livewire\Component;
-use Tapp\FilamentForms\Models\FilamentFormUser;
+use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 
 class Show extends Component implements HasForms, HasInfolists
 {

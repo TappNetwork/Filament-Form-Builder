@@ -1,15 +1,15 @@
 <?php
 
-namespace Tapp\FilamentForms\Livewire\FilamentForm;
+namespace Tapp\FilamentFormBuilder\Livewire\FilamentForm;
 
 use Filament\Forms\Components\Field;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Livewire\Component;
-use Tapp\FilamentForms\Models\FilamentForm;
-use Tapp\FilamentForms\Models\FilamentFormField;
-use Tapp\FilamentForms\Models\FilamentFormUser;
+use Tapp\FilamentFormBuilder\Models\FilamentForm;
+use Tapp\FilamentFormBuilder\Models\FilamentFormField;
+use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 
 class Show extends Component implements HasForms
 {
