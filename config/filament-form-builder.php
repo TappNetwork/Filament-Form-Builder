@@ -11,6 +11,12 @@ return [
 
     'admin-panel-resource-name' => 'Form',
 
+    'admin-panel-resource-name-plural' => 'Form',
+
+    'admin-panel-group-name' => 'Forms',
+
+    'admin-panel-icon' => 'heroicon-o-clipboard-document-list',
+
     'admin-panel-filament-form-user-name' => 'Entry',
 
     'admin-panel-filament-form-user-name-plural' => 'Entries',

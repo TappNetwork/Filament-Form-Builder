@@ -75,7 +75,8 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->boolean(),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->label('Create Field'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

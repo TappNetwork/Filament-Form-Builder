@@ -9,6 +9,7 @@ A Filament plugin and and package that allows the creation of forms via the admi
 
 ## Dependencies
 - [maatwebsite/excel](https://github.com/SpartnerNL/Laravel-Excel)
+- [spatie/eloquent-sortable](https://github.com/spatie/eloquent-sortable)
 
 ### Installing the Filament Forms Package
 

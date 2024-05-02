@@ -18,11 +18,27 @@ class FilamentFormResource extends Resource
 {
     protected static ?string $model = FilamentForm::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?int $navigationSort = 99;
 
-    protected static ?string $navigationGroup = 'Forms';
+    public static function getNavigationGroup(): ?string
+    {
+        return config('filament-form-builder.admin-panel-group-name');
+    }
 
-    protected static ?string $navigationLabel = 'Forms';
+    public static function getNavigationIcon(): ?string
+    {
+        return config('filament-form-builder.admin-panel-icon');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return config('filament-form-builder.admin-panel-resource-name-plural');
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return config('filament-form-builder.admin-panel-sort-order');
+    }
 
     public static function form(Form $form): Form
     {
