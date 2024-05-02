@@ -61,8 +61,12 @@ class FilamentFormFieldsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('label')
             ->heading(config('filament-form-builder.admin-panel-filament-form-field-name-plural'))
+            ->reorderable('order')
             ->columns([
                 TextColumn::make('label'),
+                TextColumn::make('order')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('type')
                     ->formatStateUsing(function ($record) {
                         return $record->type->fieldName();
