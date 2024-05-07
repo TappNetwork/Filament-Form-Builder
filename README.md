@@ -63,3 +63,14 @@ public function panel(Panel $panel): Panel
         ]);
 }
 ```
+
+### Configuring Tailwind:
+
+Add this to your tailwind.config.js content section:
+
+```
+    content: [
+        ...
+        "./vendor/tapp/**/*.blade.php",
+    ],
+```
