@@ -17,14 +17,17 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
         $package->name('filament-form-builder')
             ->hasMigration('create_dynamic_filament_form_tables')
             ->hasConfigFile('filament-form-builder')
+            ->hasViews()
+            ->hasRoute('routes')
             ->hasViews('filament-form-builder');
     }
 
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        parent::boot();
+        // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-form-builder');
+        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-form-builder');
 
         Livewire::component('tapp.filament-form-builder.livewire.filament-form.show', FilamentFormShow::class);
         Livewire::component('tapp.filament-form-builder.livewire.filament-form-user.show', FilamentFormUserShow::class);
