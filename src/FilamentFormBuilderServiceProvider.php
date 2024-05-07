@@ -25,9 +25,6 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
     public function boot()
     {
         parent::boot();
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
-
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-form-builder');
 
         Livewire::component('tapp.filament-form-builder.livewire.filament-form.show', FilamentFormShow::class);
         Livewire::component('tapp.filament-form-builder.livewire.filament-form-user.show', FilamentFormUserShow::class);
