@@ -11,7 +11,7 @@ return [
 
     'admin-panel-resource-name' => 'Form',
 
-    'admin-panel-resource-name-plural' => 'Form',
+    'admin-panel-resource-name-plural' => 'Forms',
 
     'admin-panel-group-name' => 'Forms',
 
