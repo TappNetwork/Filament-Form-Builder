@@ -15,6 +15,7 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package->name('filament-form-builder')
+            ->hasMigration('create_dynamic_filament_form_tables')
             ->hasConfigFile('filament-form-builder')
             ->hasViews('filament-form-builder');
     }
