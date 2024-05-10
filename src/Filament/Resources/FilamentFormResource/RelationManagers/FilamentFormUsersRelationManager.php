@@ -66,7 +66,7 @@ class FilamentFormUsersRelationManager extends RelationManager
                     BulkAction::make('Export Selected')
                         ->action(fn (Collection $records) => Excel::download(
                             new FilamentFormUsersExport($records),
-                            $this->getOwnerRecord()->name.'_form_entry_export'.now()->format('Y-m-dhis').'.csv')
+                            urlencode($this->getOwnerRecord()->name).'_form_entry_export'.now()->format('Y-m-dhis').'.csv')
                         )
                         ->icon('heroicon-o-document-chart-bar')
                         ->deselectRecordsAfterCompletion(),

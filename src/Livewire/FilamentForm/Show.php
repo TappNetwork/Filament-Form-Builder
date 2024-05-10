@@ -19,9 +19,13 @@ class Show extends Component implements HasForms
 
     public ?array $data = [];
 
-    public function mount(FilamentForm $form): void
+    public function mount(FilamentForm $form)
     {
         $this->filamentForm = $form->load('filamentFormFields');
+
+        if (!$this->filamentForm->permit_guest_entries && !auth()->check()) {
+            return redirect('/', 401);
+        }
     }
 
     public function form(Form $form): Form
@@ -92,18 +96,32 @@ class Show extends Component implements HasForms
             ]);
         }
 
-        $entryModel = FilamentFormUser::updateOrCreate(
-            [
-                'user_id' => auth()->user()->id,
-                'filament_form_id' => $this->filamentForm->id,
-            ],
-            [
-                'entry' => $entry,
-            ],
-        );
+        if (auth()->check()) {
+            $entryModel = FilamentFormUser::updateOrCreate(
+                [
+                    'user_id' => auth()->user()->id ?? null,
+                    'filament_form_id' => $this->filamentForm->id,
+                ],
+                [
+                    'entry' => $entry,
+                ],
+            );
+        } else {
+            $entryModel = FilamentFormUser::create(
+                [
+                    'filament_form_id' => $this->filamentForm->id,
+                    'entry' => $entry,
+                ],
+            );
+        }
 
-        return redirect()
-            ->route(config('filament-form-builder.filament-form-user-show-route'), $entryModel);
+        if ($this->filamentForm->redirect_url) {
+            return redirect($this->filamentForm->redirect_url);
+        } else {
+            return redirect()
+                ->route(config('filament-form-builder.filament-form-user-show-route'), $entryModel);
+        }
+
     }
 
     public function parseValue(FilamentFormField $field, ?string $value): string

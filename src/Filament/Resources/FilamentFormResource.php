@@ -3,16 +3,17 @@
 namespace Tapp\FilamentFormBuilder\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\CreateFilamentForm;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Toggle;
+use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\EditFilamentForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\ListFilamentForms;
-use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormFieldsRelationManager;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\CreateFilamentForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormUsersRelationManager;
-use Tapp\FilamentFormBuilder\Models\FilamentForm;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormFieldsRelationManager;
 
 class FilamentFormResource extends Resource
 {
@@ -52,6 +53,10 @@ class FilamentFormResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Toggle::make('permit_guest_entries')
+                    ->hint('Permit non registered users to submit this form'),
+                Forms\Components\TextInput::make('redirect_url')
+                    ->hint('(optional) complete this field to provide a custom redirect url on form completion. Use a fully qualified URL including "https://" to redirect to an external link, otherwise url will be relative to this sites domain'),
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
             ]);
