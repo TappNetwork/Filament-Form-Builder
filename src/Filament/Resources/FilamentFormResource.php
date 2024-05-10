@@ -20,6 +20,11 @@ class FilamentFormResource extends Resource
 
     protected static ?int $navigationSort = 99;
 
+    public static function getBreadcrumb(): string
+    {
+        return config('filament-form-builder.admin-panel-resource-name-plural');
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return config('filament-form-builder.admin-panel-group-name');
@@ -77,7 +82,8 @@ class FilamentFormResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateHeading('No '.config('filament-form-builder.admin-panel-resource-name-plural'));
     }
 
     public static function getRelations(): array

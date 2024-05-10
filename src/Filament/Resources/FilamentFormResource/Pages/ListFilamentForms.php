@@ -18,7 +18,8 @@ class ListFilamentForms extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Create '.config('filament-form-builder.admin-panel-resource-name')),
         ];
     }
 }
