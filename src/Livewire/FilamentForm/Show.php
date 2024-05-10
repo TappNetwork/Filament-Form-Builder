@@ -23,7 +23,7 @@ class Show extends Component implements HasForms
     {
         $this->filamentForm = $form->load('filamentFormFields');
 
-        if (!$this->filamentForm->permit_guest_entries && !auth()->check()) {
+        if (! $this->filamentForm->permit_guest_entries && ! auth()->check()) {
             return redirect('/', 401);
         }
     }
