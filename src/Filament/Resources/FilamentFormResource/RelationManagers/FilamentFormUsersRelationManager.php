@@ -3,16 +3,16 @@
 namespace Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Tables;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Tables\Filters\Filter;
-use Maatwebsite\Excel\Facades\Excel;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
 use Filament\Tables\Actions\BulkAction;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Filament\Resources\RelationManagers\RelationManager;
+use Illuminate\Database\Eloquent\Model;
+use Maatwebsite\Excel\Facades\Excel;
 use Tapp\FilamentFormBuilder\Exports\FilamentFormUsersExport;
 
 class FilamentFormUsersRelationManager extends RelationManager
@@ -58,7 +58,7 @@ class FilamentFormUsersRelationManager extends RelationManager
                 Filter::make('guest_entries')
                     ->query(fn (Builder $query): Builder => $query->whereNull('user_id')),
                 Filter::make('user_entries')
-                    ->query(fn (Builder $query): Builder => $query->whereNotNull('user_id'))
+                    ->query(fn (Builder $query): Builder => $query->whereNotNull('user_id')),
             ])
             ->headerActions([
             ])
