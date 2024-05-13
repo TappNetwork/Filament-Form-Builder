@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\IconColumn;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\EditFilamentForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\ListFilamentForms;
@@ -75,7 +76,18 @@ class FilamentFormResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('form_link')
+                    ->copyable()
+                    ->copyMessage('Form link copied to clipboard')
+                    ->copyMessageDuration(1500),
+                IconColumn::make('permit_guest_entries')
+                    ->sortable()
+                    ->getStateUsing(function ($record) {
+                        return (bool) $record->permit_guest_entries;
+                    })
+                    ->boolean(),
             ])
             ->filters([
                 //

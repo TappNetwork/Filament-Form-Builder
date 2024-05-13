@@ -29,4 +29,9 @@ class FilamentForm extends Model
     {
         return $this->hasMany(FilamentFormUser::class);
     }
+
+    public function getFormLinkAttribute(): string
+    {
+        return route(config('filament-form-builder.filament-form-show-route'), $this->id);
+    }
 }
