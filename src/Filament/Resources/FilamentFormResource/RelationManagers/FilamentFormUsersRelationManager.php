@@ -7,7 +7,9 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Facades\Excel;
@@ -53,7 +55,10 @@ class FilamentFormUsersRelationManager extends RelationManager
             ])
             ->recordUrl(fn ($record) => route(config('filament-form-builder.filament-form-user-show-route'), $record))
             ->filters([
-                //
+                Filter::make('guest_entries')
+                    ->query(fn (Builder $query): Builder => $query->whereNull('user_id')),
+                Filter::make('user_entries')
+                    ->query(fn (Builder $query): Builder => $query->whereNotNull('user_id')),
             ])
             ->headerActions([
             ])
@@ -66,7 +71,7 @@ class FilamentFormUsersRelationManager extends RelationManager
                     BulkAction::make('Export Selected')
                         ->action(fn (Collection $records) => Excel::download(
                             new FilamentFormUsersExport($records),
-                            $this->getOwnerRecord()->name.'_form_entry_export'.now()->format('Y-m-dhis').'.csv')
+                            urlencode($this->getOwnerRecord()->name).'_form_entry_export'.now()->format('Y-m-dhis').'.csv')
                         )
                         ->icon('heroicon-o-document-chart-bar')
                         ->deselectRecordsAfterCompletion(),

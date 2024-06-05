@@ -5,6 +5,8 @@ use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource;
 return [
     'filament-form-user-show-route' => 'filament-form-users.show',
 
+    'filament-form-show-route' => 'filament-form-builder.show',
+
     'resources' => [
         'FilamentFormResource' => FilamentFormResource::class,
     ],

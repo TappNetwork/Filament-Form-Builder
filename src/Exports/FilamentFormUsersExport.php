@@ -31,7 +31,7 @@ class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMappi
     public function map($entry): array
     {
         $mapping = [
-            $entry->user->name,
+            $entry->user->name ?? 'Guest',
             $entry->created_at,
             $entry->updated_at,
         ];
