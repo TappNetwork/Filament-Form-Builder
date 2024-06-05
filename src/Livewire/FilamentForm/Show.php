@@ -115,6 +115,8 @@ class Show extends Component implements HasForms
             );
         }
 
+        $this->emit('entrySaved', $entryModel);
+
         if ($this->filamentForm->redirect_url) {
             return redirect($this->filamentForm->redirect_url);
         } else {
