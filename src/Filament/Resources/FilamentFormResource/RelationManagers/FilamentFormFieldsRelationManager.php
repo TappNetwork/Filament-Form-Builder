@@ -2,19 +2,19 @@
 
 namespace Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers;
 
-use Filament\Tables;
-use Filament\Forms\Get;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 
 class FilamentFormFieldsRelationManager extends RelationManager
@@ -84,14 +84,14 @@ class FilamentFormFieldsRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->visible(function () use ($form) {
-                        !$form->locked;
+                        ! $form->locked;
                     })
                     ->label('Create Field'),
                 Action::make('lock_fields')
                     ->requiresConfirmation()
                     ->modalHeading('Lock Form Fields. Doing this will lock the forms fields and new fields will no longer be able to be changed or edited')
                     ->visible(function () use ($form) {
-                        !$form->locked;
+                        ! $form->locked;
                     })
                     ->action(function () use ($form) {
                         $form->update([
@@ -102,29 +102,29 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->requiresConfirmation()
                     ->modalHeading('Unlock Form Fields. Changing fields after entries has been made can cause inconsistencies for prexisting entries')
                     ->visible(function () use ($form) {
-                        !$form->locked;
+                        ! $form->locked;
                     })
                     ->action(function () use ($form) {
                         $form->update([
                             'locked' => true,
                         ]);
-                    })
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->visible(function () use ($form) {
-                        !$form->locked;
+                        ! $form->locked;
                     }),
                 Tables\Actions\DeleteAction::make()
                     ->visible(function () use ($form) {
-                        !$form->locked;
+                        ! $form->locked;
                     }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
                         ->visible(function () use ($form) {
-                            !$form->locked;
+                            ! $form->locked;
                         }),
                 ]),
             ]);
