@@ -91,6 +91,9 @@ class FilamentFormResource extends Resource
                         return (bool) $record->permit_guest_entries;
                     })
                     ->boolean(),
+                IconColumn::make('locked')
+                    ->sortable()
+                    ->boolean(),
             ])
             ->filters([
                 //

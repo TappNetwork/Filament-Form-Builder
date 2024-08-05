@@ -84,14 +84,14 @@ class FilamentFormFieldsRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->visible(function () use ($form) {
-                        ! $form->locked;
+                        return !$form->locked;
                     })
                     ->label('Create Field'),
                 Action::make('lock_fields')
                     ->requiresConfirmation()
                     ->modalHeading('Lock Form Fields. Doing this will lock the forms fields and new fields will no longer be able to be changed or edited')
                     ->visible(function () use ($form) {
-                        ! $form->locked;
+                        return !$form->locked;
                     })
                     ->action(function () use ($form) {
                         $form->update([
@@ -102,7 +102,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->requiresConfirmation()
                     ->modalHeading('Unlock Form Fields. Changing fields after entries has been made can cause inconsistencies for prexisting entries')
                     ->visible(function () use ($form) {
-                        ! $form->locked;
+                        return $form->locked;
                     })
                     ->action(function () use ($form) {
                         $form->update([
@@ -113,18 +113,18 @@ class FilamentFormFieldsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->visible(function () use ($form) {
-                        ! $form->locked;
+                        return !$form->locked;
                     }),
                 Tables\Actions\DeleteAction::make()
                     ->visible(function () use ($form) {
-                        ! $form->locked;
+                        return !$form->locked;
                     }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
                         ->visible(function () use ($form) {
-                            ! $form->locked;
+                            return !$form->locked;
                         }),
                 ]),
             ]);
