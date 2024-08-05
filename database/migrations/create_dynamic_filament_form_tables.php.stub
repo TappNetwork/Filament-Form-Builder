@@ -16,6 +16,9 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->text('redirect_url')->nullable();
+            $table->boolean('permit_guest_entries')->default(false);
+            $table->boolean('locked')->default(false);
         });
 
         Schema::create('filament_form_fields', function (Blueprint $table) {
