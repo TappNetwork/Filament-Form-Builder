@@ -2,6 +2,10 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v1.23 - 2024-08-06
+
+Add styles to plugin
+
 ## v1.22 - 2024-08-06
 
 Include stylesheet for filament classes
@@ -20,6 +24,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
