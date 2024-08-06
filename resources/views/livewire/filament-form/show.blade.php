@@ -12,7 +12,7 @@
 
             <button
                 type="submit"
-                class="fb-form-submit-button bg-emerald-400 hover:bg-emerald-600 hover:scale-[1.03] shadow-lg px-2 py-1 mt-4 rounded-md text-white"
+                class="filament-form-builder fb-form-submit-button bg-emerald-400 hover:bg-emerald-600 hover:scale-[1.03] shadow-lg px-2 py-1 mt-4 rounded-md text-white"
             >
                 Submit
             </button>
