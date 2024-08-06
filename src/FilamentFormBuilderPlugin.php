@@ -7,6 +7,10 @@ use Filament\Panel;
 
 class FilamentFormBuilderPlugin implements Plugin
 {
+    protected array $styles = [
+        'filament-form-builder' => __DIR__.'/../dist/filament-form-builder.css',
+    ];
+
     public static function make(): static
     {
         return app(static::class);
