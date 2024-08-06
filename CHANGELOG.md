@@ -2,6 +2,10 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v1.22 - 2024-08-06
+
+Include stylesheet for filament classes
+
 ## v1.21 - 2024-08-05
 
 Fixes a typo in locking action visibility and adds a locked column to form resource.
@@ -16,6 +20,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 ```
