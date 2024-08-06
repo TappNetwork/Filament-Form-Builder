@@ -2,6 +2,10 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v1.21 - 2024-08-05
+
+Fixes a typo in locking action visibility and adds a locked column to form resource.
+
 ## v1.2 - 2024-08-05
 
 ### Support locking a form to prevent data integrity issues
@@ -12,5 +16,6 @@ All notable changes to `:package_name` will be documented in this file.
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 ```
