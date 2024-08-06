@@ -1,4 +1,4 @@
-<div class="p-16 flex flex-row justify-center fb-form-component">
+<div class="p-16 flex flex-row justify-center fb-form-component filament-form-builder">
     <div class="max-w-[600px] min-w-[400px] rounded-xl border-2 p-4 fb-form-container">
         <h1 class="font-bold text-xl mb-2">
             {{ $this->filamentForm->name }}

@@ -12,6 +12,9 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'filament-form-builder';
 
+    protected array $styles = [
+        'filament-form-builder' => __DIR__ . '/../dist/filament-form-builder.css',
+    ];
     public function configurePackage(Package $package): void
     {
         $package->name('filament-form-builder')
