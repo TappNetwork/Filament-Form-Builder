@@ -16,12 +16,15 @@ class Show extends Component implements HasForms
     use InteractsWithForms;
 
     public FilamentForm $filamentForm;
+    public bool $blockRedirect;
 
     public ?array $data = [];
 
-    public function mount(FilamentForm $form)
+    public function mount(FilamentForm $form, bool $blockRedirect = false)
     {
         $this->filamentForm = $form->load('filamentFormFields');
+
+        $this->blockRedirect = $blockRedirect;
 
         if (! $this->filamentForm->permit_guest_entries && ! auth()->check()) {
             return redirect('/', 401);
@@ -116,6 +119,8 @@ class Show extends Component implements HasForms
         }
 
         $this->dispatch('entrySaved', $entryModel);
+
+        if ($this->blockRedirect) return;
 
         if ($this->filamentForm->redirect_url) {
             return redirect($this->filamentForm->redirect_url);
