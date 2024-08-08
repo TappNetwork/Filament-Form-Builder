@@ -16,6 +16,7 @@ class Show extends Component implements HasForms
     use InteractsWithForms;
 
     public FilamentForm $filamentForm;
+
     public bool $blockRedirect;
 
     public ?array $data = [];
@@ -120,7 +121,9 @@ class Show extends Component implements HasForms
 
         $this->dispatch('entrySaved', $entryModel);
 
-        if ($this->blockRedirect) return;
+        if ($this->blockRedirect) {
+            return;
+        }
 
         if ($this->filamentForm->redirect_url) {
             return redirect($this->filamentForm->redirect_url);
