@@ -136,7 +136,7 @@ class Show extends Component implements HasForms
 
     public function parseValue(FilamentFormField $field, ?string $value): string
     {
-        if (! $value && ! $field->type->isBool()) {
+        if ($value === null && ! $field->type->isBool()) {
             return '';
         }
 
