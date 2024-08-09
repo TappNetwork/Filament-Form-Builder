@@ -74,3 +74,24 @@ Add this to your tailwind.config.js content section:
         "./vendor/tapp/**/*.blade.php",
     ],
 ```
+
+### Disabling Redirect
+You can disable the redirect when including the Form/Show component inside of another component by passing the 'blockRedirect' prop as follows
+```
+    @livewire('tapp.filament-form-builder.livewire.filament-form.show', ['form' => $test->form, 'blockRedirect' => true])
+```
+
+### Events
+The FilamentForm/Show component emits an 'entrySaved' event when a form entry is saved. You can handle this event in a parent component to as follows.
+```
+class ParentComponent extends Component
+{
+    protected $listeners = ['entrySaved'];
+
+    public function entrySaved(FilamentFormUser $survey)
+    {
+        // custom logic you would like to add to form entry saving logic
+    }
+}
+
+```
