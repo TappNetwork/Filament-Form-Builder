@@ -119,7 +119,7 @@ class Show extends Component implements HasForms
             );
         }
 
-        $this->dispatch('entrySaved', $entryModel);
+        $this->dispatch('entrySaved', $entryModel->id);
 
         if ($this->blockRedirect) {
             return;
