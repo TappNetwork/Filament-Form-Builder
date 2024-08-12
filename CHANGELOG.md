@@ -2,6 +2,10 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v1.25 - 2024-08-09
+
+This Update fixes a bug when the first option was selected in a radio select.
+
 ## v1.24 - 2024-08-08
 
 This PR adds a $blockRedirect property to the FilamentForm/Show component. Passing this as true to the component will prevent the redirect action when a new form entry is saved.
@@ -28,6 +32,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
