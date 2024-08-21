@@ -2,6 +2,10 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v1.26 - 2024-08-12
+
+Sends id of saved entry instead of entry itself when entrySaved event is dispatched to resolve intermittent error with laravel model biding on event consumption.
+
 ## v1.25 - 2024-08-09
 
 This Update fixes a bug when the first option was selected in a radio select.
@@ -32,6 +36,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
