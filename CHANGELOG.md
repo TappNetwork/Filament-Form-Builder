@@ -2,6 +2,10 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v1.28 - 2024-08-26
+
+Makes type field required when creating a field.
+
 ## v1.27 - 2024-08-21
 
 Add 'fb-form-user-container' class for styling form results container.
@@ -40,6 +44,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
