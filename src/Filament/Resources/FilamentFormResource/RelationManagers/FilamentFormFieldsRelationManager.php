@@ -35,6 +35,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->maxLength(255),
                 Select::make('type')
                     ->options(FilamentFieldTypeEnum::class)
+                    ->required()
                     ->live(),
                 TagsInput::make('options')
                     ->hint('Press enter after inputting each option')
