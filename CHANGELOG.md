@@ -2,6 +2,10 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v1.31 - 2024-09-30
+
+Actually commit changes described in last release
+
 ## v1.30 - 2024-09-30
 
 Fixes a bug with copy action
@@ -52,6 +56,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
