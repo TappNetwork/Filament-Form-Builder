@@ -3,21 +3,25 @@
 namespace Tapp\FilamentFormBuilder\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\CreateFilamentForm;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Redirect;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Tapp\FilamentFormBuilder\Models\FilamentForm;
+use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\EditFilamentForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\ListFilamentForms;
-use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormFieldsRelationManager;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\CreateFilamentForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormUsersRelationManager;
-use Tapp\FilamentFormBuilder\Models\FilamentForm;
+use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormFieldsRelationManager;
 
 class FilamentFormResource extends Resource
 {
@@ -100,6 +104,37 @@ class FilamentFormResource extends Resource
             ])
             ->actions([
                 EditAction::make(),
+                Action::make('copy')
+                    ->action(function ($record) {
+                        $formCopy = FilamentForm::create([
+                            'name' => $record->name.' - (Copy)',
+                            'permit_guest_entries' => $record->permit_guest_entries,
+                            'redirect_url' => $record->redirect_url,
+                            'description' => $record->description,
+                        ]);
+
+                        $record->filamentFormFields->each(function ($field) use ($formCopy) {
+                            FilamentFormField::create([
+                                'filament_form_id' => $formCopy->id,
+                                'label' => $field->label,
+                                'name' => $field->name,
+                                'type' => $field->type,
+                                'required' => $field->required,
+                                'order' => $field->order,
+                                'hint' => $field->hint,
+                                'options' => $field->options,
+                                'rules' => $field->rules,
+                            ]);
+                        });
+
+                        Notification::make()
+                            ->title('Form copied successfully')
+                            ->body('Please change the name of the form to something unique and remove the "(Copy)" suffix')
+                            ->success()
+                            ->send();
+
+                        return Redirect::to('/admin/filament-forms/'.$formCopy->id.'/edit');
+                    })
             ])
             ->bulkActions([
                 BulkActionGroup::make([
