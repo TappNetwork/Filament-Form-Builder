@@ -117,7 +117,6 @@ class FilamentFormResource extends Resource
                             FilamentFormField::create([
                                 'filament_form_id' => $formCopy->id,
                                 'label' => $field->label,
-                                'name' => $field->name,
                                 'type' => $field->type,
                                 'required' => $field->required,
                                 'order' => $field->order,
