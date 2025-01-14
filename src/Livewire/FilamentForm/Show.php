@@ -2,14 +2,15 @@
 
 namespace Tapp\FilamentFormBuilder\Livewire\FilamentForm;
 
-use Filament\Forms\Components\Field;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Livewire\Component;
+use Filament\Forms\Form;
+use Filament\Forms\Components\Field;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
-use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
+use Tapp\FilamentFormBuilder\Models\FilamentFormField;
+use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 
 class Show extends Component implements HasForms
 {
@@ -24,6 +25,8 @@ class Show extends Component implements HasForms
     public function mount(FilamentForm $form, bool $blockRedirect = false)
     {
         $this->filamentForm = $form->load('filamentFormFields');
+
+        $this->form->fill($this->data);
 
         $this->blockRedirect = $blockRedirect;
 
@@ -48,6 +51,15 @@ class Show extends Component implements HasForms
 
             $filamentField = $this->parseField($filamentField, $fieldData->toArray());
 
+            if ($fieldData->type === FilamentFieldTypeEnum::SELECT_MULTIPLE) {
+                $filamentField = $filamentField
+                    ->multiple()
+                    // !!! remove this before deploy
+                    ->live()
+                    ->required()
+                    ->default([]);
+            }
+
             array_push($schema, $filamentField);
         }
 
@@ -68,7 +80,12 @@ class Show extends Component implements HasForms
 
         if (isset($fieldData['options'])) {
             $filamentField = $filamentField
-                ->options($fieldData['options']);
+                ->options(array_combine($fieldData['options'], $fieldData['options']));
+        }
+
+        if (isset($fieldData['hint'])) {
+            $filamentField = $filamentField
+                ->hint($fieldData['hint']);
         }
 
         if (isset($fieldData['rules'])) {
@@ -134,7 +151,7 @@ class Show extends Component implements HasForms
 
     }
 
-    public function parseValue(FilamentFormField $field, ?string $value): string
+    public function parseValue(FilamentFormField $field, string|array|null $value): string|array
     {
         if ($value === null && ! $field->type->isBool()) {
             return '';
@@ -142,15 +159,8 @@ class Show extends Component implements HasForms
 
         $valueData = '';
 
-        if (! $field->type->hasOptions() && is_array($value)) {
-            // !!! this needs to be tested
-            $valuesArray = [];
-
-            foreach ($value as $individualValue) {
-                array_push($valuesArray, $field->options[$individualValue]);
-            }
-
-            $valueData = implode(', ', $valuesArray);
+        if ($field->type->hasOptions() && is_array($value)) {
+            $valueData = implode(', ', $value);
         } elseif ($field->type->hasOptions() && ! is_array($value)) {
             $valueData = $field->options[$value];
         } elseif ($field->type->isBool()) {

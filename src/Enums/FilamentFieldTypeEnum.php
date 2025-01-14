@@ -9,6 +9,7 @@ enum FilamentFieldTypeEnum implements HasLabel
     case TEXT;
     case TEXTAREA;
     case SELECT;
+    case SELECT_MULTIPLE;
     case RICH_EDITOR;
     case TOGGLE;
     case CHECKBOX;
@@ -41,6 +42,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::TEXT => 'Text Input',
             self::TEXTAREA => 'Textarea',
             self::SELECT => 'Select',
+            self::SELECT_MULTIPLE => 'Select Multiple',
             self::RICH_EDITOR => 'Rich Editor',
             self::TOGGLE => 'Toggle',
             self::CHECKBOX => 'Checkbox',
@@ -59,6 +61,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::TEXT => 'Filament\Forms\Components\TextInput',
             self::TEXTAREA => 'Filament\Forms\Components\Textarea',
             self::SELECT => 'Filament\Forms\Components\Select',
+            self::SELECT_MULTIPLE => 'Filament\Forms\Components\Select',
             self::RICH_EDITOR => 'Filament\Forms\Components\RichEditor',
             self::TOGGLE => 'Filament\Forms\Components\Toggle',
             self::CHECKBOX => 'Filament\Forms\Components\Checkbox',
@@ -77,6 +80,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::TEXT => false,
             self::TEXTAREA => false,
             self::SELECT => true,
+            self::SELECT_MULTIPLE => true,
             self::RICH_EDITOR => false,
             self::TOGGLE => false,
             self::CHECKBOX => false,
@@ -95,6 +99,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::TEXT => false,
             self::TEXTAREA => false,
             self::SELECT => false,
+            self::SELECT_MULTIPLE => false,
             self::RICH_EDITOR => false,
             self::TOGGLE => true,
             self::CHECKBOX => true,

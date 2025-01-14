@@ -38,6 +38,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->required()
                     ->live(),
                 TagsInput::make('options')
+                    ->placeholder('Add options')
                     ->hint('Press enter after inputting each option')
                     ->visible(function (Get $get) {
                         if ($get('type')) {
@@ -48,6 +49,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     }),
                 TextInput::make('hint'),
                 TagsInput::make('rules')
+                    ->placeholder('Add rules')
                     ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules'),
                 TextInput::make('order')
                     ->default(function () {
@@ -65,6 +67,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('label')
             ->heading(config('filament-form-builder.admin-panel-filament-form-field-name-plural'))
+            ->modelLabel(config('filament-form-builder.admin-panel-filament-form-field-name'))
             ->reorderable('order')
             ->columns([
                 TextColumn::make('label'),
