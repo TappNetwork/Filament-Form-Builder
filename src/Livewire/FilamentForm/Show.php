@@ -162,7 +162,7 @@ class Show extends Component implements HasForms
         if ($field->type->hasOptions() && is_array($value)) {
             $valueData = implode(', ', $value);
         } elseif ($field->type->hasOptions() && ! is_array($value)) {
-            $valueData = $field->options[$value];
+            $valueData = $value;
         } elseif ($field->type->isBool()) {
             $valueData = (bool) $value ? 'true' : 'false';
         } else {
