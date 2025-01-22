@@ -2,6 +2,10 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## v.41 - 2025-01-22
+
+Fix bug with single select fields when multi select fields were introduced.
+
 ## v1.4.0 - 2025-01-14
 
 Adds support for Select()->multiple() fields.
@@ -60,6 +64,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
