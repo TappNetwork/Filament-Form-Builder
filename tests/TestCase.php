@@ -3,6 +3,7 @@
 namespace Tapp\FilamentFormBuilder\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Tapp\FilamentFormBuilder\FilamentFormBuilderServiceProvider;
 
@@ -21,6 +22,7 @@ class TestCase extends Orchestra
     {
         return [
             FilamentFormBuilderServiceProvider::class,
+            LivewireServiceProvider::class,
         ];
     }
 
@@ -29,7 +31,7 @@ class TestCase extends Orchestra
         config()->set('database.default', 'testing');
 
         /*
-        $migration = include __DIR__.'/../database/migrations/create_skeleton_table.php.stub';
+        $migration = include __DIR__.'/../database/migrations/create_filament-form-builder_table.php.stub';
         $migration->up();
         */
     }

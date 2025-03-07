@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `:package_name` will be documented in this file.
+All notable changes to `Filament-Form-Builder` will be documented in this file.
 
 ## v.41 - 2025-01-22
 
