@@ -2,11 +2,16 @@
 
 namespace Tapp\FilamentFormBuilder\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property array $entry
+ * @property array|null $firstEntry
+ * @property-read array $key_value_entry
+ */
 class FilamentFormUser extends Model
 {
     use HasFactory;
@@ -21,7 +26,7 @@ class FilamentFormUser extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(config('auth.providers.users.model', Authenticatable::class));
     }
 
     public function filamentForm(): BelongsTo
