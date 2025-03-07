@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FilamentFormFactory extends Factory
 {
-
     public function definition(): array
     {
         return [
