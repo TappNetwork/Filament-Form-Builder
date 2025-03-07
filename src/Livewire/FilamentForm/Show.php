@@ -12,6 +12,9 @@ use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 
+/**
+ * @property Form $form
+ */
 class Show extends Component implements HasForms
 {
     use InteractsWithForms;
