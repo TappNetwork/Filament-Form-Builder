@@ -14,6 +14,8 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\CreateFilamentForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\EditFilamentForm;
@@ -22,8 +24,6 @@ use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationMan
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormUsersRelationManager;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Models\FilamentFormField;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
 
 class FilamentFormResource extends Resource
 {
@@ -167,13 +167,14 @@ class FilamentFormResource extends Resource
                         } catch (QueryException $e) {
                             DB::rollBack();
 
-                            if (!($data['force_delete'] ?? false) && str_contains($e->getMessage(), 'foreign key constraint fails')) {
+                            if (! ($data['force_delete'] ?? false) && str_contains($e->getMessage(), 'foreign key constraint fails')) {
                                 Notification::make()
                                     ->warning()
                                     ->title('Cannot delete form')
                                     ->body('This form has related records. Use force delete to remove all related records.')
                                     ->persistent()
                                     ->send();
+
                                 return;
                             }
 

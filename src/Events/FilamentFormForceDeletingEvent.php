@@ -13,7 +13,5 @@ class FilamentFormForceDeletingEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public FilamentForm $form)
-    {
-    }
+    public function __construct(public FilamentForm $form) {}
 }
