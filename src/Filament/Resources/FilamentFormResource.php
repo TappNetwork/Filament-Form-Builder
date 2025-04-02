@@ -22,6 +22,8 @@ use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationMan
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers\FilamentFormUsersRelationManager;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Models\FilamentFormField;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class FilamentFormResource extends Resource
 {
@@ -133,6 +135,50 @@ class FilamentFormResource extends Resource
                             ->send();
 
                         return Redirect::to('/admin/filament-forms/'.$formCopy->id.'/edit');
+                    }),
+                Action::make('delete')
+                    ->requiresConfirmation()
+                    ->form([
+                        Forms\Components\Checkbox::make('force_delete')
+                            ->label('Force delete')
+                            ->helperText('This will delete the form and all related records. This action cannot be undone.'),
+                    ])
+                    ->action(function (FilamentForm $record, array $data) {
+                        try {
+                            DB::beginTransaction();
+
+                            // Fire a "before delete" event that projects can listen to
+                            if ($data['force_delete'] ?? false) {
+                                event(new \Tapp\FilamentFormBuilder\Events\FilamentFormForceDeletingEvent($record));
+
+                                // Only delete relations that are part of the package
+                                $record->filamentFormFields()->delete();
+                                $record->filamentFormUsers()->delete();
+                            }
+
+                            $record->delete();
+
+                            DB::commit();
+
+                            Notification::make()
+                                ->success()
+                                ->title('Form deleted')
+                                ->send();
+                        } catch (QueryException $e) {
+                            DB::rollBack();
+
+                            if (!($data['force_delete'] ?? false) && str_contains($e->getMessage(), 'foreign key constraint fails')) {
+                                Notification::make()
+                                    ->warning()
+                                    ->title('Cannot delete form')
+                                    ->body('This form has related records. Use force delete to remove all related records.')
+                                    ->persistent()
+                                    ->send();
+                                return;
+                            }
+
+                            throw $e;
+                        }
                     }),
             ])
             ->bulkActions([
