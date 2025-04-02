@@ -95,3 +95,45 @@ class ParentComponent extends Component
 }
 
 ```
+
+## Handling Form Deletion with Custom Relations
+
+If your project has custom relations to the `FilamentForm` model (like tests, surveys, etc.), you can handle their deletion by listening to the `FilamentFormForceDeletingEvent` event. This event is fired before a form is force deleted.
+
+```php
+namespace App\Listeners;
+
+use Tapp\FilamentFormBuilder\Events\FilamentFormForceDeletingEvent;
+
+class HandleCustomFormDeletion
+{
+    public function handle(FilamentFormForceDeletingEvent $event): void
+    {
+        // Access the form being deleted
+        $form = $event->form;
+
+        // Delete your custom relations
+        $form->tests()->delete();
+        $form->surveys()->delete();
+        // ... etc
+    }
+}
+```
+
+Register the listener in your `EventServiceProvider`:
+
+```php
+protected $listen = [
+    \Tapp\FilamentFormBuilder\Events\FilamentFormForceDeletingEvent::class => [
+        \App\Listeners\HandleCustomFormDeletion::class,
+    ],
+];
+```
+
+This way, when a form is force deleted:
+1. The package will fire the `FilamentFormForceDeletingEvent`
+2. Your listener will handle the deletion of custom relations
+3. The package will then delete its own relations (form fields and form users)
+4. Finally, the form itself will be deleted
+
+This approach keeps the package clean and project-agnostic while allowing you to handle custom relations in your project.
