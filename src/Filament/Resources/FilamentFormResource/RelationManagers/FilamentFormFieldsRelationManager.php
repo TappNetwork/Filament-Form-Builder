@@ -110,7 +110,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     })
                     ->action(function () use ($form) {
                         $form->update([
-                            'locked' => true,
+                            'locked' => false,
                         ]);
                     }),
             ])
