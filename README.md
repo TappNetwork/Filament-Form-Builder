@@ -82,6 +82,7 @@ You can disable the redirect when including the Form/Show component inside of an
 ```
 
 ### Events
+#### Livewire
 The FilamentForm/Show component emits an 'entrySaved' event when a form entry is saved. You can handle this event in a parent component to as follows.
 ```
 class ParentComponent extends Component
@@ -95,3 +96,33 @@ class ParentComponent extends Component
 }
 
 ```
+
+#### Laravel
+The component also emits a Laravel event that you can listen to in your event service provider
+```php
+// In your EventServiceProvider.php
+protected $listen = [
+    \Tapp\FilamentFormBuilder\Events\EntrySaved::class => [
+        \App\Listeners\HandleFormSubmission::class,
+    ],
+];
+
+// Create a listener class
+namespace App\Listeners;
+
+use Tapp\FilamentFormBuilder\Events\EntrySaved;
+
+class HandleFormSubmission
+{
+    public function handle(EntrySaved $event): void
+    {
+        // Access the form entry
+        $entry = $event->entry;
+        
+        // Perform actions with the form data
+        // For example, send notifications, update other records, etc.
+    }
+}
+```
+
+
