@@ -22,7 +22,7 @@ A Filament plugin and package that allows the creation of forms via the admin pa
 
 Install the plugin via Composer:
 
-Add the repository to your composer.json
+This package is not yet on packagist. Add the repository to your composer.json
 ```json
 {
 "repositories": [
