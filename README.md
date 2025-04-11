@@ -93,5 +93,3 @@ class ParentComponent extends Component
         // custom logic you would like to add to form entry saving logic
     }
 }
-
-```

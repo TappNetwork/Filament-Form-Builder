@@ -26,4 +26,6 @@ return [
     'admin-panel-filament-form-field-name' => 'Field',
 
     'admin-panel-filament-form-field-name-plural' => 'Fields',
+
+    'preview-route' => 'filament-form-builder.show',
 ];
