@@ -1,103 +1,41 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to an undefined method Faker\\Generator\:\:bs\(\)\.$#'
-			identifier: method.notFound
+			message: "#^Call to an undefined method Faker\\\\Generator\\:\\:bs\\(\\)\\.$#"
 			count: 1
 			path: database/factories/FilamentFormFactory.php
 
 		-
-			message: '#^Call to an undefined method Faker\\Generator\:\:bs\(\)\.$#'
-			identifier: method.notFound
+			message: "#^Call to an undefined method Faker\\\\Generator\\:\\:bs\\(\\)\\.$#"
 			count: 1
 			path: database/seeders/FilamentFormSeeder.php
 
 		-
-			message: '#^Method Tapp\\FilamentFormBuilder\\Enums\\FilamentFieldTypeEnum\:\:getLabel\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/Enums/FilamentFieldTypeEnum.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$filament_form_id\.$#'
-			identifier: property.notFound
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$filament_form_id\\.$#"
 			count: 1
 			path: src/Exports/FilamentFormUsersExport.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Exports/FilamentFormUsersExport.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$label\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Exports/FilamentFormUsersExport.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locked\.$#'
-			identifier: property.notFound
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$locked\\.$#"
 			count: 6
 			path: src/Filament/Resources/FilamentFormResource/RelationManagers/FilamentFormFieldsRelationManager.php
 
 		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:filamentFormFields\(\)\.$#'
-			identifier: method.notFound
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:filamentFormFields\\(\\)\\.$#"
 			count: 1
 			path: src/Filament/Resources/FilamentFormResource/RelationManagers/FilamentFormFieldsRelationManager.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
 			count: 1
 			path: src/Filament/Resources/FilamentFormResource/RelationManagers/FilamentFormUsersRelationManager.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: src/Livewire/FilamentForm/Show.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$label\.$#'
-			identifier: property.notFound
+			message: "#^Call to an undefined method Filament\\\\Forms\\\\Components\\\\Field\\:\\:multiple\\(\\)\\.$#"
 			count: 1
 			path: src/Livewire/FilamentForm/Show.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
-			identifier: property.notFound
-			count: 3
-			path: src/Livewire/FilamentForm/Show.php
-
-		-
-			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:multiple\(\)\.$#'
-			identifier: method.notFound
+			message: "#^Call to an undefined method Filament\\\\Forms\\\\Components\\\\Field\\:\\:options\\(\\)\\.$#"
 			count: 1
 			path: src/Livewire/FilamentForm/Show.php
-
-		-
-			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:options\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Livewire/FilamentForm/Show.php
-
-		-
-			message: '#^Parameter \#1 \$field of method Tapp\\FilamentFormBuilder\\Livewire\\FilamentForm\\Show\:\:parseValue\(\) expects Tapp\\FilamentFormBuilder\\Models\\FilamentFormField, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Livewire/FilamentForm/Show.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Livewire/FilamentForm/Show.php
-
-		-
-			message: '#^Trait Tapp\\FilamentFormBuilder\\Traits\\HasFilamentForms is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: src/Traits/HasFilamentForms.php
