@@ -7,6 +7,10 @@ return [
 
     'filament-form-show-route' => 'filament-form-builder.show',
 
+    'filament-form-user-uri' => 'entries',
+
+    'filament-form-uri' => 'forms',
+
     'resources' => [
         'FilamentFormResource' => FilamentFormResource::class,
     ],

@@ -8,6 +8,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Livewire\Component;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
+use Tapp\FilamentFormBuilder\Events\EntrySaved;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
@@ -147,6 +148,8 @@ class Show extends Component implements HasForms
             );
         }
 
+        // dispatch laravel event and livewire event
+        event(new EntrySaved($entryModel));
         $this->dispatch('entrySaved', $entryModel->id);
 
         if ($this->blockRedirect) {
