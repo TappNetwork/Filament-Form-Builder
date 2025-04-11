@@ -105,7 +105,7 @@ class FilamentFormResource extends Resource
             ->actions([
                 EditAction::make(),
                 Action::make('preview')
-                    ->visible(fn () => (bool)config('filament-form-builder.preview-route'))
+                    ->visible(fn () => (bool) config('filament-form-builder.preview-route'))
                     ->url(fn ($record) => route(config('filament-form-builder.preview-route'), ['form' => $record->id])),
                 Action::make('copy')
                     ->action(function ($record) {
