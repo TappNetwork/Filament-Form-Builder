@@ -20,7 +20,7 @@ class EditFilamentForm extends EditRecord
         return [
             Actions\DeleteAction::make(),
             Actions\Action::make('preview')
-                ->visible(fn () => (bool)config('filament-form-builder.preview-route'))
+                ->visible(fn () => (bool) config('filament-form-builder.preview-route'))
                 ->url(fn ($record) => route(config('filament-form-builder.preview-route'), ['form' => $record->id]))
                 ->openUrlInNewTab(),
         ];
