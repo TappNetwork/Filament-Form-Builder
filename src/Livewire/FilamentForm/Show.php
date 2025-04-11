@@ -23,10 +23,14 @@ class Show extends Component implements HasForms
 
     public bool $blockRedirect;
 
+    public bool $preview;
+
     public ?array $data = [];
 
-    public function mount(FilamentForm $form, bool $blockRedirect = false)
+    public function mount(FilamentForm $form, bool $blockRedirect = false, bool $preview = false)
     {
+        $this->preview = $preview;
+
         $this->filamentForm = $form->load('filamentFormFields');
 
         $this->form->fill($this->data);
@@ -102,6 +106,10 @@ class Show extends Component implements HasForms
     public function create()
     {
         $this->form->getState();
+
+        if ($this->preview) {
+            return;
+        }
 
         $entry = [];
 
