@@ -6,7 +6,9 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 use Tapp\FilamentFormBuilder\Events\EntrySaved;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
@@ -19,6 +21,7 @@ use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 class Show extends Component implements HasForms
 {
     use InteractsWithForms;
+    use WithFileUploads;
 
     public FilamentForm $filamentForm;
 
@@ -38,7 +41,7 @@ class Show extends Component implements HasForms
 
         $this->blockRedirect = $blockRedirect;
 
-        if (! $this->filamentForm->permit_guest_entries && ! auth()->check()) {
+        if (! $this->filamentForm->permit_guest_entries && ! Auth::check()) {
             return redirect('/', 401);
         }
     }
@@ -122,17 +125,17 @@ class Show extends Component implements HasForms
             $valueData = $this->parseValue($field, $value);
 
             array_push($entry, [
-                'field' => $field->label,
-                'field_id' => $field->id,
-                'answer' => $valueData,
                 'type' => $field->type->fieldName(),
+                'field' => $field->label,
+                'answer' => $valueData,
+                'field_id' => $field->id,
             ]);
         }
 
-        if (auth()->check()) {
+        if (Auth::check()) {
             $entryModel = FilamentFormUser::updateOrCreate(
                 [
-                    'user_id' => auth()->user()->id ?? null,
+                    'user_id' => Auth::user()->id ?? null,
                     'filament_form_id' => $this->filamentForm->id,
                 ],
                 [
@@ -146,6 +149,32 @@ class Show extends Component implements HasForms
                     'entry' => $entry,
                 ],
             );
+        }
+
+        // Handle file uploads
+        foreach ($this->filamentForm->filamentFormFields as $field) {
+            if ($field->type === FilamentFieldTypeEnum::FILE_UPLOAD) {
+                $fileKey = $field->id;
+                $fileData = $this->data[$fileKey] ?? null;
+
+                if ($fileData && is_array($fileData)) {
+                    $temporaryFile = collect($fileData)->first();
+                    if ($temporaryFile instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
+                        // Remove existing media with the same field_id
+                        $entryModel->getMedia()
+                            ->filter(fn ($media) => $media->getCustomProperty('field_id') === $field->id)
+                            ->each(fn ($media) => $media->delete());
+
+                        $media = $entryModel->addMedia($temporaryFile->getRealPath())
+                            ->withCustomProperties([
+                                'field_label' => $field->label,
+                                'field_id' => $field->id,
+                                'original_name' => $temporaryFile->getClientOriginalName(),
+                            ])
+                            ->toMediaCollection();
+                    }
+                }
+            }
         }
 
         // dispatch laravel event and livewire event
@@ -162,7 +191,6 @@ class Show extends Component implements HasForms
             return redirect()
                 ->route(config('filament-form-builder.filament-form-user-show-route'), $entryModel);
         }
-
     }
 
     public function parseValue(FilamentFormField $field, string|array|null $value): string|array
