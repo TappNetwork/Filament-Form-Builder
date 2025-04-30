@@ -6,6 +6,7 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
@@ -13,7 +14,6 @@ use Tapp\FilamentFormBuilder\Events\EntrySaved;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * @property Form $form

@@ -4,6 +4,7 @@ namespace Tapp\FilamentFormBuilder\Livewire\FilamentFormUser;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Infolists\Components\Actions\Action as InfolistAction;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
@@ -11,7 +12,6 @@ use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Infolist;
 use Livewire\Component;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
-use Filament\Infolists\Components\Actions\Action as InfolistAction;
 
 class Show extends Component implements HasForms, HasInfolists
 {
@@ -63,7 +63,6 @@ class Show extends Component implements HasForms, HasInfolists
                     }),
             ]);
     }
-
 
     public function render(): \Illuminate\Contracts\View\View
     {
