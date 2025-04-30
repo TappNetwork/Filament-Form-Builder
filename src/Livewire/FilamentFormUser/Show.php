@@ -23,7 +23,7 @@ class Show extends Component implements HasForms, HasInfolists
     {
         $this->entry = $entry->load('user', 'filamentForm');
 
-        $this->entry->firstEntry = $entry->entry[0];
+        // $this->entry->firstEntry = $entry->entry[0];
     }
 
     public function entryInfoList(Infolist $infolist): Infolist

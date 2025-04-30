@@ -19,6 +19,7 @@ enum FilamentFieldTypeEnum implements HasLabel
     case TIME_PICKER;
     case MARKDOWN_EDITOR;
     case COLOR_PICKER;
+    case FILE_UPLOAD;
 
     public static function fromString(string $type): ?self
     {
@@ -52,6 +53,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::TIME_PICKER => 'Time Picker',
             self::MARKDOWN_EDITOR => 'Markdown Editor',
             self::COLOR_PICKER => 'Color Picker',
+            self::FILE_UPLOAD => 'File Upload',
         };
     }
 
@@ -71,6 +73,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::TIME_PICKER => 'Filament\Forms\Components\TimePicker',
             self::MARKDOWN_EDITOR => 'Filament\Forms\Components\MarkdownEditor',
             self::COLOR_PICKER => 'Filament\Forms\Components\ColorPicker',
+            self::FILE_UPLOAD => 'Filament\Forms\Components\SpatieMediaLibraryFileUpload',
         };
     }
 
@@ -90,6 +93,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::TIME_PICKER => false,
             self::MARKDOWN_EDITOR => false,
             self::COLOR_PICKER => false,
+            self::FILE_UPLOAD => false,
         };
     }
 
@@ -109,6 +113,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::TIME_PICKER => false,
             self::MARKDOWN_EDITOR => false,
             self::COLOR_PICKER => false,
+            self::FILE_UPLOAD => false,
         };
     }
 }

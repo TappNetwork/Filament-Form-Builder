@@ -6,15 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property array $entry
  * @property array|null $firstEntry
  * @property-read array $key_value_entry
  */
-class FilamentFormUser extends Model
+class FilamentFormUser extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
     protected $table = 'filament_form_user';
 
