@@ -11,6 +11,7 @@ use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Infolist;
 use Livewire\Component;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
+use Filament\Infolists\Components\Actions\Action as InfolistAction;
 
 class Show extends Component implements HasForms, HasInfolists
 {
@@ -22,13 +23,10 @@ class Show extends Component implements HasForms, HasInfolists
     public function mount(FilamentFormUser $entry): void
     {
         $this->entry = $entry->load('user', 'filamentForm');
-
-        // $this->entry->firstEntry = $entry->entry[0];
     }
 
     public function entryInfoList(Infolist $infolist): Infolist
     {
-        // dd($this->entry);
         return $infolist
             ->record($this->entry)
             ->schema([
@@ -42,9 +40,30 @@ class Show extends Component implements HasForms, HasInfolists
                     ->label('Form Entry')
                     ->keyLabel('Question')
                     ->valueLabel('Answer'),
-
+                \Filament\Infolists\Components\RepeatableEntry::make('media')
+                    ->label('Uploaded Files')
+                    ->schema([
+                        TextEntry::make('custom_properties.field_label')
+                            ->label('Question'),
+                        TextEntry::make('custom_properties.original_name')
+                            ->label('File Name')
+                            ->suffixAction(
+                                InfolistAction::make('download')
+                                    ->icon('heroicon-o-arrow-down-tray')
+                                    ->action(function ($record) {
+                                        return response()->download(
+                                            $record->getPath(),
+                                            $record->getCustomProperty('original_name')
+                                        );
+                                    })
+                            ),
+                    ])
+                    ->state(function () {
+                        return $this->entry->getMedia();
+                    }),
             ]);
     }
+
 
     public function render(): \Illuminate\Contracts\View\View
     {

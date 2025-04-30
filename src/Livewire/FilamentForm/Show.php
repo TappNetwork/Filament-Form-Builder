@@ -152,18 +152,18 @@ class Show extends Component implements HasForms
                 if ($fileData && is_array($fileData)) {
                     $temporaryFile = collect($fileData)->first();
                     if ($temporaryFile instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
+                        // Remove existing media with the same field_id
+                        $entryModel->getMedia()
+                            ->filter(fn ($media) => $media->getCustomProperty('field_id') === $field->id)
+                            ->each(fn ($media) => $media->delete());
+
                         $media = $entryModel->addMedia($temporaryFile->getRealPath())
+                            ->withCustomProperties([
+                                'field_label' => $field->label,
+                                'field_id' => $field->id,
+                                'original_name' => $temporaryFile->getClientOriginalName(),
+                            ])
                             ->toMediaCollection();
-
-                        // Add new entry for the file
-                        $entry[] = [
-                            'type' => $field->type->fieldName(),
-                            'field' => $field->label,
-                            'answer' => $media->getUrl(),
-                            'field_id' => $field->id,
-                        ];
-
-                        $entryModel->update(['entry' => $entry]);
                     }
                 }
             }
