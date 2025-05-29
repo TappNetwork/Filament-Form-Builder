@@ -54,6 +54,9 @@ class Show extends Component implements HasForms
         $schema = [];
 
         foreach ($this->filamentForm->filamentFormFields as $fieldData) {
+            if (!($fieldData instanceof \Tapp\FilamentFormBuilder\Models\FilamentFormField)) {
+                continue;
+            }
             $filamentField = $fieldData->type->className()::make($fieldData->id);
 
             $filamentField = $this->parseField($filamentField, $fieldData->toArray());
@@ -117,6 +120,9 @@ class Show extends Component implements HasForms
             $field = $this->filamentForm
                 ->filamentFormFields
                 ->find($key);
+            if (!($field instanceof \Tapp\FilamentFormBuilder\Models\FilamentFormField)) {
+                continue;
+            }
 
             $valueData = $this->parseValue($field, $value);
 
@@ -149,6 +155,7 @@ class Show extends Component implements HasForms
 
         // Handle file uploads
         foreach ($this->filamentForm->filamentFormFields as $field) {
+            /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField $field */
             if ($field->type === FilamentFieldTypeEnum::FILE_UPLOAD) {
                 $fileKey = $field->id;
                 $fileData = $this->data[$fileKey] ?? null;
@@ -189,7 +196,7 @@ class Show extends Component implements HasForms
         }
     }
 
-    public function parseValue(FilamentFormField $field, string|array|null $value): string|array
+    public function parseValue(\Tapp\FilamentFormBuilder\Models\FilamentFormField $field, string|array|null $value): string|array
     {
         if ($value === null && ! $field->type->isBool()) {
             return '';
@@ -212,6 +219,8 @@ class Show extends Component implements HasForms
 
     public function render()
     {
-        return view('filament-form-builder::livewire.filament-form.show');
+        /** @var view-string $view */
+        $view = 'filament-form-builder::livewire.filament-form.show';
+        return view($view);
     }
 }

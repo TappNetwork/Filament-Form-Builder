@@ -32,9 +32,24 @@ enum FilamentFieldTypeEnum implements HasLabel
         return null;  // Return null if no match is found
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
-        return $this->fieldName();
+        return match($this) {
+            self::TEXT => 'Text',
+            self::TEXTAREA => 'Textarea',
+            self::SELECT => 'Select',
+            self::SELECT_MULTIPLE => 'Select Multiple',
+            self::CHECKBOX => 'Checkbox',
+            self::RADIO => 'Radio',
+            self::FILE_UPLOAD => 'File Upload',
+            self::RICH_EDITOR => 'Rich Editor',
+            self::TOGGLE => 'Toggle',
+            self::DATE_TIME_PICKER => 'Date Time Picker',
+            self::DATE_PICKER => 'Date Picker',
+            self::TIME_PICKER => 'Time Picker',
+            self::MARKDOWN_EDITOR => 'Markdown Editor',
+            self::COLOR_PICKER => 'Color Picker',
+        };
     }
 
     public function fieldName(): string
