@@ -18,6 +18,7 @@ class Form extends Component
     {
         /** @var view-string */
         $view = 'filament-form-builder::livewire.filament-form.form';
+
         return view($view);
     }
 }

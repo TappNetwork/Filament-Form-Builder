@@ -34,7 +34,7 @@ enum FilamentFieldTypeEnum implements HasLabel
 
     public function getLabel(): string
     {
-        return match($this) {
+        return match ($this) {
             self::TEXT => 'Text',
             self::TEXTAREA => 'Textarea',
             self::SELECT => 'Select',
