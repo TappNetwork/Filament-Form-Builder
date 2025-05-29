@@ -16,6 +16,7 @@ class Form extends Component
 
     public function render()
     {
+        /** @phpstan-ignore-next-line */
         return view('filament-form-builder::livewire.filament-form.form');
     }
 }

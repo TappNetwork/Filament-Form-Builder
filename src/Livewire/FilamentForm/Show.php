@@ -52,6 +52,7 @@ class Show extends Component implements HasForms
     {
         $schema = [];
 
+        /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField $fieldData */
         foreach ($this->filamentForm->filamentFormFields as $fieldData) {
             $filamentField = $fieldData->type->className()::make($fieldData->id);
 
@@ -113,9 +114,14 @@ class Show extends Component implements HasForms
         $entry = [];
 
         foreach ($this->form->getState() as $key => $value) {
+            /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField|null $field */
             $field = $this->filamentForm
                 ->filamentFormFields
                 ->find($key);
+
+            if (! $field) {
+                continue;
+            }
 
             $valueData = $this->parseValue($field, $value);
 
@@ -212,6 +218,7 @@ class Show extends Component implements HasForms
 
     public function render()
     {
+        /** @phpstan-ignore-next-line */
         return view('filament-form-builder::livewire.filament-form.show');
     }
 }
