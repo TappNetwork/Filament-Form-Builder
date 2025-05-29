@@ -40,10 +40,6 @@ class Show extends Component implements HasForms
         $this->form->fill($this->data);
 
         $this->blockRedirect = $blockRedirect;
-
-        if (! $this->filamentForm->permit_guest_entries && ! Auth::check()) {
-            return redirect('/', 401);
-        }
     }
 
     public function form(Form $form): Form
