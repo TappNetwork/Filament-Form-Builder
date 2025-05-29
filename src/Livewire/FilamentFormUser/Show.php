@@ -64,11 +64,9 @@ class Show extends Component implements HasForms, HasInfolists
             ]);
     }
 
-    public function render(): \Illuminate\Contracts\View\View
+    public function render()
     {
-        /** @var view-string */
-        $view = 'filament-form-builder::livewire.filament-form-user.show';
-
-        return view($view);
+        /** @phpstan-ignore-next-line */
+        return view('filament-form-builder::livewire.filament-form-user.show');
     }
 }

@@ -37,6 +37,7 @@ class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMappi
         ];
 
         foreach ($this->form->filamentFormFields as $field) {
+            /** @phpstan-ignore-next-line */
             $entriesFieldKey = array_search($field->id, array_column($entry->entry, 'field_id'));
 
             if ($entriesFieldKey === false) {
@@ -58,6 +59,7 @@ class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMappi
         ];
 
         foreach ($this->form->filamentFormFields as $field) {
+            /** @phpstan-ignore-next-line */
             array_push($headings, $field->label);
         }
 

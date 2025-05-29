@@ -32,7 +32,7 @@ enum FilamentFieldTypeEnum implements HasLabel
         return null;  // Return null if no match is found
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->fieldName();
     }

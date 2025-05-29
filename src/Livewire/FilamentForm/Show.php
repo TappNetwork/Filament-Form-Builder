@@ -12,7 +12,6 @@ use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 use Tapp\FilamentFormBuilder\Events\EntrySaved;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
-use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 
 /**
@@ -40,10 +39,6 @@ class Show extends Component implements HasForms
         $this->form->fill($this->data);
 
         $this->blockRedirect = $blockRedirect;
-
-        if (! $this->filamentForm->permit_guest_entries && ! Auth::check()) {
-            return redirect('/', 401);
-        }
     }
 
     public function form(Form $form): Form
@@ -57,6 +52,7 @@ class Show extends Component implements HasForms
     {
         $schema = [];
 
+        /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField $fieldData */
         foreach ($this->filamentForm->filamentFormFields as $fieldData) {
             $filamentField = $fieldData->type->className()::make($fieldData->id);
 
@@ -118,9 +114,14 @@ class Show extends Component implements HasForms
         $entry = [];
 
         foreach ($this->form->getState() as $key => $value) {
+            /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField|null $field */
             $field = $this->filamentForm
                 ->filamentFormFields
                 ->find($key);
+
+            if (! $field) {
+                continue;
+            }
 
             $valueData = $this->parseValue($field, $value);
 
@@ -153,6 +154,7 @@ class Show extends Component implements HasForms
 
         // Handle file uploads
         foreach ($this->filamentForm->filamentFormFields as $field) {
+            /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField $field */
             if ($field->type === FilamentFieldTypeEnum::FILE_UPLOAD) {
                 $fileKey = $field->id;
                 $fileData = $this->data[$fileKey] ?? null;
@@ -193,7 +195,7 @@ class Show extends Component implements HasForms
         }
     }
 
-    public function parseValue(FilamentFormField $field, string|array|null $value): string|array
+    public function parseValue(\Tapp\FilamentFormBuilder\Models\FilamentFormField $field, string|array|null $value): string|array
     {
         if ($value === null && ! $field->type->isBool()) {
             return '';
@@ -216,6 +218,7 @@ class Show extends Component implements HasForms
 
     public function render()
     {
+        /** @phpstan-ignore-next-line */
         return view('filament-form-builder::livewire.filament-form.show');
     }
 }
