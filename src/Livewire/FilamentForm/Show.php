@@ -12,7 +12,6 @@ use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 use Tapp\FilamentFormBuilder\Events\EntrySaved;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
-use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 
 /**
