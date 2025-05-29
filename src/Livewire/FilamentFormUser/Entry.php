@@ -16,13 +16,6 @@ class Entry extends Component
 
     public function render()
     {
-<<<<<<< HEAD
         return view('filament-form-builder::livewire.filament-form-user.entry');
-=======
-        /** @var view-string */
-        $view = 'filament-form-builder::livewire.filament-form-user.entry';
-
-        return view($view);
->>>>>>> a4c3661a25cfdf309dca797e8406689bc2e88560
     }
 }
