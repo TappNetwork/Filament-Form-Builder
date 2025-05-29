@@ -54,9 +54,6 @@ class Show extends Component implements HasForms
         $schema = [];
 
         foreach ($this->filamentForm->filamentFormFields as $fieldData) {
-            if (!($fieldData instanceof \Tapp\FilamentFormBuilder\Models\FilamentFormField)) {
-                continue;
-            }
             $filamentField = $fieldData->type->className()::make($fieldData->id);
 
             $filamentField = $this->parseField($filamentField, $fieldData->toArray());
@@ -120,9 +117,6 @@ class Show extends Component implements HasForms
             $field = $this->filamentForm
                 ->filamentFormFields
                 ->find($key);
-            if (!($field instanceof \Tapp\FilamentFormBuilder\Models\FilamentFormField)) {
-                continue;
-            }
 
             $valueData = $this->parseValue($field, $value);
 
@@ -219,8 +213,6 @@ class Show extends Component implements HasForms
 
     public function render()
     {
-        /** @var view-string $view */
-        $view = 'filament-form-builder::livewire.filament-form.show';
-        return view($view);
+        return view('filament-form-builder::livewire.filament-form.show');
     }
 }

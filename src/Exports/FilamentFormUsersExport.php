@@ -28,30 +28,34 @@ class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMappi
         return $this->entries;
     }
 
-    public function map($row): array
+    public function map($entry): array
     {
-        /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormUser $row */
-        $data = [
-            'id' => $row->id,
-            'user' => $row->user->name ?? 'Guest',
-            /** @phpstan-ignore-next-line */
-            'created_at' => $row->created_at,
+        $mapping = [
+            $entry->user->name ?? 'Guest',
+            $entry->created_at,
+            $entry->updated_at,
         ];
 
-        foreach ($row->entry as $field) {
-            /** @var array{field: string, answer: string} $field */
-            $data[$field['field']] = $field['answer'];
+        foreach ($this->form->filamentFormFields as $field) {
+            /** @phpstan-ignore-next-line */
+            $entriesFieldKey = array_search($field->id, array_column($entry->entry, 'field_id'));
+
+            if ($entriesFieldKey === false) {
+                array_push($mapping, '');
+            } else {
+                array_push($mapping, $entry->entry[$entriesFieldKey]['answer']);
+            }
         }
 
-        return $data;
+        return $mapping;
     }
 
     public function headings(): array
     {
         $headings = [
-            'id',
-            'user',
+            'name',
             'created_at',
+            'updated_at',
         ];
 
         foreach ($this->form->filamentFormFields as $field) {
