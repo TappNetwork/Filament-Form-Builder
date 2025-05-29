@@ -2,6 +2,26 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v1.42 - 2025-05-29
+
+### What's Changed
+
+* Laravel 12 Support by @swilla in https://github.com/TappNetwork/Filament-Form-Builder/pull/6
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.3.0 by @dependabot in https://github.com/TappNetwork/Filament-Form-Builder/pull/7
+* Bump aglipanci/laravel-pint-action from 2.4 to 2.5 by @dependabot in https://github.com/TappNetwork/Filament-Form-Builder/pull/8
+* add event and layouts for public forms by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/10
+* Can we add a preview cu 868cwr2en by @johnwesely in https://github.com/TappNetwork/Filament-Form-Builder/pull/11
+* File Uploads by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/12
+* Bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot in https://github.com/TappNetwork/Filament-Form-Builder/pull/13
+* Middleware for form show that handles guest entries by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/14
+
+### New Contributors
+
+* @dependabot made their first contribution in https://github.com/TappNetwork/Filament-Form-Builder/pull/7
+* @scottgrayson made their first contribution in https://github.com/TappNetwork/Filament-Form-Builder/pull/10
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v1.41...v1.42
+
 ## v.41 - 2025-01-22
 
 Fix bug with single select fields when multi select fields were introduced.
@@ -64,6 +84,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
