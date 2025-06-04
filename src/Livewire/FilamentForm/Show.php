@@ -69,8 +69,9 @@ class Show extends Component implements HasForms
                 $filamentField = $filamentField
                     ->schema(function () use ($fieldData) {
                         $schema = [];
-                        foreach ($fieldData->schema ?? [] as $subField) {
-                            $subFieldComponent = FilamentFieldTypeEnum::fromString($subField['type'])->className()::make($subField['id'] ?? uniqid());
+                        foreach ($fieldData->schema ?? [] as $index => $subField) {
+                            $subFieldId = $subField['id'] ?? $fieldData->id . '_' . $subField['type'] . '_' . $index;
+                            $subFieldComponent = FilamentFieldTypeEnum::fromString($subField['type'])->className()::make($subFieldId);
 
                             if (isset($subField['label'])) {
                                 $subFieldComponent = $subFieldComponent->label($subField['label']);
@@ -96,7 +97,8 @@ class Show extends Component implements HasForms
                         }
                         return $schema;
                     })
-                    ->default([]);
+                    ->default([])
+                    ->live();
             }
 
             array_push($schema, $filamentField);
@@ -137,7 +139,7 @@ class Show extends Component implements HasForms
 
     public function create()
     {
-        $this->form->getState();
+        $formState = $this->form->getState();
 
         if ($this->preview) {
             return;
@@ -145,7 +147,7 @@ class Show extends Component implements HasForms
 
         $entry = [];
 
-        foreach ($this->form->getState() as $key => $value) {
+        foreach ($formState as $key => $value) {
             /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField|null $field */
             $field = $this->filamentForm
                 ->filamentFormFields
@@ -155,14 +157,40 @@ class Show extends Component implements HasForms
                 continue;
             }
 
-            $valueData = $this->parseValue($field, $value);
+            if ($field->type === FilamentFieldTypeEnum::REPEATER) {
+                if (is_array($value)) {
+                    foreach ($value as $index => $repeaterEntry) {
+                        if (!is_array($repeaterEntry)) continue;
 
-            array_push($entry, [
-                'type' => $field->type->fieldName(),
-                'field' => $field->label,
-                'answer' => $valueData,
-                'field_id' => $field->id,
-            ]);
+                        foreach ($repeaterEntry as $subKey => $subValue) {
+                            $subField = collect($field->schema)->firstWhere('id', $subKey);
+                            if (!$subField) {
+                                // If we can't find the subfield by ID, try to find it by type
+                                $subField = collect($field->schema)->first(function ($item) use ($subKey) {
+                                    return str_contains($subKey, $item['type']);
+                                });
+                            }
+                            if (!$subField) continue;
+
+                            array_push($entry, [
+                                'type' => FilamentFieldTypeEnum::fromString($subField['type'])->fieldName(),
+                                'field' => ($index + 1) . '. ' . ($subField['label'] ?? 'Item ' . ($index + 1)),
+                                'answer' => $subValue,
+                                'field_id' => $field->id . '_' . $subKey,
+                            ]);
+                        }
+                    }
+                }
+            } else {
+                $valueData = $this->parseValue($field, $value);
+
+                array_push($entry, [
+                    'type' => $field->type->fieldName(),
+                    'field' => $field->label,
+                    'answer' => $valueData,
+                    'field_id' => $field->id,
+                ]);
+            }
         }
 
         if (Auth::check()) {
@@ -233,11 +261,13 @@ class Show extends Component implements HasForms
             return '';
         }
 
+        if ($field->type === FilamentFieldTypeEnum::REPEATER) {
+            return $value;
+        }
+
         $valueData = '';
 
-        if ($field->type === FilamentFieldTypeEnum::REPEATER) {
-            $valueData = $value;
-        } elseif ($field->type->hasOptions() && is_array($value)) {
+        if ($field->type->hasOptions() && is_array($value)) {
             $valueData = implode(', ', $value);
         } elseif ($field->type->hasOptions() && ! is_array($value)) {
             $valueData = $value;
