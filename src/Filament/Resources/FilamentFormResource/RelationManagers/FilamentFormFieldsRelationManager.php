@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -50,13 +51,56 @@ class FilamentFormFieldsRelationManager extends RelationManager
                 TextInput::make('hint'),
                 TagsInput::make('rules')
                     ->placeholder('Add rules')
-                    ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules'),
+                    ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules')
+                    ->visible(function (Get $get) {
+                        return $get('type') !== FilamentFieldTypeEnum::REPEATER->name;
+                    }),
                 TextInput::make('order')
                     ->default(function () {
                         return $this->getOwnerRecord()->filamentFormFields()->count() + 1;
                     })
                     ->numeric(),
-                Toggle::make('required'),
+                Toggle::make('required')
+                    ->visible(function (Get $get) {
+                        return $get('type') !== FilamentFieldTypeEnum::REPEATER->name;
+                    }),
+                Repeater::make('schema')
+                    ->label('Fields')
+                    ->schema([
+                        TextInput::make('label')
+                            ->required()
+                            ->maxLength(255),
+                        Select::make('type')
+                            ->options(function () {
+                                $options = collect(FilamentFieldTypeEnum::cases())
+                                    ->filter(fn ($type) => $type !== FilamentFieldTypeEnum::REPEATER)
+                                    ->mapWithKeys(fn ($type) => [$type->name => $type->fieldName()])
+                                    ->toArray();
+                                return $options;
+                            })
+                            ->required()
+                            ->live(),
+                        TagsInput::make('options')
+                            ->placeholder('Add options')
+                            ->hint('Press enter after inputting each option')
+                            ->visible(function (Get $get) {
+                                if ($get('type')) {
+                                    return FilamentFieldTypeEnum::fromString($get('type'))->hasOptions();
+                                }
+
+                                return false;
+                            }),
+                        TextInput::make('hint'),
+                        TagsInput::make('rules')
+                            ->placeholder('Add rules')
+                            ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules'),
+                        Toggle::make('required'),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->visible(function (Get $get) {
+                        return $get('type') === FilamentFieldTypeEnum::REPEATER->name;
+                    }),
             ]);
     }
 

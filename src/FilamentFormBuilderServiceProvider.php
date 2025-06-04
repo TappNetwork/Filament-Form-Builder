@@ -22,6 +22,7 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
     {
         $package->name('filament-form-builder')
             ->hasMigration('create_dynamic_filament_form_tables')
+            ->hasMigration('add_schema_to_filament_form_fields')
             ->hasConfigFile('filament-form-builder')
             ->hasRoute('routes')
             ->hasViews('filament-form-builder');

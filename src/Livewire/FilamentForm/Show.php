@@ -65,6 +65,38 @@ class Show extends Component implements HasForms
                     ->live()
                     ->required()
                     ->default([]);
+            } elseif ($fieldData->type === FilamentFieldTypeEnum::REPEATER) {
+                $filamentField = $filamentField
+                    ->schema(function () use ($fieldData) {
+                        $schema = [];
+                        foreach ($fieldData->schema ?? [] as $subField) {
+                            $subFieldComponent = FilamentFieldTypeEnum::fromString($subField['type'])->className()::make($subField['id'] ?? uniqid());
+
+                            if (isset($subField['label'])) {
+                                $subFieldComponent = $subFieldComponent->label($subField['label']);
+                            }
+
+                            if (isset($subField['required']) && $subField['required']) {
+                                $subFieldComponent = $subFieldComponent->required();
+                            }
+
+                            if (isset($subField['options'])) {
+                                $subFieldComponent = $subFieldComponent->options(array_combine($subField['options'], $subField['options']));
+                            }
+
+                            if (isset($subField['hint'])) {
+                                $subFieldComponent = $subFieldComponent->hint($subField['hint']);
+                            }
+
+                            if (isset($subField['rules'])) {
+                                $subFieldComponent = $subFieldComponent->rules($subField['rules']);
+                            }
+
+                            $schema[] = $subFieldComponent;
+                        }
+                        return $schema;
+                    })
+                    ->default([]);
             }
 
             array_push($schema, $filamentField);
@@ -203,7 +235,9 @@ class Show extends Component implements HasForms
 
         $valueData = '';
 
-        if ($field->type->hasOptions() && is_array($value)) {
+        if ($field->type === FilamentFieldTypeEnum::REPEATER) {
+            $valueData = $value;
+        } elseif ($field->type->hasOptions() && is_array($value)) {
             $valueData = implode(', ', $value);
         } elseif ($field->type->hasOptions() && ! is_array($value)) {
             $valueData = $value;
