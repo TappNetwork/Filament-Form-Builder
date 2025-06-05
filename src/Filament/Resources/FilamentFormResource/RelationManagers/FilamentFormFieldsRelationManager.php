@@ -2,11 +2,11 @@
 
 namespace Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers;
 
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -76,6 +76,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
                                     ->filter(fn ($type) => $type !== FilamentFieldTypeEnum::REPEATER)
                                     ->mapWithKeys(fn ($type) => [$type->name => $type->fieldName()])
                                     ->toArray();
+
                                 return $options;
                             })
                             ->required()

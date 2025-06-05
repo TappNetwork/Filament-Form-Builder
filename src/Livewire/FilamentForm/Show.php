@@ -70,7 +70,7 @@ class Show extends Component implements HasForms
                     ->schema(function () use ($fieldData) {
                         $schema = [];
                         foreach ($fieldData->schema ?? [] as $index => $subField) {
-                            $subFieldId = $subField['id'] ?? $fieldData->id . '_' . $subField['type'] . '_' . $index;
+                            $subFieldId = $subField['id'] ?? $fieldData->id.'_'.$subField['type'].'_'.$index;
                             $subFieldComponent = FilamentFieldTypeEnum::fromString($subField['type'])->className()::make($subFieldId);
 
                             if (isset($subField['label'])) {
@@ -95,6 +95,7 @@ class Show extends Component implements HasForms
 
                             $schema[] = $subFieldComponent;
                         }
+
                         return $schema;
                     })
                     ->default([])
@@ -160,7 +161,9 @@ class Show extends Component implements HasForms
             if ($field->type === FilamentFieldTypeEnum::REPEATER) {
                 if (is_array($value)) {
                     foreach ($value as $index => $repeaterEntry) {
-                        if (!is_array($repeaterEntry)) continue;
+                        if (! is_array($repeaterEntry)) {
+                            continue;
+                        }
 
                         foreach ($repeaterEntry as $subKey => $subValue) {
                             // Extract the index from the key (e.g., "47_TEXT_0" -> "0")
@@ -170,16 +173,18 @@ class Show extends Component implements HasForms
                             // Get the field from the schema using the index
                             $subField = $field->schema[$fieldIndex] ?? null;
 
-                            if (!$subField) continue;
+                            if (! $subField) {
+                                continue;
+                            }
 
                             $repeaterLabel = str_replace(' ', '_', strtolower($field->label));
                             $fieldLabel = str_replace(' ', '_', strtolower($subField['label']));
 
                             array_push($entry, [
                                 'type' => FilamentFieldTypeEnum::fromString($subField['type'])->fieldName(),
-                                'field' => $subField['label'] . ' (' . ($index + 1) . ')',
+                                'field' => $subField['label'].' ('.($index + 1).')',
                                 'answer' => $subValue,
-                                'field_id' => "{$repeaterLabel}_{$fieldLabel}_" . ($index + 1),
+                                'field_id' => "{$repeaterLabel}_{$fieldLabel}_".($index + 1),
                             ]);
                         }
                     }
