@@ -60,7 +60,8 @@ class Show extends Component implements HasForms, HasInfolists
                     ])
                     ->state(function () {
                         return $this->entry->getMedia();
-                    }),
+                    })
+                    ->visible(fn () => $this->entry->getMedia()->isNotEmpty()),
             ]);
     }
 
