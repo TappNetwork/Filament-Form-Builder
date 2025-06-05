@@ -21,6 +21,7 @@ enum FilamentFieldTypeEnum implements HasLabel
     case COLOR_PICKER;
     case FILE_UPLOAD;
     case REPEATER;
+    case HEADING;
 
     public static function fromString(string $type): ?self
     {
@@ -56,6 +57,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::COLOR_PICKER => 'Color Picker',
             self::FILE_UPLOAD => 'File Upload',
             self::REPEATER => 'Repeater',
+            self::HEADING => 'Heading',
         };
     }
 
@@ -77,6 +79,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::COLOR_PICKER => 'Filament\Forms\Components\ColorPicker',
             self::FILE_UPLOAD => 'Filament\Forms\Components\SpatieMediaLibraryFileUpload',
             self::REPEATER => 'Filament\Forms\Components\Repeater',
+            self::HEADING => 'Tapp\FilamentFormBuilder\Filament\Forms\Components\Heading',
         };
     }
 
@@ -98,6 +101,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::COLOR_PICKER => false,
             self::FILE_UPLOAD => false,
             self::REPEATER => false,
+            self::HEADING => false,
         };
     }
 
@@ -119,6 +123,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::COLOR_PICKER => false,
             self::FILE_UPLOAD => false,
             self::REPEATER => false,
+            self::HEADING => false,
         };
     }
 }

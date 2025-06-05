@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -31,13 +32,16 @@ class FilamentFormFieldsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                TextInput::make('label')
-                    ->required()
-                    ->maxLength(255),
                 Select::make('type')
                     ->options(FilamentFieldTypeEnum::class)
                     ->required()
                     ->live(),
+                TextInput::make('label')
+                    ->required()
+                    ->maxLength(255)
+                    ->label(function (Get $get) {
+                        return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Heading' : 'Label';
+                    }),
                 TagsInput::make('options')
                     ->placeholder('Add options')
                     ->hint('Press enter after inputting each option')
@@ -48,12 +52,16 @@ class FilamentFormFieldsRelationManager extends RelationManager
 
                         return false;
                     }),
-                TextInput::make('hint'),
+                Textarea::make('hint')
+                    ->label(function (Get $get) {
+                        return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Subheading' : 'Hint';
+                    }),
                 TagsInput::make('rules')
                     ->placeholder('Add rules')
                     ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules')
                     ->visible(function (Get $get) {
-                        return $get('type') !== FilamentFieldTypeEnum::REPEATER->name;
+                        return $get('type') !== FilamentFieldTypeEnum::REPEATER->name
+                            && $get('type') !== FilamentFieldTypeEnum::HEADING->name;
                     }),
                 TextInput::make('order')
                     ->default(function () {
@@ -62,7 +70,8 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->numeric(),
                 Toggle::make('required')
                     ->visible(function (Get $get) {
-                        return $get('type') !== FilamentFieldTypeEnum::REPEATER->name;
+                        return $get('type') !== FilamentFieldTypeEnum::REPEATER->name
+                            && $get('type') !== FilamentFieldTypeEnum::HEADING->name;
                     }),
                 Repeater::make('schema')
                     ->label('Fields')
@@ -91,7 +100,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
 
                                 return false;
                             }),
-                        TextInput::make('hint'),
+                        Textarea::make('hint'),
                         TagsInput::make('rules')
                             ->placeholder('Add rules')
                             ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules'),
