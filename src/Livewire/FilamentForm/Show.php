@@ -163,20 +163,23 @@ class Show extends Component implements HasForms
                         if (!is_array($repeaterEntry)) continue;
 
                         foreach ($repeaterEntry as $subKey => $subValue) {
-                            $subField = collect($field->schema)->firstWhere('id', $subKey);
-                            if (!$subField) {
-                                // If we can't find the subfield by ID, try to find it by type
-                                $subField = collect($field->schema)->first(function ($item) use ($subKey) {
-                                    return str_contains($subKey, $item['type']);
-                                });
-                            }
+                            // Extract the index from the key (e.g., "47_TEXT_0" -> "0")
+                            preg_match('/_(\d+)$/', $subKey, $matches);
+                            $fieldIndex = $matches[1] ?? 0;
+
+                            // Get the field from the schema using the index
+                            $subField = $field->schema[$fieldIndex] ?? null;
+
                             if (!$subField) continue;
+
+                            $repeaterLabel = str_replace(' ', '_', strtolower($field->label));
+                            $fieldLabel = str_replace(' ', '_', strtolower($subField['label']));
 
                             array_push($entry, [
                                 'type' => FilamentFieldTypeEnum::fromString($subField['type'])->fieldName(),
-                                'field' => ($index + 1) . '. ' . ($subField['label'] ?? 'Item ' . ($index + 1)),
+                                'field' => $subField['label'] . ' (' . ($index + 1) . ')',
                                 'answer' => $subValue,
-                                'field_id' => $field->id . '_' . $subKey,
+                                'field_id' => "{$repeaterLabel}_{$fieldLabel}_" . ($index + 1),
                             ]);
                         }
                     }
