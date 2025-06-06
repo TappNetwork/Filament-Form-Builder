@@ -42,7 +42,11 @@ class FilamentFormUser extends Model implements HasMedia
         $keyValueEntry = [];
 
         foreach ($this->entry as $fieldEntry) {
-            $keyValueEntry[$fieldEntry['field']] = $fieldEntry['answer'];
+            if (is_array($fieldEntry['answer'])) {
+                $keyValueEntry[$fieldEntry['field']] = json_encode($fieldEntry['answer']);
+            } else {
+                $keyValueEntry[$fieldEntry['field']] = $fieldEntry['answer'];
+            }
         }
 
         return $keyValueEntry;
