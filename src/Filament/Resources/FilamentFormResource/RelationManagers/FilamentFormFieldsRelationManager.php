@@ -33,7 +33,12 @@ class FilamentFormFieldsRelationManager extends RelationManager
         return $form
             ->schema([
                 Select::make('type')
-                    ->options(FilamentFieldTypeEnum::class)
+                    ->options(function () {
+                        return collect(FilamentFieldTypeEnum::cases())
+                            ->mapWithKeys(fn ($type) => [$type->name => $type->fieldName()])
+                            ->sortBy(fn ($label, $key) => $label)
+                            ->toArray();
+                    })
                     ->required()
                     ->live(),
                 TextInput::make('label')
