@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v1.5.0 - 2025-06-24
+
+### What's Changed
+
+* Repeater and Heading fields by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/15
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v1.42...v1.5.0
+
 ## v1.42 - 2025-05-29
 
 ### What's Changed
@@ -84,6 +92,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
