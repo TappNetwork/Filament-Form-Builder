@@ -65,6 +65,41 @@ class Show extends Component implements HasForms
                     ->live()
                     ->required()
                     ->default([]);
+            } elseif ($fieldData->type === FilamentFieldTypeEnum::REPEATER) {
+                $filamentField = $filamentField
+                    ->schema(function () use ($fieldData) {
+                        $schema = [];
+                        foreach ($fieldData->schema ?? [] as $index => $subField) {
+                            $subFieldId = $subField['id'] ?? $fieldData->id.'_'.$subField['type'].'_'.$index;
+                            $subFieldComponent = FilamentFieldTypeEnum::fromString($subField['type'])->className()::make($subFieldId);
+
+                            if (isset($subField['label'])) {
+                                $subFieldComponent = $subFieldComponent->label($subField['label']);
+                            }
+
+                            if (isset($subField['required']) && $subField['required']) {
+                                $subFieldComponent = $subFieldComponent->required();
+                            }
+
+                            if (isset($subField['options'])) {
+                                $subFieldComponent = $subFieldComponent->options(array_combine($subField['options'], $subField['options']));
+                            }
+
+                            if (isset($subField['hint'])) {
+                                $subFieldComponent = $subFieldComponent->hint($subField['hint']);
+                            }
+
+                            if (isset($subField['rules'])) {
+                                $subFieldComponent = $subFieldComponent->rules($subField['rules']);
+                            }
+
+                            $schema[] = $subFieldComponent;
+                        }
+
+                        return $schema;
+                    })
+                    ->default([])
+                    ->live();
             }
 
             array_push($schema, $filamentField);
@@ -105,7 +140,7 @@ class Show extends Component implements HasForms
 
     public function create()
     {
-        $this->form->getState();
+        $formState = $this->form->getState();
 
         if ($this->preview) {
             return;
@@ -113,7 +148,7 @@ class Show extends Component implements HasForms
 
         $entry = [];
 
-        foreach ($this->form->getState() as $key => $value) {
+        foreach ($formState as $key => $value) {
             /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField|null $field */
             $field = $this->filamentForm
                 ->filamentFormFields
@@ -123,14 +158,47 @@ class Show extends Component implements HasForms
                 continue;
             }
 
-            $valueData = $this->parseValue($field, $value);
+            if ($field->type === FilamentFieldTypeEnum::REPEATER) {
+                if (is_array($value)) {
+                    foreach ($value as $index => $repeaterEntry) {
+                        if (! is_array($repeaterEntry)) {
+                            continue;
+                        }
 
-            array_push($entry, [
-                'type' => $field->type->fieldName(),
-                'field' => $field->label,
-                'answer' => $valueData,
-                'field_id' => $field->id,
-            ]);
+                        foreach ($repeaterEntry as $subKey => $subValue) {
+                            // Extract the index from the key (e.g., "47_TEXT_0" -> "0")
+                            preg_match('/_(\d+)$/', $subKey, $matches);
+                            $fieldIndex = $matches[1] ?? 0;
+
+                            // Get the field from the schema using the index
+                            $subField = $field->schema[$fieldIndex] ?? null;
+
+                            if (! $subField) {
+                                continue;
+                            }
+
+                            $repeaterLabel = str_replace(' ', '_', strtolower($field->label));
+                            $fieldLabel = str_replace(' ', '_', strtolower($subField['label']));
+
+                            array_push($entry, [
+                                'type' => FilamentFieldTypeEnum::fromString($subField['type'])->fieldName(),
+                                'field' => $subField['label'].' ('.($index + 1).')',
+                                'answer' => $subValue,
+                                'field_id' => "{$repeaterLabel}_{$fieldLabel}_".($index + 1),
+                            ]);
+                        }
+                    }
+                }
+            } else {
+                $valueData = $this->parseValue($field, $value);
+
+                array_push($entry, [
+                    'type' => $field->type->fieldName(),
+                    'field' => $field->label,
+                    'answer' => $valueData,
+                    'field_id' => $field->id,
+                ]);
+            }
         }
 
         if (Auth::check()) {
@@ -199,6 +267,10 @@ class Show extends Component implements HasForms
     {
         if ($value === null && ! $field->type->isBool()) {
             return '';
+        }
+
+        if ($field->type === FilamentFieldTypeEnum::REPEATER) {
+            return $value;
         }
 
         $valueData = '';

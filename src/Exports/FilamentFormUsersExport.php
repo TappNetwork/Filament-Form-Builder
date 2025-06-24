@@ -36,14 +36,22 @@ class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMappi
             $entry->updated_at,
         ];
 
-        foreach ($this->form->filamentFormFields as $field) {
-            /** @phpstan-ignore-next-line */
-            $entriesFieldKey = array_search($field->id, array_column($entry->entry, 'field_id'));
+        // Get all headings after the first three default ones
+        $fieldHeadings = array_slice($this->headings(), 3);
 
-            if ($entriesFieldKey === false) {
-                array_push($mapping, '');
+        // Create a lookup array of field labels to answers for this entry
+        $entryAnswers = collect($entry->entry)->mapWithKeys(function ($fieldEntry) {
+            return [$fieldEntry['field'] => $fieldEntry['answer']];
+        });
+
+        // For each field heading, add the corresponding answer or empty string
+        foreach ($fieldHeadings as $heading) {
+            $answer = $entryAnswers->get($heading);
+
+            if (is_array($answer)) {
+                array_push($mapping, json_encode($answer));
             } else {
-                array_push($mapping, $entry->entry[$entriesFieldKey]['answer']);
+                array_push($mapping, $answer ?? '');
             }
         }
 
@@ -58,10 +66,18 @@ class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMappi
             'updated_at',
         ];
 
-        foreach ($this->form->filamentFormFields as $field) {
-            /** @phpstan-ignore-next-line */
-            array_push($headings, $field->label);
+        // Get all unique field labels from all entries
+        $allFieldLabels = collect();
+        foreach ($this->entries as $entry) {
+            foreach ($entry->entry as $fieldEntry) {
+                if (isset($fieldEntry['field'])) {
+                    $allFieldLabels->push($fieldEntry['field']);
+                }
+            }
         }
+
+        // Add unique field labels to headings
+        $headings = array_merge($headings, $allFieldLabels->unique()->values()->toArray());
 
         return $headings;
     }

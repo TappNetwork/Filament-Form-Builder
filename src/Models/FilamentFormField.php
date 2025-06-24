@@ -34,6 +34,7 @@ class FilamentFormField extends Model implements Sortable
         'type' => FilamentFieldTypeEnum::class,
         'options' => 'array',
         'rules' => 'array',
+        'schema' => 'array',
     ];
 
     public function filamentForm(): BelongsTo
