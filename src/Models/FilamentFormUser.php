@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -19,6 +20,10 @@ class FilamentFormUser extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
+    protected $primaryKey = 'uuid';
+
+    protected $keyType = 'string';
+
     protected $table = 'filament_form_user';
 
     protected $guarded = [];
@@ -27,6 +32,17 @@ class FilamentFormUser extends Model implements HasMedia
         'entry' => 'json',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = Str::uuid()->toString();
+            }
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(config('auth.providers.users.model', Authenticatable::class));
@@ -34,7 +50,7 @@ class FilamentFormUser extends Model implements HasMedia
 
     public function filamentForm(): BelongsTo
     {
-        return $this->belongsTo(FilamentForm::class);
+        return $this->belongsTo(FilamentForm::class, 'id', 'id');
     }
 
     public function getKeyValueEntryAttribute()

@@ -18,11 +18,28 @@ class FilamentForm extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'uuid';
+
+    protected $keyType = 'string';
+
+    protected $table = 'filament_forms';
+
     protected $guarded = [];
 
     protected $casts = [
         'permit_guest_entries' => 'boolean',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = Str::uuid()->toString();
+            }
+        });
+    }
 
     public function users(): BelongsToMany
     {
@@ -31,17 +48,17 @@ class FilamentForm extends Model
 
     public function filamentFormFields(): HasMany
     {
-        return $this->hasMany(FilamentFormField::class)
+        return $this->hasMany(FilamentFormField::class, 'filament_form_id', 'id')
             ->orderBy('order', 'asc');
     }
 
     public function filamentFormUsers(): HasMany
     {
-        return $this->hasMany(FilamentFormUser::class);
+        return $this->hasMany(FilamentFormUser::class, 'filament_form_id', 'id');
     }
 
     public function getFormLinkAttribute(): string
     {
-        return route(config('filament-form-builder.filament-form-show-route'), $this->id);
+        return route(config('filament-form-builder.filament-form-show-route'), $this->uuid);
     }
 }
