@@ -19,7 +19,7 @@ class ListFilamentForms extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('Create '.config('filament-form-builder.admin-panel-resource-name')),
+                ->label(__('Create').' '.config('filament-form-builder.admin-panel-resource-name')),
         ];
     }
 }
