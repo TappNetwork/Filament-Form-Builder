@@ -23,7 +23,16 @@ class CheckFormGuestAccess
             return $next($request);
         }
 
-        // Otherwise, redirect to login
-        return redirect()->guest(route('login'));
+        // If a custom guest redirect url has been set
+        if (config('filament-form-builder.form-guest-redirect-url')) {
+            return redirect()->guest(config('filament-form-builder.form-guest-redirect-url'));
+        }
+
+        try {
+            // Otherwise, redirect to login
+            return redirect()->guest(route('login'));
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage() . ' ' . __('Use config option "form-guest-redirect-url" to set a custom redirect URL.'));
+        }
     }
 }
