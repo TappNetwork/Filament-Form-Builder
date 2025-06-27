@@ -12,7 +12,7 @@ class EditFilamentForm extends EditRecord
 
     public function getTitle(): string
     {
-        return 'Edit '.config('filament-form-builder.admin-panel-resource-name');
+        return __('Edit').' '.config('filament-form-builder.admin-panel-resource-name');
     }
 
     protected function getHeaderActions(): array

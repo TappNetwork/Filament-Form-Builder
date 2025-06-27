@@ -62,9 +62,9 @@ class FilamentFormResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Toggle::make('permit_guest_entries')
-                    ->hint('Permit non registered users to submit this form'),
+                    ->hint(__('Permit non registered users to submit this form')),
                 Forms\Components\TextInput::make('redirect_url')
-                    ->hint('(optional) complete this field to provide a custom redirect url on form completion. Use a fully qualified URL including "https://" to redirect to an external link, otherwise url will be relative to this sites domain'),
+                    ->hint(__('(optional) complete this field to provide a custom redirect url on form completion. Use a fully qualified URL including "https://" to redirect to an external link, otherwise url will be relative to this sites domain.')),
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
             ]);
@@ -87,7 +87,7 @@ class FilamentFormResource extends Resource
                     ->searchable(),
                 TextColumn::make('form_link')
                     ->copyable()
-                    ->copyMessage('Form link copied to clipboard')
+                    ->copyMessage(__('Form link copied to clipboard'))
                     ->copyMessageDuration(1500),
                 IconColumn::make('permit_guest_entries')
                     ->sortable()
@@ -111,7 +111,7 @@ class FilamentFormResource extends Resource
                 Action::make('copy')
                     ->action(function ($record) {
                         $formCopy = FilamentForm::create([
-                            'name' => $record->name.' - (Copy)',
+                            'name' => $record->name.' - ('.__('Copy').')',
                             'permit_guest_entries' => $record->permit_guest_entries,
                             'redirect_url' => $record->redirect_url,
                             'description' => $record->description,
@@ -131,8 +131,8 @@ class FilamentFormResource extends Resource
                         });
 
                         Notification::make()
-                            ->title('Form copied successfully')
-                            ->body('Please change the name of the form to something unique and remove the "(Copy)" suffix')
+                            ->title(__('Form copied successfully'))
+                            ->body(__('Please change the name of the form to something unique and remove the "(Copy)" suffix'))
                             ->success()
                             ->send();
 
@@ -144,7 +144,7 @@ class FilamentFormResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->emptyStateHeading('No '.config('filament-form-builder.admin-panel-resource-name-plural'));
+            ->emptyStateHeading(__('No').' '.config('filament-form-builder.admin-panel-resource-name-plural'));
     }
 
     public static function getRelations(): array

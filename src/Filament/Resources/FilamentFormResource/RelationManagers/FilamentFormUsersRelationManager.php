@@ -26,7 +26,7 @@ class FilamentFormUsersRelationManager extends RelationManager
 
     public static function getLabel(): string
     {
-        return 'Custom Posts Title';
+        return __('Custom Posts Title');
     }
 
     public function form(Form $form): Form
@@ -68,7 +68,7 @@ class FilamentFormUsersRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    BulkAction::make('Export Selected')
+                    BulkAction::make(__('Export Selected'))
                         ->action(fn (Collection $records) => Excel::download(
                             new FilamentFormUsersExport($records),
                             urlencode($this->getOwnerRecord()->name).'_form_entry_export'.now()->format('Y-m-dhis').'.csv')
