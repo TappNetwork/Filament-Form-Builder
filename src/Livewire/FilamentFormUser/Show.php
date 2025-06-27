@@ -32,21 +32,21 @@ class Show extends Component implements HasForms, HasInfolists
             ->schema([
                 TextEntry::make('user.name'),
                 TextEntry::make('filamentForm.name')
-                    ->label('Form Name'),
+                    ->label(__('Form Name')),
                 TextEntry::make('created_at')
-                    ->label('Form Completed At')
+                    ->label(__('Form Completed At'))
                     ->dateTime(),
                 KeyValueEntry::make('key_value_entry')
-                    ->label('Form Entry')
-                    ->keyLabel('Question')
-                    ->valueLabel('Answer'),
+                    ->label(__('Form Entry'))
+                    ->keyLabel(__('Question'))
+                    ->valueLabel(__('Answer')),
                 \Filament\Infolists\Components\RepeatableEntry::make('media')
-                    ->label('Uploaded Files')
+                    ->label(__('Uploaded Files'))
                     ->schema([
                         TextEntry::make('custom_properties.field_label')
-                            ->label('Question'),
+                            ->label(__('Question')),
                         TextEntry::make('custom_properties.original_name')
-                            ->label('File Name')
+                            ->label(__('File Name'))
                             ->suffixAction(
                                 InfolistAction::make('download')
                                     ->icon('heroicon-o-arrow-down-tray')

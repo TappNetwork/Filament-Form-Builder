@@ -42,22 +42,22 @@ enum FilamentFieldTypeEnum implements HasLabel
     public function fieldName(): string
     {
         return match ($this) {
-            self::TEXT => 'Text Input',
-            self::TEXTAREA => 'Textarea',
-            self::SELECT => 'Select',
-            self::SELECT_MULTIPLE => 'Select Multiple',
-            self::RICH_EDITOR => 'Rich Editor',
-            self::TOGGLE => 'Toggle',
-            self::CHECKBOX => 'Checkbox',
-            self::RADIO => 'Radio',
-            self::DATE_TIME_PICKER => 'DateTime Picker',
-            self::DATE_PICKER => 'Date Picker',
-            self::TIME_PICKER => 'Time Picker',
-            self::MARKDOWN_EDITOR => 'Markdown Editor',
-            self::COLOR_PICKER => 'Color Picker',
-            self::FILE_UPLOAD => 'File Upload',
-            self::REPEATER => 'Repeater',
-            self::HEADING => 'Heading',
+            self::TEXT => __('Text Input'),
+            self::TEXTAREA => __('Textarea'),
+            self::SELECT => __('Select'),
+            self::SELECT_MULTIPLE => __('Select Multiple'),
+            self::RICH_EDITOR => __('Rich Editor'),
+            self::TOGGLE => __('Toggle'),
+            self::CHECKBOX => __('Checkbox'),
+            self::RADIO => __('Radio'),
+            self::DATE_TIME_PICKER => __('DateTime Picker'),
+            self::DATE_PICKER => __('Date Picker'),
+            self::TIME_PICKER => __('Time Picker'),
+            self::MARKDOWN_EDITOR => __('Markdown Editor'),
+            self::COLOR_PICKER => __('Color Picker'),
+            self::FILE_UPLOAD => __('File Upload'),
+            self::REPEATER => __('Repeater'),
+            self::HEADING => __('Heading'),
         };
     }
 

@@ -33,6 +33,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
         return $form
             ->schema([
                 Select::make('type')
+                    ->label(__('Type'))
                     ->options(function () {
                         return collect(FilamentFieldTypeEnum::cases())
                             ->mapWithKeys(fn ($type) => [$type->name => $type->fieldName()])
@@ -42,14 +43,16 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->required()
                     ->live(),
                 TextInput::make('label')
+                    ->label(__('Label'))
                     ->required()
                     ->maxLength(255)
                     ->label(function (Get $get) {
-                        return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Heading' : 'Label';
+                        return $get('type') === FilamentFieldTypeEnum::HEADING->name ? __('Heading') : __('Label');
                     }),
                 TagsInput::make('options')
-                    ->placeholder('Add options')
-                    ->hint('Press enter after inputting each option')
+                    ->label(__('Options'))
+                    ->placeholder(__('Add options'))
+                    ->hint(__('Press enter after inputting each option'))
                     ->visible(function (Get $get) {
                         if ($get('type')) {
                             return FilamentFieldTypeEnum::fromString($get('type'))->hasOptions();
@@ -59,32 +62,37 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     }),
                 Textarea::make('hint')
                     ->label(function (Get $get) {
-                        return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Subheading' : 'Hint';
+                        return $get('type') === FilamentFieldTypeEnum::HEADING->name ? __('Subheading') : __('Hint');
                     }),
                 TagsInput::make('rules')
-                    ->placeholder('Add rules')
-                    ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules')
+                    ->label(__('Rules'))
+                    ->placeholder(__('Add rules'))
+                    ->hint(__('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules'))
                     ->visible(function (Get $get) {
                         return $get('type') !== FilamentFieldTypeEnum::REPEATER->name
                             && $get('type') !== FilamentFieldTypeEnum::HEADING->name;
                     }),
                 TextInput::make('order')
+                    ->label(__('Order'))
                     ->default(function () {
                         return $this->getOwnerRecord()->filamentFormFields()->count() + 1;
                     })
                     ->numeric(),
                 Toggle::make('required')
+                    ->label(__('Required'))
                     ->visible(function (Get $get) {
                         return $get('type') !== FilamentFieldTypeEnum::REPEATER->name
                             && $get('type') !== FilamentFieldTypeEnum::HEADING->name;
                     }),
                 Repeater::make('schema')
-                    ->label('Fields')
+                    ->label(__('Fields'))
                     ->schema([
                         TextInput::make('label')
+                            ->label(__('Label'))
                             ->required()
                             ->maxLength(255),
                         Select::make('type')
+                            ->label(__('Type'))
                             ->options(function () {
                                 $options = collect(FilamentFieldTypeEnum::cases())
                                     ->filter(fn ($type) => $type !== FilamentFieldTypeEnum::REPEATER)
@@ -96,8 +104,9 @@ class FilamentFormFieldsRelationManager extends RelationManager
                             ->required()
                             ->live(),
                         TagsInput::make('options')
-                            ->placeholder('Add options')
-                            ->hint('Press enter after inputting each option')
+                            ->label(__('Options'))
+                            ->placeholder(__('Add options'))
+                            ->hint(__('Press enter after inputting each option'))
                             ->visible(function (Get $get) {
                                 if ($get('type')) {
                                     return FilamentFieldTypeEnum::fromString($get('type'))->hasOptions();
@@ -105,11 +114,12 @@ class FilamentFormFieldsRelationManager extends RelationManager
 
                                 return false;
                             }),
-                        Textarea::make('hint'),
+                        Textarea::make('hint')->label(__('Hint')),
                         TagsInput::make('rules')
-                            ->placeholder('Add rules')
-                            ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules'),
-                        Toggle::make('required'),
+                            ->label(__('Rules'))
+                            ->placeholder(__('Add rules'))
+                            ->hint(__('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules')),
+                        Toggle::make('required')->label(__('Required')),
                     ])
                     ->columns(2)
                     ->columnSpanFull()
@@ -125,19 +135,22 @@ class FilamentFormFieldsRelationManager extends RelationManager
 
         return $table
             ->recordTitleAttribute('label')
-            ->heading(config('filament-form-builder.admin-panel-filament-form-field-name-plural'))
-            ->modelLabel(config('filament-form-builder.admin-panel-filament-form-field-name'))
+            ->heading(__(config('filament-form-builder.admin-panel-filament-form-field-name-plural')))
+            ->modelLabel(__(config('filament-form-builder.admin-panel-filament-form-field-name')))
             ->reorderable('order')
             ->columns([
-                TextColumn::make('label'),
+                TextColumn::make('label')->label(__('Label')),
                 TextColumn::make('order')
+                    ->label(__('Order'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('type')
+                    ->label(__('Type'))
                     ->formatStateUsing(function ($record) {
                         return $record->type->fieldName();
                     }),
                 IconColumn::make('required')
+                    ->label(__('Required'))
                     ->sortable()
                     ->getStateUsing(function ($record) {
                         return (bool) $record->required;
@@ -149,10 +162,11 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->visible(function () use ($form) {
                         return ! $form->locked;
                     })
-                    ->label('Create Field'),
+                    ->label(__('Create Field')),
                 Action::make('lock_fields')
+                    ->label(__('Lock fields'))
                     ->requiresConfirmation()
-                    ->modalHeading('Lock Form Fields. Doing this will lock the forms fields and new fields will no longer be able to be changed or edited')
+                    ->modalHeading(__('Lock Form Fields. Doing this will lock the forms fields and new fields will no longer be able to be changed or edited.'))
                     ->visible(function () use ($form) {
                         return ! $form->locked;
                     })
@@ -162,8 +176,9 @@ class FilamentFormFieldsRelationManager extends RelationManager
                         ]);
                     }),
                 Action::make('unlock_fields')
+                    ->label(__('Unlock fields'))
                     ->requiresConfirmation()
-                    ->modalHeading('Unlock Form Fields. Changing fields after entries has been made can cause inconsistencies for prexisting entries')
+                    ->modalHeading(__('Unlock Form Fields. Changing fields after entries has been made can cause inconsistencies for preexisting entries.'))
                     ->visible(function () use ($form) {
                         return $form->locked;
                     })
