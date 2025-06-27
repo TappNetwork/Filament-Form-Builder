@@ -102,6 +102,11 @@ class Show extends Component implements HasForms
                     ->live();
             }
 
+            if ($fieldData->type === FilamentFieldTypeEnum::FILE_UPLOAD) {
+                $filamentField = $filamentField
+                    ->multiple();
+            }
+
             array_push($schema, $filamentField);
         }
 
@@ -228,20 +233,21 @@ class Show extends Component implements HasForms
                 $fileData = $this->data[$fileKey] ?? null;
 
                 if ($fileData && is_array($fileData)) {
-                    $temporaryFile = collect($fileData)->first();
-                    if ($temporaryFile instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
-                        // Remove existing media with the same field_id
-                        $entryModel->getMedia()
-                            ->filter(fn ($media) => $media->getCustomProperty('field_id') === $field->id)
-                            ->each(fn ($media) => $media->delete());
+                    foreach (collect($fileData) as $temporaryFile) {
+                        if ($temporaryFile instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
+                            // Remove existing media with the same field_id
+                            $entryModel->getMedia()
+                                ->filter(fn ($media) => $media->getCustomProperty('field_id') === $field->id)
+                                ->each(fn ($media) => $media->delete());
 
-                        $media = $entryModel->addMedia($temporaryFile->getRealPath())
-                            ->withCustomProperties([
-                                'field_label' => $field->label,
-                                'field_id' => $field->id,
-                                'original_name' => $temporaryFile->getClientOriginalName(),
-                            ])
-                            ->toMediaCollection();
+                            $media = $entryModel->addMedia($temporaryFile->getRealPath())
+                                ->withCustomProperties([
+                                    'field_label' => $field->label,
+                                    'field_id' => $field->id,
+                                    'original_name' => $temporaryFile->getClientOriginalName(),
+                                ])
+                                ->toMediaCollection();
+                        }
                     }
                 }
             }
