@@ -39,6 +39,6 @@ class FilamentFormField extends Model implements Sortable
 
     public function filamentForm(): BelongsTo
     {
-        return $this->belongsTo(FilamentForm::class);
+        return $this->belongsTo(FilamentForm::class, 'filament_form_id', 'id');
     }
 }

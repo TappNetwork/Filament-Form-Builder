@@ -106,7 +106,7 @@ class FilamentFormResource extends Resource
                 EditAction::make(),
                 Action::make('preview')
                     ->visible(fn () => (bool) config('filament-form-builder.preview-route'))
-                    ->url(fn ($record) => route(config('filament-form-builder.preview-route'), ['form' => $record->id]))
+                    ->url(fn ($record) => route(config('filament-form-builder.preview-route'), ['form' => $record->uuid]))
                     ->openUrlInNewTab(),
                 Action::make('copy')
                     ->action(function ($record) {
@@ -136,7 +136,7 @@ class FilamentFormResource extends Resource
                             ->success()
                             ->send();
 
-                        return Redirect::to('/admin/filament-forms/'.$formCopy->id.'/edit');
+                        return Redirect::to('/admin/filament-forms/'.$formCopy->uuid.'/edit');
                     }),
             ])
             ->bulkActions([
