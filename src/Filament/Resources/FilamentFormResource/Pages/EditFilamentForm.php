@@ -12,7 +12,7 @@ class EditFilamentForm extends EditRecord
 
     public function getTitle(): string
     {
-        return 'Edit '.config('filament-form-builder.admin-panel-resource-name');
+        return __('Edit').' '.__(config('filament-form-builder.admin-panel-resource-name'));
     }
 
     protected function getHeaderActions(): array
@@ -20,6 +20,7 @@ class EditFilamentForm extends EditRecord
         return [
             Actions\DeleteAction::make(),
             Actions\Action::make('preview')
+                ->label(__('Preview'))
                 ->visible(fn () => (bool) config('filament-form-builder.preview-route'))
                 ->url(fn ($record) => route(config('filament-form-builder.preview-route'), ['form' => $record->id]))
                 ->openUrlInNewTab(),
