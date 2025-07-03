@@ -1,41 +1,61 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined method Faker\\\\Generator\\:\\:bs\\(\\)\\.$#"
+			message: '#^Call to an undefined method Faker\\Generator\:\:bs\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: database/factories/FilamentFormFactory.php
 
 		-
-			message: "#^Call to an undefined method Faker\\\\Generator\\:\\:bs\\(\\)\\.$#"
+			message: '#^Call to an undefined method Faker\\Generator\:\:bs\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: database/seeders/FilamentFormSeeder.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$filament_form_id\\.$#"
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$entry\.$#'
+			identifier: property.notFound
 			count: 1
 			path: src/Exports/FilamentFormUsersExport.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$locked\\.$#"
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$filament_form_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Exports/FilamentFormUsersExport.php
+
+		-
+			message: '#^Property Tapp\\FilamentFormBuilder\\Filament\\Forms\\Components\\Heading\:\:\$view \(view\-string\) does not accept default value of type string\.$#'
+			identifier: property.defaultValue
+			count: 1
+			path: src/Filament/Forms/Components/Heading.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locked\.$#'
+			identifier: property.notFound
 			count: 6
 			path: src/Filament/Resources/FilamentFormResource/RelationManagers/FilamentFormFieldsRelationManager.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:filamentFormFields\\(\\)\\.$#"
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:filamentFormFields\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: src/Filament/Resources/FilamentFormResource/RelationManagers/FilamentFormFieldsRelationManager.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$name\\.$#"
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
 			count: 1
 			path: src/Filament/Resources/FilamentFormResource/RelationManagers/FilamentFormUsersRelationManager.php
 
 		-
-			message: "#^Call to an undefined method Filament\\\\Forms\\\\Components\\\\Field\\:\\:multiple\\(\\)\\.$#"
+			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:multiple\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: src/Livewire/FilamentForm/Show.php
 
 		-
-			message: "#^Call to an undefined method Filament\\\\Forms\\\\Components\\\\Field\\:\\:options\\(\\)\\.$#"
+			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:options\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: src/Livewire/FilamentForm/Show.php
