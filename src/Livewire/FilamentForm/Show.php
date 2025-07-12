@@ -2,10 +2,12 @@
 
 namespace Tapp\FilamentFormBuilder\Livewire\FilamentForm;
 
+use Filament\Schemas\Schema;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -15,7 +17,7 @@ use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 
 /**
- * @property Form $form
+ * @property Schema $form
  */
 class Show extends Component implements HasForms
 {
@@ -41,18 +43,18 @@ class Show extends Component implements HasForms
         $this->blockRedirect = $blockRedirect;
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema($this->getSchema())
+        return $schema
+            ->components($this->getFormSchema())
             ->statePath('data');
     }
 
-    public function getSchema(): array
+    public function getFormSchema(): array
     {
         $schema = [];
 
-        /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField $fieldData */
+        /** @var FilamentFormField $fieldData */
         foreach ($this->filamentForm->filamentFormFields as $fieldData) {
             $filamentField = $fieldData->type->className()::make($fieldData->id);
 
@@ -64,6 +66,12 @@ class Show extends Component implements HasForms
                     // !!! remove this before deploy
                     ->live()
                     ->required()
+                    ->default([]);
+            } elseif ($fieldData->type === FilamentFieldTypeEnum::CHECKBOX) {
+                $filamentField = $filamentField
+                    ->default(false);
+            } elseif ($fieldData->type === FilamentFieldTypeEnum::CHECKBOX_LIST) {
+                $filamentField = $filamentField
                     ->default([]);
             } elseif ($fieldData->type === FilamentFieldTypeEnum::REPEATER) {
                 $filamentField = $filamentField
@@ -149,7 +157,7 @@ class Show extends Component implements HasForms
         $entry = [];
 
         foreach ($formState as $key => $value) {
-            /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField|null $field */
+            /** @var FilamentFormField|null $field */
             $field = $this->filamentForm
                 ->filamentFormFields
                 ->find($key);
@@ -222,14 +230,14 @@ class Show extends Component implements HasForms
 
         // Handle file uploads
         foreach ($this->filamentForm->filamentFormFields as $field) {
-            /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField $field */
+            /** @var FilamentFormField $field */
             if ($field->type === FilamentFieldTypeEnum::FILE_UPLOAD) {
                 $fileKey = $field->id;
                 $fileData = $this->data[$fileKey] ?? null;
 
                 if ($fileData && is_array($fileData)) {
                     $temporaryFile = collect($fileData)->first();
-                    if ($temporaryFile instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
+                    if ($temporaryFile instanceof TemporaryUploadedFile) {
                         // Remove existing media with the same field_id
                         $entryModel->getMedia()
                             ->filter(fn ($media) => $media->getCustomProperty('field_id') === $field->id)
@@ -263,7 +271,7 @@ class Show extends Component implements HasForms
         }
     }
 
-    public function parseValue(\Tapp\FilamentFormBuilder\Models\FilamentFormField $field, string|array|null $value): string|array
+    public function parseValue(FilamentFormField $field, string|array|null $value): string|array
     {
         if ($value === null && ! $field->type->isBool()) {
             return '';

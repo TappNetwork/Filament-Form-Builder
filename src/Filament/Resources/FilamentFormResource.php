@@ -2,15 +2,17 @@
 
 namespace Tapp\FilamentFormBuilder\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -54,18 +56,18 @@ class FilamentFormResource extends Resource
         return config('filament-form-builder.admin-panel-sort-order');
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
                 Toggle::make('permit_guest_entries')
                     ->hint('Permit non registered users to submit this form'),
-                Forms\Components\TextInput::make('redirect_url')
+                TextInput::make('redirect_url')
                     ->hint('(optional) complete this field to provide a custom redirect url on form completion. Use a fully qualified URL including "https://" to redirect to an external link, otherwise url will be relative to this sites domain'),
-                Forms\Components\Textarea::make('description')
+                Textarea::make('description')
                     ->columnSpanFull(),
             ]);
     }
@@ -102,7 +104,7 @@ class FilamentFormResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
                 EditAction::make(),
                 Action::make('preview')
                     ->visible(fn () => (bool) config('filament-form-builder.preview-route'))
@@ -139,7 +141,7 @@ class FilamentFormResource extends Resource
                         return Redirect::to('/admin/filament-forms/'.$formCopy->id.'/edit');
                     }),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
