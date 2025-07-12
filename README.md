@@ -18,6 +18,13 @@ A Filament plugin and package that allows the creation of forms via the admin pa
 -   [maatwebsite/excel](https://github.com/SpartnerNL/Laravel-Excel)
 -   [spatie/eloquent-sortable](https://github.com/spatie/eloquent-sortable)
 
+## Version Compatibility
+
+ Filament | Filament Form Builder
+:---------|:---------------------
+ 3.x      | 1.x
+ 4.x      | 4.x
+
 ### Installing the Filament Forms Package
 
 Install the plugin via Composer:
@@ -34,8 +41,16 @@ This package is not yet on packagist. Add the repository to your composer.json
 }
 ```
 
+### For Filament 3
+
 ```bash
-composer require tapp/filament-form-builder
+composer require tapp/filament-form-builder:"^1.0"
+```
+
+### For Filament 4
+
+```bash
+composer require tapp/filament-form-builder:"^4.0"
 ```
 
 public and run migrations with

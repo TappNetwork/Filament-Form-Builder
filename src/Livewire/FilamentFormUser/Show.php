@@ -2,14 +2,15 @@
 
 namespace Tapp\FilamentFormBuilder\Livewire\FilamentFormUser;
 
+use Filament\Actions\Action;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Infolists\Components\Actions\Action as InfolistAction;
 use Filament\Infolists\Components\KeyValueEntry;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
-use Filament\Infolists\Infolist;
+use Filament\Schemas\Schema;
 use Livewire\Component;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 
@@ -25,9 +26,9 @@ class Show extends Component implements HasForms, HasInfolists
         $this->entry = $entry->load('user', 'filamentForm');
     }
 
-    public function entryInfoList(Infolist $infolist): Infolist
+    public function entryInfoList(Schema $schema): Schema
     {
-        return $infolist
+        return $schema
             ->record($this->entry)
             ->schema([
                 TextEntry::make('user.name'),
@@ -40,7 +41,7 @@ class Show extends Component implements HasForms, HasInfolists
                     ->label('Form Entry')
                     ->keyLabel('Question')
                     ->valueLabel('Answer'),
-                \Filament\Infolists\Components\RepeatableEntry::make('media')
+                RepeatableEntry::make('media')
                     ->label('Uploaded Files')
                     ->schema([
                         TextEntry::make('custom_properties.field_label')
@@ -48,7 +49,7 @@ class Show extends Component implements HasForms, HasInfolists
                         TextEntry::make('custom_properties.original_name')
                             ->label('File Name')
                             ->suffixAction(
-                                InfolistAction::make('download')
+                                Action::make('download')
                                     ->icon('heroicon-o-arrow-down-tray')
                                     ->action(function ($record) {
                                         return response()->download(

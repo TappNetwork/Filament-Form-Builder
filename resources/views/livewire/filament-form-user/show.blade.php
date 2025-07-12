@@ -1,5 +1,5 @@
-<div class="pt-16 filament-form-builder">
-    <div class="fb-form-user-container border rounded-xl py-4 px-8">
+<div class="filament-form-builder">
+    <div class="fb-form-user-container">
         {{ $this->entryInfoList }}
     </div>
 </div>

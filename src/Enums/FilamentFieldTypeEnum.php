@@ -13,6 +13,7 @@ enum FilamentFieldTypeEnum implements HasLabel
     case RICH_EDITOR;
     case TOGGLE;
     case CHECKBOX;
+    case CHECKBOX_LIST;
     case RADIO;
     case DATE_TIME_PICKER;
     case DATE_PICKER;
@@ -49,6 +50,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::RICH_EDITOR => 'Rich Editor',
             self::TOGGLE => 'Toggle',
             self::CHECKBOX => 'Checkbox',
+            self::CHECKBOX_LIST => 'Checkbox List',
             self::RADIO => 'Radio',
             self::DATE_TIME_PICKER => 'DateTime Picker',
             self::DATE_PICKER => 'Date Picker',
@@ -71,6 +73,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::RICH_EDITOR => 'Filament\Forms\Components\RichEditor',
             self::TOGGLE => 'Filament\Forms\Components\Toggle',
             self::CHECKBOX => 'Filament\Forms\Components\Checkbox',
+            self::CHECKBOX_LIST => 'Filament\Forms\Components\CheckboxList',
             self::RADIO => 'Filament\Forms\Components\Radio',
             self::DATE_TIME_PICKER => 'Filament\Forms\Components\DateTimePicker',
             self::DATE_PICKER => 'Filament\Forms\Components\DatePicker',
@@ -93,6 +96,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::RICH_EDITOR => false,
             self::TOGGLE => false,
             self::CHECKBOX => false,
+            self::CHECKBOX_LIST => true,
             self::RADIO => true,
             self::DATE_TIME_PICKER => false,
             self::DATE_PICKER => false,
@@ -115,6 +119,7 @@ enum FilamentFieldTypeEnum implements HasLabel
             self::RICH_EDITOR => false,
             self::TOGGLE => true,
             self::CHECKBOX => true,
+            self::CHECKBOX_LIST => false,
             self::RADIO => false,
             self::DATE_TIME_PICKER => false,
             self::DATE_PICKER => false,

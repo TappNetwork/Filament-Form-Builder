@@ -25,12 +25,6 @@ parameters:
 			path: src/Exports/FilamentFormUsersExport.php
 
 		-
-			message: '#^Property Tapp\\FilamentFormBuilder\\Filament\\Forms\\Components\\Heading\:\:\$view \(view\-string\) does not accept default value of type string\.$#'
-			identifier: property.defaultValue
-			count: 1
-			path: src/Filament/Forms/Components/Heading.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locked\.$#'
 			identifier: property.notFound
 			count: 6
