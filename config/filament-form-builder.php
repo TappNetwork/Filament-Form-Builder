@@ -32,4 +32,6 @@ return [
     'admin-panel-filament-form-field-name-plural' => 'Fields',
 
     'preview-route' => 'filament-form-builder.show',
+
+    'form-guest-redirect-url' => null,
 ];
