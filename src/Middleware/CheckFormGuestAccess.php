@@ -32,7 +32,7 @@ class CheckFormGuestAccess
             // Otherwise, redirect to login
             return redirect()->guest(route('login'));
         } catch (\Exception $e) {
-            throw new \Exception($e->getMessage() . ' ' . __('Use config option "form-guest-redirect-url" to set a custom redirect URL.'));
+            throw new \Exception($e->getMessage().' '.__('Use config option "form-guest-redirect-url" to set a custom redirect URL.'));
         }
     }
 }
