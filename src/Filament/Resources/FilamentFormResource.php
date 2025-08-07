@@ -31,12 +31,12 @@ class FilamentFormResource extends Resource
 
     public static function getBreadcrumb(): string
     {
-        return config('filament-form-builder.admin-panel-resource-name-plural');
+        return __(config('filament-form-builder.admin-panel-resource-name-plural'));
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return config('filament-form-builder.admin-panel-group-name');
+        return __(config('filament-form-builder.admin-panel-group-name'));
     }
 
     public static function getNavigationIcon(): ?string
@@ -46,7 +46,7 @@ class FilamentFormResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return config('filament-form-builder.admin-panel-resource-name-plural');
+        return __(config('filament-form-builder.admin-panel-resource-name-plural'));
     }
 
     public static function getNavigationSort(): ?int
@@ -59,13 +59,17 @@ class FilamentFormResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('Name'))
                     ->required()
                     ->maxLength(255),
                 Toggle::make('permit_guest_entries')
-                    ->hint('Permit non registered users to submit this form'),
+                    ->label(__('Permit Guest Entries'))
+                    ->hint(__('Permit non registered users to submit this form')),
                 Forms\Components\TextInput::make('redirect_url')
-                    ->hint('(optional) complete this field to provide a custom redirect url on form completion. Use a fully qualified URL including "https://" to redirect to an external link, otherwise url will be relative to this sites domain'),
+                    ->label(__('Redirect URL'))
+                    ->hint(__('(optional) complete this field to provide a custom redirect url on form completion. Use a fully qualified URL including "https://" to redirect to an external link, otherwise url will be relative to this sites domain.')),
                 Forms\Components\Textarea::make('description')
+                    ->label(__('Description'))
                     ->columnSpanFull(),
             ]);
     }
@@ -75,27 +79,33 @@ class FilamentFormResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')
+                    ->label(__('Name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('form_link')
+                    ->label(__('Form Link'))
                     ->copyable()
-                    ->copyMessage('Form link copied to clipboard')
+                    ->copyMessage(__('Form link copied to clipboard'))
                     ->copyMessageDuration(1500),
                 IconColumn::make('permit_guest_entries')
+                    ->label(__('Permit Guest Entries'))
                     ->sortable()
                     ->getStateUsing(function ($record) {
                         return (bool) $record->permit_guest_entries;
                     })
                     ->boolean(),
                 IconColumn::make('locked')
+                    ->label(__('Locked'))
                     ->sortable()
                     ->boolean(),
             ])
@@ -105,13 +115,15 @@ class FilamentFormResource extends Resource
             ->actions([
                 EditAction::make(),
                 Action::make('preview')
+                    ->label(__('Preview'))
                     ->visible(fn () => (bool) config('filament-form-builder.preview-route'))
                     ->url(fn ($record) => route(config('filament-form-builder.preview-route'), ['form' => $record->id]))
                     ->openUrlInNewTab(),
                 Action::make('copy')
+                    ->label(__('Copy'))
                     ->action(function ($record) {
                         $formCopy = FilamentForm::create([
-                            'name' => $record->name.' - (Copy)',
+                            'name' => $record->name.' - ('.__('Copy').')',
                             'permit_guest_entries' => $record->permit_guest_entries,
                             'redirect_url' => $record->redirect_url,
                             'description' => $record->description,
@@ -131,8 +143,8 @@ class FilamentFormResource extends Resource
                         });
 
                         Notification::make()
-                            ->title('Form copied successfully')
-                            ->body('Please change the name of the form to something unique and remove the "(Copy)" suffix')
+                            ->title(__('Form copied successfully'))
+                            ->body(__('Please change the name of the form to something unique and remove the "(Copy)" suffix'))
                             ->success()
                             ->send();
 
@@ -144,7 +156,7 @@ class FilamentFormResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->emptyStateHeading('No '.config('filament-form-builder.admin-panel-resource-name-plural'));
+            ->emptyStateHeading(__('No').' '.config('filament-form-builder.admin-panel-resource-name-plural'));
     }
 
     public static function getRelations(): array
