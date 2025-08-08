@@ -22,6 +22,8 @@ class FilamentForm extends Model
 
     protected $casts = [
         'permit_guest_entries' => 'boolean',
+        'is_wizard' => 'boolean',
+        'wizard_steps' => 'array',
     ];
 
     public function users(): BelongsToMany
@@ -43,5 +45,33 @@ class FilamentForm extends Model
     public function getFormLinkAttribute(): string
     {
         return route(config('filament-form-builder.filament-form-show-route'), $this->id);
+    }
+
+    /**
+     * Returns an ordered list of wizard steps with at least one default step.
+     * Each step is an associative array: ['title' => string, 'description' => string|null]
+     */
+    public function getOrderedWizardSteps(): array
+    {
+        if (! $this->is_wizard) {
+            return [
+                [
+                    'title' => 'Step 1',
+                    'description' => null,
+                ],
+            ];
+        }
+
+        $steps = is_array($this->wizard_steps) ? $this->wizard_steps : [];
+        if (empty($steps)) {
+            return [
+                [
+                    'title' => 'Step 1',
+                    'description' => null,
+                ],
+            ];
+        }
+
+        return array_values($steps);
     }
 }

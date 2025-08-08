@@ -1,4 +1,11 @@
 # Upgrade Guide
+## Publishing package migrations
+To publish and run this package's migrations in your application, run:
+```
+php artisan vendor:publish --provider="Tapp\FilamentFormBuilder\FilamentFormBuilderServiceProvider" --tag="filament-form-builder-migrations"
+php artisan migrate
+```
+
 ## Upgrading to to 1.1 from 1.0
 ### Allow Guest Entries by Making User Nullable on FilamentFormUser
 1.1 supports nullable user ids so that guest data can be collected by forms. If you are upgrading from 1.0 to 1.1, create a migration with the following methods to reflect this change.
