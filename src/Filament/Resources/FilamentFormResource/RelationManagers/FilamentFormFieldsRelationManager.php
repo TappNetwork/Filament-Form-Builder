@@ -45,14 +45,17 @@ class FilamentFormFieldsRelationManager extends RelationManager
                             $title = is_array($step) ? ($step['title'] ?? ('Step '.($index + 1))) : (string) $step;
                             $options[$index] = $title;
                         }
+
                         return $options;
                     })
                     ->visible(function () {
                         $owner = $this->getOwnerRecord();
+
                         return (bool) ($owner && $owner->is_wizard);
                     })
                     ->required(function () {
                         $owner = $this->getOwnerRecord();
+
                         return (bool) ($owner && $owner->is_wizard);
                     }),
                 Select::make('type')
