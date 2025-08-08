@@ -32,6 +32,29 @@ class FilamentFormFieldsRelationManager extends RelationManager
     {
         return $form
             ->schema([
+                Select::make('step')
+                    ->label(__('Wizard Step'))
+                    ->options(function () {
+                        $owner = $this->getOwnerRecord();
+                        if (! $owner || ! $owner->is_wizard) {
+                            return [];
+                        }
+                        $steps = $owner->getOrderedWizardSteps();
+                        $options = [];
+                        foreach ($steps as $index => $step) {
+                            $title = is_array($step) ? ($step['title'] ?? ('Step '.($index + 1))) : (string) $step;
+                            $options[$index] = $title;
+                        }
+                        return $options;
+                    })
+                    ->visible(function () {
+                        $owner = $this->getOwnerRecord();
+                        return (bool) ($owner && $owner->is_wizard);
+                    })
+                    ->required(function () {
+                        $owner = $this->getOwnerRecord();
+                        return (bool) ($owner && $owner->is_wizard);
+                    }),
                 Select::make('type')
                     ->label(__('Type'))
                     ->options(function () {

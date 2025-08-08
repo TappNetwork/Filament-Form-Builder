@@ -62,6 +62,22 @@ class FilamentFormResource extends Resource
                     ->label(__('Name'))
                     ->required()
                     ->maxLength(255),
+                Toggle::make('is_wizard')
+                    ->live()
+                    ->label(__('Use Wizard')),
+                Forms\Components\Repeater::make('wizard_steps')
+                    ->hint(__('Configure the wizard steps here. Assign fields to each step in the fields table below.'))
+                    ->label(__('Wizard Steps'))
+                    ->visible(fn (Forms\Get $get) => (bool) $get('is_wizard'))
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label(__('Title'))
+                            ->required(),
+                        Forms\Components\Textarea::make('description')
+                            ->label(__('Description')),
+                    ])
+                    ->reorderable()
+                    ->columnSpanFull(),
                 Toggle::make('permit_guest_entries')
                     ->label(__('Permit Guest Entries'))
                     ->hint(__('Permit non registered users to submit this form')),
