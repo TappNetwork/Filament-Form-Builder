@@ -3,6 +3,8 @@
 namespace Tapp\FilamentFormBuilder\Livewire\FilamentForm;
 
 use Filament\Forms\Components\Field;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step as WizardStep;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -52,23 +54,23 @@ class Show extends Component implements HasForms
     {
         $schema = [];
 
+        // Build components for each field first
+        $componentsByFieldId = [];
         /** @var \Tapp\FilamentFormBuilder\Models\FilamentFormField $fieldData */
         foreach ($this->filamentForm->filamentFormFields as $fieldData) {
-            $filamentField = $fieldData->type->className()::make($fieldData->id);
-
-            $filamentField = $this->parseField($filamentField, $fieldData->toArray());
+            $component = $fieldData->type->className()::make($fieldData->id);
+            $component = $this->parseField($component, $fieldData->toArray());
 
             if ($fieldData->type === FilamentFieldTypeEnum::SELECT_MULTIPLE) {
-                $filamentField = $filamentField
+                $component = $component
                     ->multiple()
-                    // !!! remove this before deploy
                     ->live()
                     ->required()
                     ->default([]);
             } elseif ($fieldData->type === FilamentFieldTypeEnum::REPEATER) {
-                $filamentField = $filamentField
+                $component = $component
                     ->schema(function () use ($fieldData) {
-                        $schema = [];
+                        $subSchema = [];
                         foreach ($fieldData->schema ?? [] as $index => $subField) {
                             $subFieldId = $subField['id'] ?? $fieldData->id.'_'.$subField['type'].'_'.$index;
                             $subFieldComponent = FilamentFieldTypeEnum::fromString($subField['type'])->className()::make($subFieldId);
@@ -93,19 +95,49 @@ class Show extends Component implements HasForms
                                 $subFieldComponent = $subFieldComponent->rules($subField['rules']);
                             }
 
-                            $schema[] = $subFieldComponent;
+                            $subSchema[] = $subFieldComponent;
                         }
 
-                        return $schema;
+                        return $subSchema;
                     })
                     ->default([])
                     ->live();
             }
 
-            array_push($schema, $filamentField);
+            $componentsByFieldId[$fieldData->id] = $component;
         }
 
-        return $schema;
+        // If wizard is disabled, return flat schema as before
+        if (! $this->filamentForm->is_wizard) {
+            return array_values($componentsByFieldId);
+        }
+
+        // Group by step and build Wizard
+        $steps = $this->filamentForm->getOrderedWizardSteps();
+        $fieldsByStepIndex = [];
+        foreach ($this->filamentForm->filamentFormFields as $fieldData) {
+            $stepIndex = $fieldData->step ?? 0;
+            if (! array_key_exists($stepIndex, $fieldsByStepIndex)) {
+                $fieldsByStepIndex[$stepIndex] = [];
+            }
+            $fieldsByStepIndex[$stepIndex][] = $componentsByFieldId[$fieldData->id];
+        }
+
+        $wizardSteps = [];
+        foreach ($steps as $index => $step) {
+            $title = is_array($step) ? ($step['title'] ?? ('Step '.($index + 1))) : (string) $step;
+            $description = is_array($step) ? ($step['description'] ?? null) : null;
+            $schemaForStep = $fieldsByStepIndex[$index] ?? [];
+            $wizardSteps[] = WizardStep::make($title)
+                ->description($description)
+                ->schema($schemaForStep);
+        }
+
+        return [
+            Wizard::make()
+                ->schema($wizardSteps)
+                ->skippable(false),
+        ];
     }
 
     public function parseField(Field $filamentField, array $fieldData): Field
