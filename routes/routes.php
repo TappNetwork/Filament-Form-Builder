@@ -6,7 +6,7 @@ use Tapp\FilamentFormBuilder\Livewire\FilamentFormUser\Entry as FilamentFormUser
 use Tapp\FilamentFormBuilder\Middleware\CheckFormGuestAccess;
 
 Route::get(config('filament-form-builder.filament-form-user-uri').'/{entry}', FilamentFormUserEntry::class)
-    ->middleware('web')
+    ->middleware('auth')
     ->name('filament-form-users.show');
 
 Route::get(config('filament-form-builder.filament-form-uri').'/{form}', FilamentForm::class)

@@ -30,6 +30,9 @@ class Show extends Component implements HasForms
 
     public bool $preview;
 
+    public ?FilamentFormUser $guestEntry = null;
+    public bool $showGuestEntry = false;
+
     public ?array $data = [];
 
     public function mount(FilamentForm $form, bool $blockRedirect = false, bool $preview = false)
@@ -283,16 +286,28 @@ class Show extends Component implements HasForms
         event(new EntrySaved($entryModel));
         $this->dispatch('entrySaved', $entryModel->id);
 
+        return $this->handleFormSubmissionRedirect($entryModel);
+    }
+
+    protected function handleFormSubmissionRedirect(FilamentFormUser $entryModel): mixed
+    {
         if ($this->blockRedirect) {
-            return;
+            return null;
         }
 
         if ($this->filamentForm->redirect_url) {
             return redirect($this->filamentForm->redirect_url);
-        } else {
+        }
+
+        if (Auth::check()) {
             return redirect()
                 ->route(config('filament-form-builder.filament-form-user-show-route'), $entryModel);
         }
+
+        $this->showGuestEntry = true;
+        $this->guestEntry = $entryModel;
+
+        return null;
     }
 
     public function parseValue(\Tapp\FilamentFormBuilder\Models\FilamentFormField $field, string|array|null $value): string|array
