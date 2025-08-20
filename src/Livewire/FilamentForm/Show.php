@@ -31,6 +31,7 @@ class Show extends Component implements HasForms
     public bool $preview;
 
     public ?FilamentFormUser $guestEntry = null;
+
     public bool $showGuestEntry = false;
 
     public ?array $data = [];
