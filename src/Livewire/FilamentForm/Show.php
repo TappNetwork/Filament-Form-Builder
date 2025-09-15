@@ -152,7 +152,7 @@ class Show extends Component implements HasForms
                 ->required();
         }
 
-        if (isset($fieldData['options'])) {
+        if (isset($fieldData['options']) && FilamentFieldTypeEnum::fromString($fieldData['type'])->hasOptions()) {
             $filamentField = $filamentField
                 ->options(array_combine($fieldData['options'], $fieldData['options']));
         }
