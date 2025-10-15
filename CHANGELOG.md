@@ -2,6 +2,25 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.0.1 - 2025-10-15
+
+### What's Changed
+
+* Bump aglipanci/laravel-pint-action from 2.5 to 2.6 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/23
+* Make hard coded strings translatable by @ogg1980 in https://github.com/TappNetwork/Filament-Form-Builder/pull/20
+* Add config option to define a guest redirect URL by @ogg1980 in https://github.com/TappNetwork/Filament-Form-Builder/pull/17
+* Bump stefanzweifel/git-auto-commit-action from 5 to 6 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/16
+* Add wizard support by @johnwesely in https://github.com/TappNetwork/Filament-Form-Builder/pull/24
+* Add Filament 4 install instructions by @andreia in https://github.com/TappNetwork/Filament-Form-Builder/pull/26
+* fix bug when select form is edited into a text input without deleting… by @johnwesely in https://github.com/TappNetwork/Filament-Form-Builder/pull/30
+* fix git stash artifact by @johnwesely in https://github.com/TappNetwork/Filament-Form-Builder/pull/31
+
+### New Contributors
+
+* @ogg1980 made their first contribution in https://github.com/TappNetwork/Filament-Form-Builder/pull/20
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v1.51...v4.0.1
+
 ## v4.0.0 - 2025-08-14
 
 ### What's Changed
@@ -116,6 +135,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
