@@ -65,13 +65,13 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->label(function (Get $get) {
                         return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Subheading' : 'Hint';
                     }),
-                TagsInput::make('rules')
-                    ->placeholder('Add rules')
-                    ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules')
-                    ->visible(function (Get $get) {
-                        return $get('type') !== FilamentFieldTypeEnum::REPEATER->name
-                            && $get('type') !== FilamentFieldTypeEnum::HEADING->name;
-                    }),
+                // TagsInput::make('rules')
+                //     ->placeholder('Add rules')
+                //     ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules')
+                //     ->visible(function (Get $get) {
+                //         return $get('type') !== FilamentFieldTypeEnum::REPEATER->name
+                //             && $get('type') !== FilamentFieldTypeEnum::HEADING->name;
+                //     }),
                 TextInput::make('order')
                     ->default(function () {
                         return $this->getOwnerRecord()->filamentFormFields()->count() + 1;
@@ -110,9 +110,9 @@ class FilamentFormFieldsRelationManager extends RelationManager
                                 return false;
                             }),
                         Textarea::make('hint'),
-                        TagsInput::make('rules')
-                            ->placeholder('Add rules')
-                            ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules'),
+                        // TagsInput::make('rules')
+                        //     ->placeholder('Add rules')
+                        //     ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules'),
                         Toggle::make('required'),
                     ])
                     ->columns(2)
