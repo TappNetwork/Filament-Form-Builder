@@ -108,6 +108,36 @@ You can disable the redirect when including the Form/Show component inside of an
     @livewire('tapp.filament-form-builder.livewire.filament-form.show', ['form' => $test->form, 'blockRedirect' => true])
 ```
 
+### Security
+
+This package does not implement any access control for form entries by default. It is crucial that you secure your form entries in your application using policies or other authorization methods. For example:
+
+```php
+// In your application
+class FilamentFormUserPolicy
+{
+    public function view(User $user, FilamentFormUser $entry): bool
+    {
+        // Only allow users to view their own entries
+        return $user->id === $entry->user_id;
+    }
+
+    public function viewAny(User $user): bool
+    {
+        // Define who can list entries
+        return $user->can('view_form_entries');
+    }
+}
+```
+
+Register your policy in your application's `AuthServiceProvider`:
+
+```php
+protected $policies = [
+    \Tapp\FilamentFormBuilder\Models\FilamentFormUser::class => \App\Policies\FilamentFormUserPolicy::class,
+];
+```
+
 ### Events
 #### Livewire
 The FilamentForm/Show component emits an 'entrySaved' event when a form entry is saved. You can handle this event in a parent component to as follows.
