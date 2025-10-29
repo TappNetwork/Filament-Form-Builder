@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v1.52 - 2025-10-29
+
+### What's Changed
+
+* Fix mobile responsiveness for form containers by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/34
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.0.1...v1.52
+
 ## v4.0.1 - 2025-10-15
 
 ### What's Changed
@@ -135,6 +143,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
