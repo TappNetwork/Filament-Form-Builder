@@ -1,6 +1,5 @@
 {
     "name": "tapp/filament-form-builder",
-    "version": "4.0.3",
     "description": "User facing form builder using Filament components",
     "keywords": [
         "tapp network",
