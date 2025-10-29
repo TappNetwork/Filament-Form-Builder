@@ -122,8 +122,18 @@
   display: flex
 }
 
+.filament-form-builder .min-w-\[320px\] {
+  min-width: 320px
+}
+
 .filament-form-builder .min-w-\[400px\] {
   min-width: 400px
+}
+
+@media (min-width: 640px) {
+  .filament-form-builder .sm\:min-w-\[400px\] {
+    min-width: 400px
+  }
 }
 
 .filament-form-builder .max-w-\[600px\] {
@@ -159,12 +169,24 @@
   background-color: rgb(52 211 153 / var(--tw-bg-opacity))
 }
 
+.filament-form-builder .p-4 {
+  padding: 1rem
+}
+
 .filament-form-builder .p-16 {
   padding: 4rem
 }
 
-.filament-form-builder .p-4 {
-  padding: 1rem
+@media (min-width: 640px) {
+  .filament-form-builder .sm\:p-8 {
+    padding: 2rem
+  }
+}
+
+@media (min-width: 768px) {
+  .filament-form-builder .md\:p-16 {
+    padding: 4rem
+  }
 }
 
 .filament-form-builder .px-2 {
