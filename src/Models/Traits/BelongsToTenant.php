@@ -118,4 +118,3 @@ trait BelongsToTenant
         return $this->belongsTo($tenantModel, static::getTenantColumnName());
     }
 }
-
