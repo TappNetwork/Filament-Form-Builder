@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Tapp\FilamentFormBuilder\Models\Traits\BelongsToTenant;
 
 /**
  * @property array $entry
@@ -16,6 +17,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 class FilamentFormUser extends Model implements HasMedia
 {
+    use BelongsToTenant;
     use HasFactory;
     use InteractsWithMedia;
 
