@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('filament_forms', function (Blueprint $table) {
             $table->id();
+
+            // Add tenant foreign key if tenancy is enabled
+            if (config('filament-form-builder.tenancy.enabled')) {
+                $tenantModel = config('filament-form-builder.tenancy.model');
+                if (! $tenantModel) {
+                    throw new \Exception('Tenant model must be configured when tenancy is enabled.');
+                }
+                $table->foreignIdFor($tenantModel)
+                    ->constrained()
+                    ->cascadeOnDelete();
+            }
+
             $table->timestamps();
             $table->string('name');
             $table->text('description')->nullable();
@@ -23,6 +35,18 @@ return new class extends Migration
 
         Schema::create('filament_form_fields', function (Blueprint $table) {
             $table->id();
+
+            // Add tenant foreign key if tenancy is enabled
+            if (config('filament-form-builder.tenancy.enabled')) {
+                $tenantModel = config('filament-form-builder.tenancy.model');
+                if (! $tenantModel) {
+                    throw new \Exception('Tenant model must be configured when tenancy is enabled.');
+                }
+                $table->foreignIdFor($tenantModel)
+                    ->constrained()
+                    ->cascadeOnDelete();
+            }
+
             $table->timestamps();
             $table->foreignId('filament_form_id')->constrained()->cascadeOnDelete();
             $table->integer('order');
@@ -36,6 +60,18 @@ return new class extends Migration
 
         Schema::create('filament_form_user', function (Blueprint $table) {
             $table->id();
+
+            // Add tenant foreign key if tenancy is enabled
+            if (config('filament-form-builder.tenancy.enabled')) {
+                $tenantModel = config('filament-form-builder.tenancy.model');
+                if (! $tenantModel) {
+                    throw new \Exception('Tenant model must be configured when tenancy is enabled.');
+                }
+                $table->foreignIdFor($tenantModel)
+                    ->constrained()
+                    ->cascadeOnDelete();
+            }
+
             $table->timestamps();
             $table->foreignId('filament_form_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
