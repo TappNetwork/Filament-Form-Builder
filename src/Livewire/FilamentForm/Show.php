@@ -63,7 +63,6 @@ class Show extends Component implements HasForms
             if ($fieldData->type === FilamentFieldTypeEnum::SELECT_MULTIPLE) {
                 $filamentField = $filamentField
                     ->multiple()
-                    // !!! remove this before deploy
                     ->live()
                     ->required()
                     ->default([]);
@@ -130,7 +129,7 @@ class Show extends Component implements HasForms
 
         if (isset($fieldData['options'])) {
             $filamentField = $filamentField
-                ->options(array_combine($fieldData['options'], $fieldData['options']));
+                ->options($fieldData['options']);
         }
 
         if (isset($fieldData['hint'])) {
@@ -284,9 +283,9 @@ class Show extends Component implements HasForms
         $valueData = '';
 
         if ($field->type->hasOptions() && is_array($value)) {
-            $valueData = implode(', ', $value);
+            $valueData = $this->extractMultiSelectValue($value, $field->options);
         } elseif ($field->type->hasOptions() && ! is_array($value)) {
-            $valueData = $value;
+            $valueData = $field->options[$value];
         } elseif ($field->type->isBool()) {
             $valueData = (bool) $value ? 'true' : 'false';
         } else {
@@ -295,6 +294,16 @@ class Show extends Component implements HasForms
 
         return $valueData;
     }
+
+    public static function extractMultiSelectValue(array $value, array $options): string
+    {
+        $valuesArray = array_map(function ($value) use ($options) {
+            return $options[$value];
+        }, $value);
+
+        return implode(', ', $valuesArray);
+    }
+
 
     public function render()
     {
