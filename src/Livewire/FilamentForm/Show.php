@@ -304,7 +304,6 @@ class Show extends Component implements HasForms
         return implode(', ', $valuesArray);
     }
 
-
     public function render()
     {
         /** @phpstan-ignore-next-line */
