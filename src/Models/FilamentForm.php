@@ -22,6 +22,7 @@ class FilamentForm extends Model
 
     protected $casts = [
         'permit_guest_entries' => 'boolean',
+        'notification_emails' => 'array',
     ];
 
     public function users(): BelongsToMany
