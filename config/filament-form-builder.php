@@ -32,4 +32,20 @@ return [
     'admin-panel-filament-form-field-name-plural' => 'Fields',
 
     'preview-route' => 'filament-form-builder.show',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Notification Emails Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure the notification emails field in the form builder.
+    |
+    | 'user_model': The User model class to use for the select field.
+    |               Set to null to use TagsInput for manual email entry.
+    |               Default: 'App\Models\User'
+    |
+    | Example: 'user_model' => null, // Use TagsInput instead
+    |
+    */
+    'user_model' => 'App\Models\User',
 ];
