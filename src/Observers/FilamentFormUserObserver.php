@@ -32,7 +32,7 @@ class FilamentFormUserObserver
         }
 
         foreach ($emails as $email) {
-            Mail::to($email)->send(new FormSubmissionNotification($form, $filamentFormUser));
+            Mail::to($email)->queue(new FormSubmissionNotification($form, $filamentFormUser));
         }
     }
 }
