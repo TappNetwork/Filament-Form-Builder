@@ -30,17 +30,13 @@ class FilamentFormUserObserver
 
         // Check if notification emails are configured for this form
         if (! $form || ! $form->notification_emails) {
-            \Log::info('No notification emails configured for form ID: '.($form?->id ?? 'null'));
+            \Log::info('No notification emails configured for form ID: '.($form->id ?? 'null'));
 
             return;
         }
 
-        $notificationEmails = is_array($form->notification_emails)
-            ? $form->notification_emails
-            : json_decode($form->notification_emails, true);
-
         // Filter out empty email addresses and send notifications
-        $emails = array_filter($notificationEmails ?? []);
+        $emails = array_filter($form->notification_emails);
 
         if (empty($emails)) {
             \Log::info('Notification emails array is empty after filtering');
