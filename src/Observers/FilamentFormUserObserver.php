@@ -12,6 +12,7 @@ class FilamentFormUserObserver
 {
     public function created(FilamentFormUser $filamentFormUser): void
     {
+        /** @var \Tapp\FilamentFormBuilder\Models\FilamentForm|null $form */
         $form = $filamentFormUser->filamentForm;
 
         // Check if notification emails are configured for this form
@@ -35,3 +36,4 @@ class FilamentFormUserObserver
         }
     }
 }
+

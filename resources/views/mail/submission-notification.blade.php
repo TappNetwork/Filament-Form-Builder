@@ -3,7 +3,7 @@
 
 A new submission has been received for **{{ $form->name }}**.
 
-**Submitted by:** {{ $entry->user?->name ?? 'Guest' }}  
+**Submitted by:** {{ $entry->user?->name ?? 'Guest' }}
 **Submitted at:** {{ $entry->created_at->format('F j, Y g:i A') }}
 
 <x-mail::button :url="route('filament.admin.resources.filament-forms.edit', $form)">
