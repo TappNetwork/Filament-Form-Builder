@@ -12,6 +12,16 @@ class FilamentFormUserObserver
 {
     public function created(FilamentFormUser $filamentFormUser): void
     {
+        $this->sendNotifications($filamentFormUser);
+    }
+
+    public function updated(FilamentFormUser $filamentFormUser): void
+    {
+        $this->sendNotifications($filamentFormUser);
+    }
+
+    protected function sendNotifications(FilamentFormUser $filamentFormUser): void
+    {
         /** @var \Tapp\FilamentFormBuilder\Models\FilamentForm|null $form */
         $form = $filamentFormUser->filamentForm;
 
