@@ -10,8 +10,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @property int $id
+ * @property string $name
+ * @property string|null $description
  * @property string|null $redirect_url
  * @property bool $permit_guest_entries
+ * @property array<int, string>|null $notification_emails
  * @property-read string $form_link
  */
 class FilamentForm extends Model
@@ -22,6 +25,7 @@ class FilamentForm extends Model
 
     protected $casts = [
         'permit_guest_entries' => 'boolean',
+        'notification_emails' => 'array',
     ];
 
     public function users(): BelongsToMany
