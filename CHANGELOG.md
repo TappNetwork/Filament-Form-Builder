@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.0.6 - 2025-12-02
+
+### What's Changed
+
+* Add optional email notifications for form submissions by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/41
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.0.5...v4.0.6
+
 ## v1.55 - 2025-10-29
 
 **Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v1.54...v1.55
@@ -167,6 +175,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
