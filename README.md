@@ -108,7 +108,80 @@ You can disable the redirect when including the Form/Show component inside of an
     @livewire('tapp.filament-form-builder.livewire.filament-form.show', ['form' => $test->form, 'blockRedirect' => true])
 ```
 
+## Multi-Tenancy Support
+
+This plugin includes comprehensive support for multi-tenancy, allowing you to scope forms, form fields, and entries to specific tenants (e.g., Teams, Organizations, Companies).
+
+### ⚠️ Important: Configure Before Migration
+
+**You MUST enable and configure tenancy BEFORE running migrations!** The migrations check the tenancy configuration to determine whether to add tenant columns to the database tables. Enabling tenancy after running migrations will require manual database modifications.
+
+### Configuration
+
+Update your `config/filament-form-builder.php` configuration file:
+
+```php
+'tenancy' => [
+    // Enable tenancy support
+    'enabled' => true,
+
+    // The Tenant model class
+    'model' => \App\Models\Team::class,
+
+    // Optional: Override the tenant relationship name
+    // (defaults to snake_case of tenant model class name: Team -> 'team')
+    'relationship_name' => null,
+
+    // Optional: Override the tenant foreign key column name
+    // (defaults to relationship_name + '_id': 'team' -> 'team_id')
+    'column' => null,
+],
+```
+
+### Setup Steps
+
+1. **Configure tenancy** in `config/filament-form-builder.php` (set `enabled` to `true` and specify your tenant model)
+2. **Publish migrations**: `php artisan vendor:publish --tag="filament-form-builder-migrations"`
+3. **Run migrations**: `php artisan migrate`
+4. **Configure your Filament Panel** with tenancy:
+
+```php
+use Filament\Panel;
+use App\Models\Team;
+use Tapp\FilamentFormBuilder\FilamentFormBuilderPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->tenant(Team::class)
+        ->plugins([
+            FilamentFormBuilderPlugin::make(),
+        ]);
+}
+```
+
+### How It Works
+
+When tenancy is enabled:
+
+- **Automatic Scoping**: All queries within Filament panels are automatically scoped to the current tenant
+- **URL Structure**: Forms are accessed via tenant-specific URLs: `/admin/{tenant-slug}/filament-forms`
+- **Data Isolation**: Each tenant can only access their own forms, fields, and entries
+- **Cascade Deletion**: Deleting a tenant automatically removes all associated form data
+
+### Disabling Tenancy
+
+To disable tenancy, set `enabled` to `false` in your configuration:
+
+```php
+'tenancy' => [
+    'enabled' => false,
+    'model' => null,
+],
+```
+
 ### Events
+
 #### Livewire
 The FilamentForm/Show component emits an 'entrySaved' event when a form entry is saved. You can handle this event in a parent component to as follows.
 ```

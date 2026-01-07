@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tapp\FilamentFormBuilder\Models\Traits\BelongsToTenant;
 
 /**
  * @property int $id
@@ -19,6 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class FilamentForm extends Model
 {
+    use BelongsToTenant;
     use HasFactory;
 
     protected $guarded = [];

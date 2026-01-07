@@ -34,6 +34,26 @@ class FilamentFormResource extends Resource
 
     protected static ?int $navigationSort = 99;
 
+    /**
+     * Check if this resource should be scoped to a tenant.
+     */
+    public static function isScopedToTenant(): bool
+    {
+        return config('filament-form-builder.tenancy.enabled', false);
+    }
+
+    /**
+     * Get the tenant ownership relationship name.
+     */
+    public static function getTenantOwnershipRelationshipName(): string
+    {
+        if (! config('filament-form-builder.tenancy.enabled')) {
+            return 'tenant';
+        }
+
+        return FilamentForm::getTenantRelationshipName();
+    }
+
     public static function getBreadcrumb(): string
     {
         return config('filament-form-builder.admin-panel-resource-name-plural');

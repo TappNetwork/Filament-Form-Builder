@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
+use Tapp\FilamentFormBuilder\Models\Traits\BelongsToTenant;
 
 /**
  * @property int $id
@@ -20,6 +21,7 @@ use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
  */
 class FilamentFormField extends Model implements Sortable
 {
+    use BelongsToTenant;
     use HasFactory;
     use SortableTrait;
 
