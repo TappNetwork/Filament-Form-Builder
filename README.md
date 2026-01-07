@@ -53,10 +53,19 @@ composer require tapp/filament-form-builder:"^1.0"
 composer require tapp/filament-form-builder:"^4.0"
 ```
 
-public and run migrations with
+You can publish the migrations with:
 
 ```bash
 php artisan vendor:publish --tag="filament-form-builder-migrations"
+```
+
+> [!WARNING]  
+> If you are using multi-tenancy please see the "Multi-Tenancy Support" instructions below **before** publishing and running migrations.
+
+You can run the migrations with:
+
+```bash
+php artisan migrate
 ```
 
 #### Optional: Publish the package's views, translations, and config
@@ -180,9 +189,9 @@ To disable tenancy, set `enabled` to `false` in your configuration:
 ],
 ```
 
-### Events
+## Events
 
-#### Livewire
+### Livewire
 The FilamentForm/Show component emits an 'entrySaved' event when a form entry is saved. You can handle this event in a parent component to as follows.
 ```
 class ParentComponent extends Component
@@ -197,7 +206,7 @@ class ParentComponent extends Component
 
 ```
 
-#### Laravel
+### Laravel
 The component also emits a Laravel event that you can listen to in your event service provider
 ```php
 // In your EventServiceProvider.php
