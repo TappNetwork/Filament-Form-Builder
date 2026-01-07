@@ -14,6 +14,7 @@ use Tapp\FilamentFormBuilder\Models\Traits\BelongsToTenant;
  * @property array $entry
  * @property array|null $firstEntry
  * @property-read array $key_value_entry
+ * @property-read FilamentForm $filamentForm
  */
 class FilamentFormUser extends Model implements HasMedia
 {

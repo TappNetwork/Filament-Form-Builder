@@ -33,7 +33,14 @@ return [
 
     'preview-route' => 'filament-form-builder.show',
 
-    // Multi-Tenancy configuration
+    /*
+    |--------------------------------------------------------------------------
+    | Tenancy Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure multi-tenancy settings.
+    |
+    */
     'tenancy' => [
         // Enable tenancy support
         'enabled' => false,
@@ -51,4 +58,20 @@ return [
         // You can override this if needed
         'column' => null,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Notification Emails Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure the notification emails field in the form builder.
+    |
+    | 'user_model': The User model class to use for the select field.
+    |               Set to null to use TagsInput for manual email entry.
+    |               Default: 'App\Models\User'
+    |
+    | Example: 'user_model' => null, // Use TagsInput instead
+    |
+    */
+    'user_model' => 'App\Models\User',
 ];
