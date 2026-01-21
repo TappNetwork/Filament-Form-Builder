@@ -11,7 +11,7 @@ A Filament plugin and package that allows the creation of forms via the admin pa
 
 -   PHP 8.2+
 -   Laravel 11.0+
--   [Filament 3.0+](https://github.com/laravel-filament/filament)
+-   [Filament 3.x](https://github.com/laravel-filament/filament)
 
 ## Dependencies
 
@@ -20,16 +20,17 @@ A Filament plugin and package that allows the creation of forms via the admin pa
 
 ## Version Compatibility
 
- Filament | Filament Form Builder
-:---------|:---------------------
- 3.x      | 1.x
- 4.x      | 4.x
+Filament | Filament Form Builder | Documentation
+:--------|:-------------------|:--------------
+4.x/5.x  | 4.x                | [Check the docs](https://github.com/TappNetwork/Filament-Form-Builder/tree/4.x)
+3.x      | 1.x                | Current
 
 ### Installing the Filament Forms Package
 
 Install the plugin via Composer:
 
-This package is not yet on packagist. Add the repository to your composer.json
+This package is not yet on Packagist. Add the repository to your composer.json:
+
 ```json
 {
 "repositories": [
@@ -41,22 +42,20 @@ This package is not yet on packagist. Add the repository to your composer.json
 }
 ```
 
-### For Filament 3
-
 ```bash
 composer require tapp/filament-form-builder:"^1.0"
 ```
 
-### For Filament 4
-
-```bash
-composer require tapp/filament-form-builder:"^4.0"
-```
-
-public and run migrations with
+Publish the migrations with:
 
 ```bash
 php artisan vendor:publish --tag="filament-form-builder-migrations"
+```
+
+Run the migrations:
+
+```bash
+php artisan migrate
 ```
 
 #### Optional: Publish the package's views, translations, and config
