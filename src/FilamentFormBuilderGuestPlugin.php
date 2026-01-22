@@ -20,8 +20,23 @@ class FilamentFormBuilderGuestPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        // Guest panel doesn't need admin resources, just needs styles
-        // Styles are included via the Vite theme in the panel provider
+        // Register pages for viewing forms and entries in the guest panel
+        $formPageClass = config('filament-form-builder.guest-panel-form-page-class');
+        $entryPageClass = config('filament-form-builder.guest-panel-entry-page-class');
+
+        // Use package defaults if not configured
+        if (! $formPageClass) {
+            $formPageClass = \Tapp\FilamentFormBuilder\Filament\Pages\ShowForm::class;
+        }
+
+        if (! $entryPageClass) {
+            $entryPageClass = \Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry::class;
+        }
+
+        $panel->pages([
+            $formPageClass,
+            $entryPageClass,
+        ]);
     }
 
     public function boot(Panel $panel): void

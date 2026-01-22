@@ -46,39 +46,26 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
 
         // Register the form route globally so it's available when the model accesses it
         // The SetFormPanel middleware ensures the correct panel context is set based on authentication
-        $pageClass = config('filament-form-builder.guest-panel-form-page-class');
         $middlewareClass = config('filament-form-builder.set-form-panel-middleware-class');
 
-        if ($pageClass && class_exists($pageClass)) {
-            // SetFormPanel handles both setting the panel and booting it (replaces SetUpPanel)
-            $middleware = ['web'];
-
-            if ($middlewareClass && class_exists($middlewareClass)) {
-                $middleware[] = $middlewareClass;
-            }
-
-            Route::middleware($middleware)->group(function () use ($pageClass) {
-                Route::get(config('filament-form-builder.filament-form-uri').'/{form}', $pageClass)
-                    ->name('filament-form-builder.show');
-            });
+        // Use package default middleware if not configured
+        if (! $middlewareClass) {
+            $middlewareClass = \Tapp\FilamentFormBuilder\Http\Middleware\SetFormPanel::class;
         }
 
-        // Register the entry route globally so it's available after form submission
-        // The SetFormPanel middleware ensures the correct panel context is set based on authentication
-        $entryPageClass = config('filament-form-builder.guest-panel-entry-page-class');
+        $middleware = ['web', $middlewareClass];
 
-        if ($entryPageClass && class_exists($entryPageClass)) {
-            $middleware = ['web'];
+        Route::middleware($middleware)->group(function () {
+            Route::get(
+                config('filament-form-builder.filament-form-uri').'/{form}',
+                \Tapp\FilamentFormBuilder\Http\Controllers\ShowFormController::class
+            )->name('filament-form-builder.show');
 
-            if ($middlewareClass && class_exists($middlewareClass)) {
-                $middleware[] = $middlewareClass;
-            }
-
-            Route::middleware($middleware)->group(function () use ($entryPageClass) {
-                Route::get(config('filament-form-builder.filament-form-user-uri').'/{entry}', $entryPageClass)
-                    ->name('filament-form-users.show');
-            });
-        }
+            Route::get(
+                config('filament-form-builder.filament-form-user-uri').'/{entry}',
+                \Tapp\FilamentFormBuilder\Http\Controllers\ShowEntryController::class
+            )->name('filament-form-users.show');
+        });
     }
 
     public function packageBooted(): void

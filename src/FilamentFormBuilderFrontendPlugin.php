@@ -19,14 +19,23 @@ class FilamentFormBuilderFrontendPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        // Register pages for viewing forms in the app panel
-        $pageClass = config('filament-form-builder.app-panel-form-page-class');
+        // Register pages for viewing forms and entries in the app panel
+        $formPageClass = config('filament-form-builder.app-panel-form-page-class');
+        $entryPageClass = config('filament-form-builder.app-panel-entry-page-class');
 
-        if ($pageClass && class_exists($pageClass)) {
-            $panel->pages([
-                $pageClass,
-            ]);
+        // Use package defaults if not configured
+        if (! $formPageClass) {
+            $formPageClass = \Tapp\FilamentFormBuilder\Filament\Pages\ShowForm::class;
         }
+
+        if (! $entryPageClass) {
+            $entryPageClass = \Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry::class;
+        }
+
+        $panel->pages([
+            $formPageClass,
+            $entryPageClass,
+        ]);
     }
 
     public function boot(Panel $panel): void
