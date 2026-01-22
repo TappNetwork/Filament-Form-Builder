@@ -9,6 +9,7 @@ Route::get(config('filament-form-builder.filament-form-user-uri').'/{entry}', Fi
     ->middleware('web')
     ->name('filament-form-users.show');
 
-Route::get(config('filament-form-builder.filament-form-uri').'/{form}', FilamentForm::class)
-    ->middleware(['web', CheckFormGuestAccess::class])
-    ->name('filament-form-builder.show');
+// Route moved to guest panel - see App\Filament\Guest\Pages\ShowForm
+// Route::get(config('filament-form-builder.filament-form-uri').'/{form}', FilamentForm::class)
+//     ->middleware(['web', CheckFormGuestAccess::class])
+//     ->name('filament-form-builder.show');

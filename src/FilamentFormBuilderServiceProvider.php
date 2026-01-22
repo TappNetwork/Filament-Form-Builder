@@ -2,6 +2,7 @@
 
 namespace Tapp\FilamentFormBuilder;
 
+use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -45,6 +46,18 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
 
         // Register observer for form submission notifications
         FilamentFormUser::observe(FilamentFormUserObserver::class);
+
+        // Register the form route globally so it's available when the model accesses it
+        // The route will use the guest panel layout when accessed by unauthenticated users
+        // The SetFormPanel middleware ensures the correct panel context is set
+        $pageClass = config('filament-form-builder.guest-panel-form-page-class');
+
+        if ($pageClass && class_exists($pageClass)) {
+            Route::middleware(['web', \Filament\Http\Middleware\SetUpPanel::class.':guest', \App\Http\Middleware\SetFormPanel::class])->group(function () use ($pageClass) {
+                Route::get(config('filament-form-builder.filament-form-uri').'/{form}', $pageClass)
+                    ->name('filament-form-builder.show');
+            });
+        }
     }
 
     public function packageBooted(): void

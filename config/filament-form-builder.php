@@ -34,13 +34,21 @@ return [
     'preview-route' => 'filament-form-builder.show',
 
     /*
-    |--------------------------------------------------------------------------
-    | Tenancy Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Configure multi-tenancy settings.
-    |
-    */
+     * Guest Panel Configuration
+     * The page class to use for displaying forms in the guest panel.
+     * Set this to your guest panel page class that displays forms.
+     * Example: \App\Filament\Guest\Pages\ShowForm::class
+     */
+    'guest-panel-form-page-class' => null,
+
+    /*
+     |--------------------------------------------------------------------------
+     | Tenancy Configuration
+     |--------------------------------------------------------------------------
+     |
+     | Configure multi-tenancy settings.
+     |
+     */
     'tenancy' => [
         // Enable tenancy support
         'enabled' => false,
