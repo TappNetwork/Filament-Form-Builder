@@ -55,15 +55,21 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
 
         $middleware = ['web', $middlewareClass];
 
-        Route::middleware($middleware)->group(function () {
+        // Get the page classes (use package defaults if not configured)
+        $formPageClass = config('filament-form-builder.guest-panel-form-page-class')
+            ?? \Tapp\FilamentFormBuilder\Filament\Pages\ShowForm::class;
+        $entryPageClass = config('filament-form-builder.guest-panel-entry-page-class')
+            ?? \Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry::class;
+
+        Route::middleware($middleware)->group(function () use ($formPageClass, $entryPageClass) {
             Route::get(
                 config('filament-form-builder.filament-form-uri').'/{form}',
-                \Tapp\FilamentFormBuilder\Http\Controllers\ShowFormController::class
+                $formPageClass
             )->name('filament-form-builder.show');
 
             Route::get(
                 config('filament-form-builder.filament-form-user-uri').'/{entry}',
-                \Tapp\FilamentFormBuilder\Http\Controllers\ShowEntryController::class
+                $entryPageClass
             )->name('filament-form-users.show');
         });
     }

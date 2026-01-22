@@ -17,8 +17,6 @@ class ShowEntry extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static string $routePath = 'entries/{entry}';
-
     public function getView(): string
     {
         // If authenticated and using app panel, use app panel view
