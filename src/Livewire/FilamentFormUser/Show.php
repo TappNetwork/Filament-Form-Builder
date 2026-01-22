@@ -31,7 +31,9 @@ class Show extends Component implements HasForms, HasInfolists
         return $schema
             ->record($this->entry)
             ->schema([
-                TextEntry::make('user.name'),
+                TextEntry::make('user.name')
+                    ->label('Name')
+                    ->visible(fn () => $this->entry->user_id !== null),
                 TextEntry::make('filamentForm.name')
                     ->label('Form Name'),
                 TextEntry::make('created_at')
