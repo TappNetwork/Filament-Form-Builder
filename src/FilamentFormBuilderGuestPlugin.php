@@ -26,6 +26,6 @@ class FilamentFormBuilderGuestPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
-        // Route is registered in GuestPanelProvider::routes() to ensure proper panel context
+        // Entry route is registered in FilamentFormBuilderServiceProvider with SetFormPanel middleware
     }
 }

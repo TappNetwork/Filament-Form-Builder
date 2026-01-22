@@ -20,13 +20,17 @@ class FilamentFormBuilderFrontendPlugin implements Plugin
     public function register(Panel $panel): void
     {
         // Register pages for viewing forms in the app panel
-        $panel->pages([
-            \App\Filament\App\Pages\ShowForm::class,
-        ]);
+        $pageClass = config('filament-form-builder.app-panel-form-page-class');
+
+        if ($pageClass && class_exists($pageClass)) {
+            $panel->pages([
+                $pageClass,
+            ]);
+        }
     }
 
     public function boot(Panel $panel): void
     {
-        //
+        // Entry route is registered in FilamentFormBuilderServiceProvider with SetFormPanel middleware
     }
 }

@@ -42,6 +42,38 @@ return [
     'guest-panel-form-page-class' => null,
 
     /*
+     * App Panel Configuration
+     * The page class to use for displaying forms in the app panel.
+     * Set this to your app panel page class that displays forms.
+     * Example: \App\Filament\App\Pages\ShowForm::class
+     */
+    'app-panel-form-page-class' => null,
+
+    /*
+     * Set Form Panel Middleware Configuration
+     * The middleware class to use for setting the panel context based on authentication.
+     * Set this to your middleware class that handles panel switching.
+     * Example: \App\Http\Middleware\SetFormPanel::class
+     */
+    'set-form-panel-middleware-class' => null,
+
+    /*
+     * Guest Panel Entry Configuration
+     * The page class to use for displaying form entries in the guest panel.
+     * Set this to your guest panel page class that displays form entries.
+     * Example: \App\Filament\Guest\Pages\ShowEntry::class
+     */
+    'guest-panel-entry-page-class' => null,
+
+    /*
+     * App Panel Entry Configuration
+     * The page class to use for displaying form entries in the app panel.
+     * Set this to your app panel page class that displays form entries.
+     * Example: \App\Filament\App\Pages\ShowEntry::class
+     */
+    'app-panel-entry-page-class' => null,
+
+    /*
      |--------------------------------------------------------------------------
      | Tenancy Configuration
      |--------------------------------------------------------------------------
