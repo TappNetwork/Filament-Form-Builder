@@ -2,6 +2,18 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.1.0 - 2026-01-23
+
+### What's Changed
+
+* Bump aglipanci/laravel-pint-action from 2.5 to 2.6 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/49
+* Bump actions/checkout from 4 to 6 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/48
+* Bump stefanzweifel/git-auto-commit-action from 5 to 7 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/51
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/50
+* Add guest panel support for form pages by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/53
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.0.9...v4.1.0
+
 ## v4.0.9 - 2026-01-21
 
 ### What's Changed
@@ -120,6 +132,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
