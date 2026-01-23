@@ -2,12 +2,12 @@
 
 namespace Tapp\FilamentFormBuilder;
 
+use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Tapp\FilamentFormBuilder\Livewire\FilamentForm\Form as FilamentForm;
 use Tapp\FilamentFormBuilder\Livewire\FilamentForm\Show as FilamentFormShow;
-use Tapp\FilamentFormBuilder\Livewire\FilamentFormUser\Entry as FilamentFormUserEntry;
 use Tapp\FilamentFormBuilder\Livewire\FilamentFormUser\Show as FilamentFormUserShow;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 use Tapp\FilamentFormBuilder\Observers\FilamentFormUserObserver;
@@ -27,7 +27,6 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
             ->hasMigration('add_schema_to_filament_form_fields')
             ->hasMigration('add_notification_emails_to_filament_forms_table')
             ->hasConfigFile('filament-form-builder')
-            ->hasRoute('routes')
             ->hasViews('filament-form-builder');
     }
 
@@ -41,10 +40,38 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
 
         // Register the new layout components
         Livewire::component('tapp.filament-form-builder.livewire.filament-form.form', FilamentForm::class);
-        Livewire::component('tapp.filament-form-builder.livewire.filament-form-user.entry', FilamentFormUserEntry::class);
 
         // Register observer for form submission notifications
         FilamentFormUser::observe(FilamentFormUserObserver::class);
+
+        // Register the form route globally so it's available when the model accesses it
+        // The SetFormPanel middleware ensures the correct panel context is set based on authentication
+        $middlewareClass = config('filament-form-builder.set-form-panel-middleware-class');
+
+        // Use package default middleware if not configured
+        if (! $middlewareClass) {
+            $middlewareClass = \Tapp\FilamentFormBuilder\Http\Middleware\SetFormPanel::class;
+        }
+
+        $middleware = ['web', $middlewareClass];
+
+        // Get the page classes (use package defaults if not configured)
+        $formPageClass = config('filament-form-builder.guest-panel-form-page-class')
+            ?? \Tapp\FilamentFormBuilder\Filament\Pages\ShowForm::class;
+        $entryPageClass = config('filament-form-builder.guest-panel-entry-page-class')
+            ?? \Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry::class;
+
+        Route::middleware($middleware)->group(function () use ($formPageClass, $entryPageClass) {
+            Route::get(
+                config('filament-form-builder.filament-form-uri').'/{form}',
+                $formPageClass
+            )->name('filament-form-builder.show');
+
+            Route::get(
+                config('filament-form-builder.filament-form-user-uri').'/{entry}',
+                $entryPageClass
+            )->name('filament-form-users.show');
+        });
     }
 
     public function packageBooted(): void

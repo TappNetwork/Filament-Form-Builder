@@ -265,6 +265,18 @@ class Show extends Component implements HasForms
         if ($this->filamentForm->redirect_url) {
             return redirect($this->filamentForm->redirect_url);
         } else {
+            // For guest submissions, use a signed temporary URL
+            // For authenticated users, use a regular route (policy will handle authorization)
+            if ($entryModel->user_id === null) {
+                return redirect()->to(
+                    \Illuminate\Support\Facades\URL::temporarySignedRoute(
+                        config('filament-form-builder.filament-form-user-show-route'),
+                        now()->addDays(7), // Link expires in 7 days
+                        ['entry' => $entryModel->id]
+                    )
+                );
+            }
+
             return redirect()
                 ->route(config('filament-form-builder.filament-form-user-show-route'), $entryModel);
         }

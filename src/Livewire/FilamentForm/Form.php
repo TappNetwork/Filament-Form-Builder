@@ -2,9 +2,11 @@
 
 namespace Tapp\FilamentFormBuilder\Livewire\FilamentForm;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
 
+#[Layout('components.layouts.app')]
 class Form extends Component
 {
     public FilamentForm $form;

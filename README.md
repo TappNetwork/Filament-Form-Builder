@@ -5,7 +5,7 @@
 ![GitHub Code Style Action Status](https://github.com/TappNetwork/Filament-Form-Builder/actions/workflows/fix-php-code-style-issues.yml/badge.svg)
 [![Total Downloads](https://img.shields.io/packagist/dt/tapp/filament-form-builder.svg?style=flat-square)](https://packagist.org/packages/tapp/filament-form-builder)
 
-A Filament plugin and package that allows the creation of forms via the admin panel for collecting user data on the front end. Forms are composed of filament field components and support all Laravel validation rules. Form responses can be rendered on the front end of exported to .csv.
+A Filament plugin and package that allows the creation of forms via the admin panel for collecting user data on the front end. Forms are composed of filament field components and support all Laravel validation rules. Form responses can be rendered on the front end or exported to .csv.
 
 ## Requirements
 
@@ -75,13 +75,18 @@ You can publish the config file with:
 php artisan vendor:publish --tag="filament-form-builder-config"
 ```
 
-### Adding the plugin to a panel
+### Adding the plugins to panels
 
-Add this plugin to a panel on `plugins()` method (e.g. in `app/Providers/Filament/AdminPanelProvider.php`).
+The package provides three plugins for different panel types:
+
+#### 1. Admin Panel Plugin (`FilamentFormBuilderPlugin`)
+
+Add this plugin to your **admin panel** to manage forms, fields, and entries. This plugin registers the `FilamentFormResource` which provides CRUD operations for forms.
 
 ```php
 use Tapp\FilamentFormBuilder\FilamentFormBuilderPlugin;
 
+// In app/Providers/Filament/AdminPanelProvider.php
 public function panel(Panel $panel): Panel
 {
     return $panel
@@ -92,6 +97,71 @@ public function panel(Panel $panel): Panel
         ]);
 }
 ```
+
+#### 2. Guest Panel Plugin (`FilamentFormBuilderGuestPlugin`)
+
+Add this plugin to your **guest panel** (for unauthenticated users) to display forms and form entries. This plugin registers the `ShowForm` and `ShowEntry` pages for public access.
+
+```php
+use Tapp\FilamentFormBuilder\FilamentFormBuilderGuestPlugin;
+
+// In app/Providers/Filament/GuestPanelProvider.php
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        // ...
+        ->plugins([
+            FilamentFormBuilderGuestPlugin::make(),
+            //...
+        ]);
+}
+```
+
+#### 3. Frontend/App Panel Plugin (`FilamentFormBuilderFrontendPlugin`)
+
+Add this plugin to your **app/frontend panel** (for authenticated users) to display forms and form entries. This plugin registers the `ShowForm` and `ShowEntry` pages for authenticated access.
+
+```php
+use Tapp\FilamentFormBuilder\FilamentFormBuilderFrontendPlugin;
+
+// In app/Providers/Filament/AppPanelProvider.php
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        // ...
+        ->plugins([
+            FilamentFormBuilderFrontendPlugin::make(),
+            //...
+        ]);
+}
+```
+
+### Public Form Access
+
+Forms can be accessed via the following routes (configured in `config/filament-form-builder.php`):
+
+- **Form View**: `/forms/{form}` - Displays a form for submission
+- **Entry View**: `/entries/{entry}` - Displays a submitted form entry
+
+The routes automatically use the appropriate panel (guest or app) based on authentication status. Forms with `permit_guest_entries` enabled can be viewed by unauthenticated users in the guest panel, while authenticated users will be redirected to the app panel.
+
+### Configuration
+
+You can customize the package behavior by publishing and editing the config file:
+
+```bash
+php artisan vendor:publish --tag="filament-form-builder-config"
+```
+
+Key configuration options include:
+
+- **Panel IDs**: Configure which panel IDs are used for guest and app panels (`guest-panel-id`, `app-panel-id`)
+- **Login Route**: Set the login route for redirecting unauthenticated users (`login-route`)
+- **Custom Page Classes**: Override the default `ShowForm` and `ShowEntry` pages for guest and app panels
+- **Custom Middleware**: Override the default `SetFormPanel` middleware for panel context switching
+- **Route URIs**: Customize the form and entry route paths (`filament-form-uri`, `filament-form-user-uri`)
+
+See `config/filament-form-builder.php` for all available configuration options.
 
 ### Configuring Tailwind:
 
