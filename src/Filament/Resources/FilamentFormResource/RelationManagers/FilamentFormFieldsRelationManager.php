@@ -45,9 +45,8 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     })
                     ->required()
                     ->live(),
-                TextInput::make('label')
+                Textarea::make('label')
                     ->required()
-                    ->maxLength(255)
                     ->label(function (Get $get) {
                         return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Heading' : 'Label';
                     }),
@@ -85,9 +84,8 @@ class FilamentFormFieldsRelationManager extends RelationManager
                 Repeater::make('schema')
                     ->label('Fields')
                     ->schema([
-                        TextInput::make('label')
-                            ->required()
-                            ->maxLength(255),
+                        Textarea::make('label')
+                            ->required(),
                         Select::make('type')
                             ->options(function () {
                                 $options = collect(FilamentFieldTypeEnum::cases())
