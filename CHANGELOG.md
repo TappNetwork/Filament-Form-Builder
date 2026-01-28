@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.1.1 - 2026-01-28
+
+### What's Changed
+
+* Change field label to text by @andreia in https://github.com/TappNetwork/Filament-Form-Builder/pull/54
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.1.0...v4.1.1
+
 ## v4.1.0 - 2026-01-23
 
 ### What's Changed
@@ -132,6 +140,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
