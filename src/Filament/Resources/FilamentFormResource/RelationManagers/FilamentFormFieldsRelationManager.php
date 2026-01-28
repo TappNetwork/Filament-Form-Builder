@@ -43,6 +43,13 @@ class FilamentFormFieldsRelationManager extends RelationManager
                             ->sortBy(fn ($label, $key) => $label)
                             ->toArray();
                     })
+                    ->columnSpan(function ($state) {
+                        if (! empty($state) && FilamentFieldTypeEnum::fromString($state)->hasOptions()) {
+                            return 1;
+                        }
+
+                        return 2;
+                    })
                     ->required()
                     ->live(),
                 Textarea::make('label')
