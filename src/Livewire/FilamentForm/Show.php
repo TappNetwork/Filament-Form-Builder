@@ -7,6 +7,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -81,7 +82,7 @@ class Show extends Component implements HasForms
                             $subFieldComponent = FilamentFieldTypeEnum::fromString($subField['type'])->className()::make($subFieldId);
 
                             if (isset($subField['label'])) {
-                                $subFieldComponent = $subFieldComponent->label($subField['label']);
+                                $subFieldComponent = $subFieldComponent->label(new HtmlString($subField['label']));
                             }
 
                             if (isset($subField['required']) && $subField['required']) {
@@ -119,7 +120,7 @@ class Show extends Component implements HasForms
     {
         if (isset($fieldData['label'])) {
             $filamentField = $filamentField
-                ->label($fieldData['label']);
+                ->label(new HtmlString($fieldData['label']));
         }
 
         if (isset($fieldData['required']) && $fieldData['required']) {

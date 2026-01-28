@@ -43,11 +43,17 @@ class FilamentFormFieldsRelationManager extends RelationManager
                             ->sortBy(fn ($label, $key) => $label)
                             ->toArray();
                     })
+                    ->columnSpan(function ($state) {
+                        if (! empty($state) && FilamentFieldTypeEnum::fromString($state)->hasOptions()) {
+                            return 1;
+                        }
+
+                        return 2;
+                    })
                     ->required()
                     ->live(),
-                TextInput::make('label')
+                Textarea::make('label')
                     ->required()
-                    ->maxLength(255)
                     ->label(function (Get $get) {
                         return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Heading' : 'Label';
                     }),
@@ -85,9 +91,8 @@ class FilamentFormFieldsRelationManager extends RelationManager
                 Repeater::make('schema')
                     ->label('Fields')
                     ->schema([
-                        TextInput::make('label')
-                            ->required()
-                            ->maxLength(255),
+                        Textarea::make('label')
+                            ->required(),
                         Select::make('type')
                             ->options(function () {
                                 $options = collect(FilamentFieldTypeEnum::cases())
