@@ -141,6 +141,8 @@ class FilamentFormResource extends Resource
                     ->url(fn ($record) => route(config('filament-form-builder.preview-route'), ['form' => $record->id]))
                     ->openUrlInNewTab(),
                 Action::make('copy')
+                    ->visible(fn (): bool => static::canCreate())
+                    ->authorize(fn (): bool => static::canCreate())
                     ->action(function ($record) {
                         $formCopy = FilamentForm::create([
                             'name' => $record->name.' - (Copy)',
