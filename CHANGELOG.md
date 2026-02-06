@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.1.2 - 2026-02-06
+
+### What's Changed
+
+* Restrict copy action to users who can create forms by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/55
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.1.1...v4.1.2
+
 ## v4.1.1 - 2026-01-28
 
 ### What's Changed
@@ -140,6 +148,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
