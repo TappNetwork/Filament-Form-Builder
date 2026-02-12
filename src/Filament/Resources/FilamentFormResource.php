@@ -3,6 +3,7 @@
 namespace Tapp\FilamentFormBuilder\Filament\Resources;
 
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -18,6 +19,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Redirect;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\CreateFilamentForm;
@@ -135,45 +137,47 @@ class FilamentFormResource extends Resource
                 //
             ])
             ->recordActions([
-                EditAction::make(),
-                Action::make('preview')
-                    ->visible(fn () => (bool) config('filament-form-builder.preview-route'))
-                    ->url(fn ($record) => route(config('filament-form-builder.preview-route'), ['form' => $record->id]))
-                    ->openUrlInNewTab(),
-                Action::make('copy')
-                    ->visible(fn (): bool => static::canCreate())
-                    ->authorize(fn (): bool => static::canCreate())
-                    ->action(function ($record) {
-                        $formCopy = FilamentForm::create([
-                            'name' => $record->name.' - (Copy)',
-                            'permit_guest_entries' => $record->permit_guest_entries,
-                            'redirect_url' => $record->redirect_url,
-                            'description' => $record->description,
-                            'notification_emails' => $record->notification_emails,
-                        ]);
-
-                        $record->filamentFormFields->each(function ($field) use ($formCopy) {
-                            FilamentFormField::create([
-                                'filament_form_id' => $formCopy->id,
-                                'label' => $field->label,
-                                'type' => $field->type,
-                                'required' => $field->required,
-                                'order' => $field->order,
-                                'hint' => $field->hint,
-                                'options' => $field->options,
-                                'rules' => $field->rules,
+                ActionGroup::make([
+                    EditAction::make(),
+                    Action::make('preview')
+                        ->visible(fn () => (bool) config('filament-form-builder.preview-route'))
+                        ->url(fn ($record) => route(config('filament-form-builder.preview-route'), ['form' => $record->id]))
+                        ->openUrlInNewTab(),
+                    Action::make('copy')
+                        ->visible(fn (): bool => static::canCreate())
+                        ->authorize(fn (): bool => static::canCreate())
+                        ->action(function ($record) {
+                            $formCopy = FilamentForm::create([
+                                'name' => $record->name.' - (Copy)',
+                                'permit_guest_entries' => $record->permit_guest_entries,
+                                'redirect_url' => $record->redirect_url,
+                                'description' => $record->description,
+                                'notification_emails' => $record->notification_emails,
                             ]);
-                        });
 
-                        Notification::make()
-                            ->title('Form copied successfully')
-                            ->body('Please change the name of the form to something unique and remove the "(Copy)" suffix')
-                            ->success()
-                            ->send();
+                            $record->filamentFormFields->each(function ($field) use ($formCopy) {
+                                FilamentFormField::create([
+                                    'filament_form_id' => $formCopy->id,
+                                    'label' => $field->label,
+                                    'type' => $field->type,
+                                    'required' => $field->required,
+                                    'order' => $field->order,
+                                    'hint' => $field->hint,
+                                    'options' => $field->options,
+                                    'rules' => $field->rules,
+                                ]);
+                            });
 
-                        return Redirect::to('/admin/filament-forms/'.$formCopy->id.'/edit');
-                    }),
-            ])
+                            Notification::make()
+                                ->title('Form copied successfully')
+                                ->body('Please change the name of the form to something unique and remove the "(Copy)" suffix')
+                                ->success()
+                                ->send();
+
+                            return Redirect::to('/admin/filament-forms/'.$formCopy->id.'/edit');
+                        }),
+                ]),
+            ], position: RecordActionsPosition::BeforeColumns)
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

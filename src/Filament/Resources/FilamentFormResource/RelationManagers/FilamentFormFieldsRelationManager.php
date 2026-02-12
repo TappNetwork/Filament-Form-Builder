@@ -3,6 +3,7 @@
 namespace Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers;
 
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -19,6 +20,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
@@ -183,15 +185,17 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     }),
             ])
             ->recordActions([
-                EditAction::make()
-                    ->visible(function () use ($form) {
-                        return ! $form->locked;
-                    }),
-                DeleteAction::make()
-                    ->visible(function () use ($form) {
-                        return ! $form->locked;
-                    }),
-            ])
+                ActionGroup::make([
+                    EditAction::make()
+                        ->visible(function () use ($form) {
+                            return ! $form->locked;
+                        }),
+                    DeleteAction::make()
+                        ->visible(function () use ($form) {
+                            return ! $form->locked;
+                        }),
+                ]),
+            ], position: RecordActionsPosition::BeforeColumns)
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
