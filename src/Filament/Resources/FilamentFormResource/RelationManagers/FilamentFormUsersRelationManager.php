@@ -2,6 +2,7 @@
 
 namespace Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\RelationManagers;
 
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -10,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -66,8 +68,10 @@ class FilamentFormUsersRelationManager extends RelationManager
             ->headerActions([
             ])
             ->recordActions([
-                DeleteAction::make(),
-            ])
+                ActionGroup::make([
+                    DeleteAction::make(),
+                ]),
+            ], position: RecordActionsPosition::BeforeColumns)
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
