@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.1.3 - 2026-02-13
+
+### What's Changed
+
+* Table actions in ActionGroup at row start by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/56
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.1.2...v4.1.3
+
 ## v4.1.2 - 2026-02-06
 
 ### What's Changed
@@ -148,6 +156,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
