@@ -2,6 +2,10 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.1.4 - 2026-02-20
+
+removes file upload from the rich text editor as this is not supported functionality and throws an exception.
+
 ## v4.1.3 - 2026-02-13
 
 ### What's Changed
@@ -156,6 +160,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
