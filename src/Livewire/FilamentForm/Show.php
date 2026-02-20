@@ -110,6 +110,10 @@ class Show extends Component implements HasForms
                     ->live();
             }
 
+            if ($fieldData->type === FilamentFieldTypeEnum::RICH_EDITOR) {
+                $filamentField = $filamentField->disableToolbarButtons(['attachFiles']);
+            }
+
             array_push($schema, $filamentField);
         }
 
