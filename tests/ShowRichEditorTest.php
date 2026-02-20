@@ -2,7 +2,6 @@
 
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Support\Collection;
-use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 use Tapp\FilamentFormBuilder\Livewire\FilamentForm\Show;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Models\FilamentFormField;
