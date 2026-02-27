@@ -21,6 +21,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\CreateFilamentForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource\Pages\EditFilamentForm;
@@ -88,10 +89,16 @@ class FilamentFormResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Toggle::make('permit_guest_entries')
-                    ->hint('Permit non registered users to submit this form'),
                 TextInput::make('redirect_url')
                     ->hint('(optional) complete this field to provide a custom redirect url on form completion. Use a fully qualified URL including "https://" to redirect to an external link, otherwise url will be relative to this sites domain'),
+                Toggle::make('permit_guest_entries')
+                    ->hint('Permit non registered users to submit this form'),
+                Toggle::make('private_entries')
+                    ->hint('When enabled, entries for this form can be restricted to certain users (e.g. via a gate in your application).')
+                    ->disabled(fn (?FilamentForm $record): bool => static::userCannotChangePrivateEntries($record))
+                    ->dehydrateStateUsing(fn ($state, ?FilamentForm $record): bool => static::userCannotChangePrivateEntries($record) && $record
+                        ? (bool) $record->private_entries
+                        : (bool) $state),
                 Textarea::make('description')
                     ->columnSpanFull(),
                 Section::make('Notifications')
@@ -129,6 +136,9 @@ class FilamentFormResource extends Resource
                         return (bool) $record->permit_guest_entries;
                     })
                     ->boolean(),
+                IconColumn::make('private_entries')
+                    ->sortable()
+                    ->boolean(),
                 IconColumn::make('locked')
                     ->sortable()
                     ->boolean(),
@@ -150,6 +160,7 @@ class FilamentFormResource extends Resource
                             $formCopy = FilamentForm::create([
                                 'name' => $record->name.' - (Copy)',
                                 'permit_guest_entries' => $record->permit_guest_entries,
+                                'private_entries' => $record->private_entries,
                                 'redirect_url' => $record->redirect_url,
                                 'description' => $record->description,
                                 'notification_emails' => $record->notification_emails,
@@ -201,6 +212,29 @@ class FilamentFormResource extends Resource
             'create' => CreateFilamentForm::route('/create'),
             'edit' => EditFilamentForm::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * True when the current user must not be allowed to change the private_entries toggle.
+     * Used when the form is private and the app's viewEntries policy denies the user.
+     */
+    protected static function userCannotChangePrivateEntries(?FilamentForm $record): bool
+    {
+        if (! $record || ! $record->exists || ! (bool) $record->private_entries) {
+            return false;
+        }
+
+        $user = Auth::user();
+        if (! $user) {
+            return true;
+        }
+
+        $policy = policy($record);
+        if ($policy && method_exists($policy, 'viewEntries')) {
+            return ! $user->can('viewEntries', $record);
+        }
+
+        return false;
     }
 
     protected static function getNotificationEmailsField(): Component

@@ -163,6 +163,14 @@ Key configuration options include:
 
 See `config/filament-form-builder.php` for all available configuration options.
 
+### Private entries
+
+You can hide form entries on a per-form basis. When **Private entries** is enabled for a form, only users allowed by your application (e.g. via a [Laravel gate](https://laravel.com/docs/authorization#gates)) can view or export those entries.
+
+- **Per form**: Each form has a **Private entries** toggle (next to "Permit guest entries"). When enabled, the Entries tab and export actions are restricted to users who pass your gate.
+- **Gate**: Your application defines a gate (e.g. `viewPrivateFormEntries`). The package does not register it—you decide who can view private entries (e.g. Admins only). Call the gate from your **policy** when the form has `private_entries`.
+- **Integration**: In your `FilamentFormUser` policy `view()` method, when `$entry->filamentForm->private_entries` is true, return `Gate::allows('viewPrivateFormEntries', $entry->filamentForm)`. Optionally add a `viewEntries()` method on your `FilamentForm` policy and use it in an extended relation manager so the Entries tab and Export Selected visibility respect the same logic.
+
 ### Configuring Tailwind:
 
 Add this to your tailwind.config.js content section:
