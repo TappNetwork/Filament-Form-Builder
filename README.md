@@ -165,11 +165,43 @@ See `config/filament-form-builder.php` for all available configuration options.
 
 ### Private entries
 
-You can hide form entries on a per-form basis. When **Private entries** is enabled for a form, only users allowed by your application (e.g. via a [Laravel gate](https://laravel.com/docs/authorization#gates)) can view or export those entries.
+You can restrict who can view or export form entries on a per-form basis. When **Private entries** is enabled for a form, the package uses your application’s policy to decide visibility.
 
-- **Per form**: Each form has a **Private entries** toggle (next to "Permit guest entries"). When enabled, the Entries tab and export actions are restricted to users who pass your gate.
-- **Gate**: Your application defines a gate (e.g. `viewPrivateFormEntries`). The package does not register it—you decide who can view private entries (e.g. Admins only). Call the gate from your **policy** when the form has `private_entries`.
-- **Integration**: In your `FilamentFormUser` policy `view()` method, when `$entry->filamentForm->private_entries` is true, return `Gate::allows('viewPrivateFormEntries', $entry->filamentForm)`. Optionally add a `viewEntries()` method on your `FilamentForm` policy and use it in an extended relation manager so the Entries tab and Export Selected visibility respect the same logic.
+#### App setup (required for private entries)
+
+1. **Register a policy** for `Tapp\FilamentFormBuilder\Models\FilamentForm` (e.g. `FilamentFormPolicy`).
+
+2. **Implement `viewEntries`** on that policy with this **exact method name** and signature. Put all your logic here (e.g. “Admin only”); no gate is required:
+
+   ```php
+   // e.g. app/Policies/FilamentFormPolicy.php
+   public function viewEntries(User $user, FilamentForm $form): bool
+   {
+       if (! (bool) $form->private_entries) {
+           return true;
+       }
+       return $user->hasRole('Admin'); // or your own rules
+   }
+   ```
+
+   The package calls `$user->can('viewEntries', $ownerRecord)` when:
+
+   - Deciding whether to show the **Entries** relation manager for a form (edit page).
+   - Deciding whether to show the **Export Selected** bulk action.
+
+   If your policy does not define `viewEntries`, the package does not restrict the Entries tab or export (all users who can view the form see them).
+
+3. **Entry-level visibility**: In your `FilamentFormUser` policy `view()` method, when the entry’s form has `private_entries`, delegate to the same policy so individual entry view links are restricted:
+
+   ```php
+   if ($entry->filamentForm && (bool) $entry->filamentForm->private_entries) {
+       return $user->can('viewEntries', $entry->filamentForm);
+   }
+   ```
+
+4. **Form edit UI**: The **Private entries** toggle on the form is disabled when the form is private and the current user fails `viewEntries`, so they cannot turn the setting off to gain access.
+
+No gate and no extended relation manager are required—the package’s relation manager and resource use the policy when `viewEntries` is present.
 
 ### Configuring Tailwind:
 
