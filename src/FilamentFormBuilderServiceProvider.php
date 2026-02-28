@@ -27,6 +27,7 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
             ->hasMigration('add_schema_to_filament_form_fields')
             ->hasMigration('add_notification_emails_to_filament_forms_table')
             ->hasMigration('change_label_to_text_in_filament_form_fields')
+            ->hasMigration('change_name_to_text_on_filament_forms_table')
             ->hasConfigFile('filament-form-builder')
             ->hasViews('filament-form-builder');
     }
