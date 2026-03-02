@@ -7,9 +7,9 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
@@ -99,7 +99,7 @@ class FilamentFormResource extends Resource
                     ->dehydrateStateUsing(fn ($state, ?FilamentForm $record): bool => static::userCannotChangePrivateEntries($record) && $record
                         ? (bool) $record->private_entries
                         : (bool) $state),
-                Textarea::make('description')
+                RichEditor::make('description')
                     ->columnSpanFull(),
                 Section::make('Notifications')
                     ->description('Configure email notifications for form submissions')
