@@ -15,6 +15,7 @@ use Tapp\FilamentFormBuilder\Models\Traits\BelongsToTenant;
  * @property string|null $description
  * @property string|null $redirect_url
  * @property bool $permit_guest_entries
+ * @property bool $private_entries
  * @property array<int, string>|null $notification_emails
  * @property-read string $form_link
  */
@@ -27,6 +28,7 @@ class FilamentForm extends Model
 
     protected $casts = [
         'permit_guest_entries' => 'boolean',
+        'private_entries' => 'boolean',
         'notification_emails' => 'array',
     ];
 
