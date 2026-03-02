@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.1.6 - 2026-03-02
+
+### What's Changed
+
+* Allow form description to be rich text / HTML by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/62
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.1.5...v4.1.6
+
 ## v4.1.5 - 2026-03-02
 
 ### What's Changed
@@ -169,6 +177,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
