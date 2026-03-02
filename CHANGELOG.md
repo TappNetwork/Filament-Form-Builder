@@ -2,6 +2,15 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.1.5 - 2026-03-02
+
+### What's Changed
+
+* Bump minimatch from 9.0.5 to 9.0.9 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/61
+* Add private entries support for form entry visibility by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/59
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.1.4...v4.1.5
+
 ## v4.1.4 - 2026-02-20
 
 removes file upload from the rich text editor as this is not supported functionality and throws an exception.
@@ -160,6 +169,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
