@@ -41,10 +41,18 @@ class FilamentFormUsersRelationManager extends RelationManager
             return false;
         }
 
-        /** @var \Illuminate\Contracts\Auth\Access\Authorizable $user */
-        $policy = policy($ownerRecord);
+        return self::userCanViewEntriesForOwner($user, $ownerRecord);
+    }
+
+    /**
+     * Whether the given user can view/export entries for the given owner form.
+     * Uses the owner model's viewEntries policy when present.
+     */
+    protected static function userCanViewEntriesForOwner(\Illuminate\Contracts\Auth\Authenticatable&\Illuminate\Contracts\Auth\Access\Authorizable $user, Model $owner): bool
+    {
+        $policy = policy($owner);
         if ($policy && method_exists($policy, 'viewEntries')) {
-            return $user->can('viewEntries', $ownerRecord);
+            return $user->can('viewEntries', $owner);
         }
 
         return true;
@@ -119,18 +127,12 @@ class FilamentFormUsersRelationManager extends RelationManager
      */
     protected function canViewEntriesForOwner(): bool
     {
-        $owner = $this->getOwnerRecord();
         $user = Auth::user();
         if (! $user) {
             return false;
         }
 
-        /** @var \Illuminate\Contracts\Auth\Access\Authorizable $user */
-        $policy = policy($owner);
-        if ($policy && method_exists($policy, 'viewEntries')) {
-            return $user->can('viewEntries', $owner);
-        }
-
-        return true;
+        /** @var \Illuminate\Contracts\Auth\Authenticatable&\Illuminate\Contracts\Auth\Access\Authorizable $user */
+        return self::userCanViewEntriesForOwner($user, $this->getOwnerRecord());
     }
 }
