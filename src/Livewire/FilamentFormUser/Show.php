@@ -3,6 +3,8 @@
 namespace Tapp\FilamentFormBuilder\Livewire\FilamentFormUser;
 
 use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Infolists\Components\KeyValueEntry;
@@ -14,8 +16,9 @@ use Filament\Schemas\Schema;
 use Livewire\Component;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 
-class Show extends Component implements HasForms, HasInfolists
+class Show extends Component implements HasActions, HasForms, HasInfolists
 {
+    use InteractsWithActions;
     use InteractsWithForms;
     use InteractsWithInfolists;
 
