@@ -64,9 +64,15 @@ class ShowEntry extends Page
                 abort(403, 'This link has expired or is invalid.');
             }
         } else {
-            // For authenticated user entries, only allow if they're the submitter
+            // For authenticated user entries: use policy if registered, otherwise only allow submitter
             if (auth()->check()) {
-                if ($entry->user_id !== auth()->id()) {
+                $user = auth()->user();
+                $policy = policy($entry);
+                if ($policy && method_exists($policy, 'view')) {
+                    if (! $user->can('view', $entry)) {
+                        abort(403, 'You do not have permission to view this form submission.');
+                    }
+                } elseif ($entry->user_id !== $user->id) {
                     abort(403, 'You can only view your own form submissions.');
                 }
             } else {
