@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry;
+use Tapp\FilamentFormBuilder\Filament\Pages\ShowForm;
+use Tapp\FilamentFormBuilder\Http\Middleware\SetFormPanel;
 use Tapp\FilamentFormBuilder\Livewire\FilamentForm\Form as FilamentForm;
 use Tapp\FilamentFormBuilder\Livewire\FilamentForm\Show as FilamentFormShow;
 use Tapp\FilamentFormBuilder\Livewire\FilamentFormUser\Show as FilamentFormUserShow;
@@ -52,16 +55,16 @@ class FilamentFormBuilderServiceProvider extends PackageServiceProvider
 
         // Use package default middleware if not configured
         if (! $middlewareClass) {
-            $middlewareClass = \Tapp\FilamentFormBuilder\Http\Middleware\SetFormPanel::class;
+            $middlewareClass = SetFormPanel::class;
         }
 
         $middleware = ['web', $middlewareClass];
 
         // Get the page classes (use package defaults if not configured)
         $formPageClass = config('filament-form-builder.guest-panel-form-page-class')
-            ?? \Tapp\FilamentFormBuilder\Filament\Pages\ShowForm::class;
+            ?? ShowForm::class;
         $entryPageClass = config('filament-form-builder.guest-panel-entry-page-class')
-            ?? \Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry::class;
+            ?? ShowEntry::class;
 
         Route::middleware($middleware)->group(function () use ($formPageClass, $entryPageClass) {
             Route::get(

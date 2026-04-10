@@ -1,6 +1,9 @@
 <?php
 
+use Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry;
+use Tapp\FilamentFormBuilder\Filament\Pages\ShowForm;
 use Tapp\FilamentFormBuilder\Filament\Resources\FilamentFormResource;
+use Tapp\FilamentFormBuilder\Http\Middleware\SetFormPanel;
 
 return [
     'filament-form-user-show-route' => 'filament-form-users.show',
@@ -52,7 +55,7 @@ return [
      * Set to null to use the package default, or provide your own custom page class.
      * Example: \App\Filament\Guest\Pages\ShowForm::class
      */
-    'guest-panel-form-page-class' => \Tapp\FilamentFormBuilder\Filament\Pages\ShowForm::class,
+    'guest-panel-form-page-class' => ShowForm::class,
 
     /*
      * App Panel Configuration
@@ -60,7 +63,7 @@ return [
      * Set to null to use the package default, or provide your own custom page class.
      * Example: \App\Filament\App\Pages\ShowForm::class
      */
-    'app-panel-form-page-class' => \Tapp\FilamentFormBuilder\Filament\Pages\ShowForm::class,
+    'app-panel-form-page-class' => ShowForm::class,
 
     /*
      * Set Form Panel Middleware Configuration
@@ -68,7 +71,7 @@ return [
      * Set to null to use the package default, or provide your own custom middleware class.
      * Example: \App\Http\Middleware\SetFormPanel::class
      */
-    'set-form-panel-middleware-class' => \Tapp\FilamentFormBuilder\Http\Middleware\SetFormPanel::class,
+    'set-form-panel-middleware-class' => SetFormPanel::class,
 
     /*
      * Guest Panel Entry Configuration
@@ -76,7 +79,7 @@ return [
      * Set to null to use the package default, or provide your own custom page class.
      * Example: \App\Filament\Guest\Pages\ShowEntry::class
      */
-    'guest-panel-entry-page-class' => \Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry::class,
+    'guest-panel-entry-page-class' => ShowEntry::class,
 
     /*
      * App Panel Entry Configuration
@@ -84,7 +87,7 @@ return [
      * Set to null to use the package default, or provide your own custom page class.
      * Example: \App\Filament\App\Pages\ShowEntry::class
      */
-    'app-panel-entry-page-class' => \Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry::class,
+    'app-panel-entry-page-class' => ShowEntry::class,
 
     /*
      |--------------------------------------------------------------------------

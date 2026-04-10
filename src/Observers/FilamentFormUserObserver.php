@@ -6,6 +6,7 @@ namespace Tapp\FilamentFormBuilder\Observers;
 
 use Illuminate\Support\Facades\Mail;
 use Tapp\FilamentFormBuilder\Mail\FormSubmissionNotification;
+use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 
 class FilamentFormUserObserver
@@ -25,7 +26,7 @@ class FilamentFormUserObserver
 
     protected function sendNotifications(FilamentFormUser $filamentFormUser): void
     {
-        /** @var \Tapp\FilamentFormBuilder\Models\FilamentForm|null $form */
+        /** @var FilamentForm|null $form */
         $form = $filamentFormUser->filamentForm;
 
         // Check if notification emails are configured for this form

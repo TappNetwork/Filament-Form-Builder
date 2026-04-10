@@ -46,7 +46,7 @@ it('disables the attachFiles toolbar button for rich editor fields in the form s
     // In Filament v5, disableToolbarButtons() queues a modification rather than
     // immediately filtering the array. Inspect the queue via reflection to confirm
     // that attachFiles has been disabled without needing a mounted container.
-    $modifications = (new \ReflectionProperty($richEditor, 'toolbarButtonsModifications'))->getValue($richEditor);
+    $modifications = (new ReflectionProperty($richEditor, 'toolbarButtonsModifications'))->getValue($richEditor);
     expect($modifications)->toContain(['type' => 'disable', 'buttons' => ['attachFiles']]);
 });
 
