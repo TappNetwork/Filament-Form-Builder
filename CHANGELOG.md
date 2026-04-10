@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.2.0 - 2026-04-10
+
+### What's Changed
+
+- Fix mobile overflow: remove `min-w` constraints that caused horizontal overflow on mobile viewports
+- Reduce opinionated styling: remove forced borders, backgrounds, shadows, and border-radius from form views
+- Apps can now fully customize form appearance via `.fb-form-container`, `.fb-form-component`, and `.fb-form-user-container` CSS hooks
+
 ## v4.1.8 - 2026-03-03
 
 **Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.1.7...v4.1.8
@@ -189,6 +197,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
