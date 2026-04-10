@@ -5,6 +5,8 @@ namespace Tapp\FilamentFormBuilder;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Illuminate\Support\Facades\Route;
+use Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry;
+use Tapp\FilamentFormBuilder\Filament\Pages\ShowForm;
 
 class FilamentFormBuilderGuestPlugin implements Plugin
 {
@@ -26,11 +28,11 @@ class FilamentFormBuilderGuestPlugin implements Plugin
 
         // Use package defaults if not configured
         if (! $formPageClass) {
-            $formPageClass = \Tapp\FilamentFormBuilder\Filament\Pages\ShowForm::class;
+            $formPageClass = ShowForm::class;
         }
 
         if (! $entryPageClass) {
-            $entryPageClass = \Tapp\FilamentFormBuilder\Filament\Pages\ShowEntry::class;
+            $entryPageClass = ShowEntry::class;
         }
 
         $panel->pages([

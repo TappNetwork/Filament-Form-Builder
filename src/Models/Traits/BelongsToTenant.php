@@ -2,6 +2,7 @@
 
 namespace Tapp\FilamentFormBuilder\Models\Traits;
 
+use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
@@ -37,8 +38,8 @@ trait BelongsToTenant
 
             // Try to get tenant from Filament context (Filament's standard method)
             // This handles top-level resources created outside Filament's Resource observers
-            if (class_exists(\Filament\Facades\Filament::class)) {
-                $tenant = \Filament\Facades\Filament::getTenant();
+            if (class_exists(Filament::class)) {
+                $tenant = Filament::getTenant();
                 if ($tenant) {
                     $model->{$tenantRelationshipName}()->associate($tenant);
 

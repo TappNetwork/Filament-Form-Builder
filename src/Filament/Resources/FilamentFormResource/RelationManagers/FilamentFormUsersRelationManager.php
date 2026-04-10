@@ -14,6 +14,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -48,7 +50,7 @@ class FilamentFormUsersRelationManager extends RelationManager
      * Whether the given user can view/export entries for the given owner form.
      * Uses the owner model's viewEntries policy when present.
      */
-    protected static function userCanViewEntriesForOwner(\Illuminate\Contracts\Auth\Authenticatable&\Illuminate\Contracts\Auth\Access\Authorizable $user, Model $owner): bool
+    protected static function userCanViewEntriesForOwner(Authenticatable&Authorizable $user, Model $owner): bool
     {
         $policy = policy($owner);
         if ($policy && method_exists($policy, 'viewEntries')) {
@@ -132,7 +134,7 @@ class FilamentFormUsersRelationManager extends RelationManager
             return false;
         }
 
-        /** @var \Illuminate\Contracts\Auth\Authenticatable&\Illuminate\Contracts\Auth\Access\Authorizable $user */
+        /** @var Authenticatable&Authorizable $user */
         return self::userCanViewEntriesForOwner($user, $this->getOwnerRecord());
     }
 }

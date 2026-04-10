@@ -7,6 +7,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -274,7 +275,7 @@ class Show extends Component implements HasForms
             // For authenticated users, use a regular route (policy will handle authorization)
             if ($entryModel->user_id === null) {
                 return redirect()->to(
-                    \Illuminate\Support\Facades\URL::temporarySignedRoute(
+                    URL::temporarySignedRoute(
                         config('filament-form-builder.filament-form-user-show-route'),
                         now()->addDays(7), // Link expires in 7 days
                         ['entry' => $entryModel->id]
