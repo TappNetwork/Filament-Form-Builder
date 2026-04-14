@@ -2,6 +2,15 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.3.0 - 2026-04-14
+
+### What's Changed
+
+* Add Laravel 13 support by @swilla in https://github.com/TappNetwork/Filament-Form-Builder/pull/69
+* Add Laravel 13 support by @swilla in https://github.com/TappNetwork/Filament-Form-Builder/pull/70
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.2.0...v4.3.0
+
 ## v4.2.0 - 2026-04-10
 
 ### What's Changed
@@ -197,6 +206,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
