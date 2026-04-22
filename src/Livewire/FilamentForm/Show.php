@@ -2,6 +2,8 @@
 
 namespace Tapp\FilamentFormBuilder\Livewire\FilamentForm;
 
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -21,8 +23,9 @@ use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
 /**
  * @property Schema $form
  */
-class Show extends Component implements HasForms
+class Show extends Component implements HasActions, HasForms
 {
+    use InteractsWithActions;
     use InteractsWithForms;
     use WithFileUploads;
 
