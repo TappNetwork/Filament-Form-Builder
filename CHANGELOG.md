@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.3.1 - 2026-04-22
+
+### What's Changed
+
+* Fix RichEditor toolbar actions (e.g. link) crashing in Show component by adding `HasActions` / `InteractsWithActions`
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.3.0...v4.3.1
+
 ## v4.3.0 - 2026-04-14
 
 ### What's Changed
