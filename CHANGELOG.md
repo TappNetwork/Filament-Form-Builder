@@ -2,6 +2,16 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.3.2 - 2026-04-27
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 3.0.0 to 3.1.0 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/72
+* Bump postcss from 8.4.41 to 8.5.10 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/73
+* Drop PHP 8.2, add PHP 8.5 to CI matrix by @swilla in https://github.com/TappNetwork/Filament-Form-Builder/pull/74
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.3.1...v4.3.2
+
 ## v4.3.1 - 2026-04-22
 
 ### What's Changed
@@ -214,6 +224,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
