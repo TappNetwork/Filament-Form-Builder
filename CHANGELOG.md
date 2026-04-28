@@ -2,6 +2,15 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.3.3 - 2026-04-28
+
+### What's Changed
+
+* Bump maatwebsite/excel to ^4.0 on 4.x by @swilla in https://github.com/TappNetwork/Filament-Form-Builder/pull/75
+* Update maatwebsite/excel version constraint by @swilla in https://github.com/TappNetwork/Filament-Form-Builder/pull/76
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.3.2...v4.3.3
+
 ## v4.3.2 - 2026-04-27
 
 ### What's Changed
@@ -224,6 +233,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
