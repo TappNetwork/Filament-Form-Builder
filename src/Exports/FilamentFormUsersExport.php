@@ -23,7 +23,7 @@ class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMappi
             ->firstOrFail();
     }
 
-    public function collection()
+    public function collection(): Collection
     {
         return $this->entries;
     }

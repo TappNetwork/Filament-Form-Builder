@@ -8,6 +8,7 @@ use Filament\Facades\Filament;
 use Filament\Pages\Page;
 use Filament\Panel;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
+use Tapp\FilamentFormBuilder\Support\FormRoutePanelResolver;
 
 class ShowEntry extends Page
 {
@@ -19,9 +20,7 @@ class ShowEntry extends Page
 
     public function getView(): string
     {
-        // If authenticated and using app panel, use app panel view
-        // Otherwise, use guest panel view
-        if (auth()->check() && $this->getPanel()->getId() === config('filament-form-builder.app-panel-id', 'app')) {
+        if (FormRoutePanelResolver::usesAuthenticatedFormLayout($this->getPanel())) {
             return 'filament-form-builder::pages.show-entry-app';
         }
 
