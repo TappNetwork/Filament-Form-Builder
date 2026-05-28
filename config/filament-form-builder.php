@@ -44,6 +44,27 @@ return [
     'app-panel-id' => 'app',
 
     /*
+     * Admin Panel Configuration
+     * When set, authenticated users who can access this panel and arrive from an admin URL
+     * (referer contains the admin path) will use it for public form/entry routes instead of the app panel.
+     * Example: 'admin-panel-id' => 'admin',
+     */
+    'admin-panel-id' => null,
+
+    /*
+     * When true, any authenticated user who can access the admin panel will use it for form/entry routes,
+     * not only when the referer is an admin URL.
+     */
+    'prefer-admin-panel-for-authenticated-form-routes' => false,
+
+    /*
+     * How entry rows open from the admin panel Entries relation manager.
+     * - slideover: stay on the form edit page and open a slide-over (recommended for admin).
+     * - page: navigate to the public /entries/{id} route (for app/guest preview links).
+     */
+    'admin-panel-entry-display' => 'slideover',
+
+    /*
      * Login Route Configuration
      * The route name for the login page. Used when redirecting unauthenticated users.
      */

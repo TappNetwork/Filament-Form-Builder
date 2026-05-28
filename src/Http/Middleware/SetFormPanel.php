@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace Tapp\FilamentFormBuilder\Http\Middleware;
 
 use Closure;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\SetUpPanel;
+use Filament\Models\Contracts\HasTenants;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tapp\FilamentFormBuilder\Support\FormRoutePanelResolver;
+use Tapp\FilamentFormBuilder\Support\FormRouteTenancy;
 
 class SetFormPanel
 {
@@ -18,20 +23,37 @@ class SetFormPanel
      */
     public function handle(Request $request, Closure $next, ?string $panel = null): Response
     {
-        // If panel is not provided, determine based on authentication
-        if ($panel === null) {
-            $appPanelId = config('filament-form-builder.app-panel-id', 'app');
-            $guestPanelId = config('filament-form-builder.guest-panel-id', 'guest');
+        $panelId = FormRoutePanelResolver::resolve($panel);
 
-            $panel = auth()->check() ? $appPanelId : $guestPanelId;
-        }
-
-        // Use SetUpPanel middleware to properly initialize the panel
-        // This ensures the panel's layout and middleware are applied correctly
         $setUpPanel = new SetUpPanel;
 
-        return $setUpPanel->handle($request, function ($request) use ($next) {
+        return $setUpPanel->handle($request, function (Request $request) use ($next): Response {
+            $this->bindTenantForFormRoute($request);
+
             return $next($request);
-        }, $panel);
+        }, $panelId);
+    }
+
+    protected function bindTenantForFormRoute(Request $request): void
+    {
+        $panel = Filament::getCurrentPanel();
+
+        if (! $panel?->hasTenancy() || Filament::getTenant() instanceof Model) {
+            return;
+        }
+
+        $tenant = FormRouteTenancy::resolveTenantFromRequest($request);
+
+        if (! $tenant instanceof Model) {
+            return;
+        }
+
+        $user = auth()->user();
+
+        if ($user instanceof HasTenants && ! $user->canAccessTenant($tenant)) {
+            abort(404);
+        }
+
+        Filament::setTenant($tenant, isQuiet: true);
     }
 }
