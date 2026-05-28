@@ -2,6 +2,14 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.3.4 - 2026-05-28
+
+### What's Changed
+
+* Add config for admin panel and fix tenancy for entry by @andreia in https://github.com/TappNetwork/Filament-Form-Builder/pull/77
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.3.3...v4.3.4
+
 ## v4.3.3 - 2026-04-28
 
 ### What's Changed
@@ -233,6 +241,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
