@@ -2,6 +2,16 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.3.5 - 2026-07-03
+
+### What's Changed
+
+* Update npm lockfile for glob advisory by @swilla in https://github.com/TappNetwork/Filament-Form-Builder/pull/78
+* Bump actions/checkout from 6 to 7 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/79
+* Allow multiple form submissions by @andreia in https://github.com/TappNetwork/Filament-Form-Builder/pull/80
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.3.4...v4.3.5
+
 ## v4.3.4 - 2026-05-28
 
 ### What's Changed
@@ -241,6 +251,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 
