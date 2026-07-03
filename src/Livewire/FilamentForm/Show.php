@@ -35,9 +35,11 @@ class Show extends Component implements HasActions, HasForms
 
     public bool $preview;
 
+    public bool $allowMultipleSubmissions = false;
+
     public ?array $data = [];
 
-    public function mount(FilamentForm $form, bool $blockRedirect = false, bool $preview = false)
+    public function mount(FilamentForm $form, bool $blockRedirect = false, bool $preview = false, bool $allowMultipleSubmissions = false): void
     {
         $this->preview = $preview;
 
@@ -46,6 +48,7 @@ class Show extends Component implements HasActions, HasForms
         $this->form->fill($this->data);
 
         $this->blockRedirect = $blockRedirect;
+        $this->allowMultipleSubmissions = $allowMultipleSubmissions;
     }
 
     public function form(Schema $schema): Schema
@@ -218,15 +221,7 @@ class Show extends Component implements HasActions, HasForms
         }
 
         if (Auth::check()) {
-            $entryModel = FilamentFormUser::updateOrCreate(
-                [
-                    'user_id' => Auth::user()->id ?? null,
-                    'filament_form_id' => $this->filamentForm->id,
-                ],
-                [
-                    'entry' => $entry,
-                ],
-            );
+            $entryModel = $this->persistFormEntry($entry);
         } else {
             $entryModel = FilamentFormUser::create(
                 [
@@ -323,6 +318,34 @@ class Show extends Component implements HasActions, HasForms
         }, $value);
 
         return implode(', ', $valuesArray);
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $entry
+     */
+    protected function persistFormEntry(array $entry): FilamentFormUser
+    {
+        $attributes = [
+            'user_id' => Auth::user()->id ?? null,
+            'filament_form_id' => $this->filamentForm->id,
+        ];
+
+        if ($this->allowMultipleSubmissions) {
+            return FilamentFormUser::create([
+                ...$attributes,
+                'entry' => $entry,
+            ]);
+        }
+
+        return FilamentFormUser::updateOrCreate(
+            [
+                'user_id' => $attributes['user_id'],
+                'filament_form_id' => $attributes['filament_form_id'],
+            ],
+            [
+                'entry' => $entry,
+            ],
+        );
     }
 
     public function render()
