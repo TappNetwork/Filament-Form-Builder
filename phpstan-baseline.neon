@@ -49,6 +49,12 @@ parameters:
 			path: src/Livewire/FilamentForm/Show.php
 
 		-
+			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:disableToolbarButtons\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Livewire/FilamentForm/Show.php
+
+		-
 			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:options\(\)\.$#'
 			identifier: method.notFound
 			count: 1
