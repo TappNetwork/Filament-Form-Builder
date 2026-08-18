@@ -2,6 +2,17 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.3.6 - 2026-08-18
+
+### What's Changed
+
+* Support Pest 5 by @swilla in https://github.com/TappNetwork/Filament-Form-Builder/pull/81
+* Bump postcss from 8.5.10 to 8.5.25 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/82
+* Bump brace-expansion and sucrase by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/83
+* Add  config to use key value on options, layout tweaks by @andreia in https://github.com/TappNetwork/Filament-Form-Builder/pull/84
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.3.5...v4.3.6
+
 ## v4.3.5 - 2026-07-03
 
 ### What's Changed
@@ -251,4 +262,5 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 ```
