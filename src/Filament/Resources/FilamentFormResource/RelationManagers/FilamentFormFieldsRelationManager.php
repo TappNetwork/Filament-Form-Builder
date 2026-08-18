@@ -11,11 +11,11 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
@@ -24,6 +24,7 @@ use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
+use Tapp\FilamentFormBuilder\Support\OptionsEditor;
 
 class FilamentFormFieldsRelationManager extends RelationManager
 {
@@ -37,42 +38,47 @@ class FilamentFormFieldsRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema
+            ->columns(2)
             ->components([
-                Select::make('type')
-                    ->options(function () {
-                        return collect(FilamentFieldTypeEnum::cases())
-                            ->mapWithKeys(fn ($type) => [$type->name => $type->fieldName()])
-                            ->sortBy(fn ($label, $key) => $label)
-                            ->toArray();
-                    })
-                    ->columnSpan(function ($state) {
-                        if (! empty($state) && FilamentFieldTypeEnum::fromString($state)->hasOptions()) {
-                            return 1;
-                        }
-
-                        return 2;
-                    })
-                    ->required()
-                    ->live(),
+                Grid::make(3)
+                    ->schema([
+                        Select::make('type')
+                            ->options(function () {
+                                return collect(FilamentFieldTypeEnum::cases())
+                                    ->mapWithKeys(fn ($type) => [$type->name => $type->fieldName()])
+                                    ->sortBy(fn ($label, $key) => $label)
+                                    ->toArray();
+                            })
+                            ->required()
+                            ->live()
+                            ->columnSpan(1),
+                        TextInput::make('order')
+                            ->default(function () {
+                                return $this->getOwnerRecord()->filamentFormFields()->count() + 1;
+                            })
+                            ->numeric()
+                            ->columnSpan(1),
+                        Toggle::make('required')
+                            ->inline(false)
+                            ->visible(function (Get $get) {
+                                return $get('type') !== FilamentFieldTypeEnum::REPEATER->name
+                                    && $get('type') !== FilamentFieldTypeEnum::HEADING->name;
+                            })
+                            ->columnSpan(1),
+                    ])
+                    ->columnSpanFull(),
                 Textarea::make('label')
                     ->required()
                     ->label(function (Get $get) {
                         return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Heading' : 'Label';
-                    }),
-                TagsInput::make('options')
-                    ->placeholder('Add options')
-                    ->hint('Press enter after inputting each option')
-                    ->visible(function (Get $get) {
-                        if ($get('type')) {
-                            return FilamentFieldTypeEnum::fromString($get('type'))->hasOptions();
-                        }
-
-                        return false;
-                    }),
+                    })
+                    ->columnSpanFull(),
+                self::optionsEditor(),
                 Textarea::make('hint')
                     ->label(function (Get $get) {
                         return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Subheading' : 'Hint';
-                    }),
+                    })
+                    ->columnSpanFull(),
                 // TagsInput::make('rules')
                 //     ->placeholder('Add rules')
                 //     ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules')
@@ -80,47 +86,37 @@ class FilamentFormFieldsRelationManager extends RelationManager
                 //         return $get('type') !== FilamentFieldTypeEnum::REPEATER->name
                 //             && $get('type') !== FilamentFieldTypeEnum::HEADING->name;
                 //     }),
-                TextInput::make('order')
-                    ->default(function () {
-                        return $this->getOwnerRecord()->filamentFormFields()->count() + 1;
-                    })
-                    ->numeric(),
-                Toggle::make('required')
-                    ->visible(function (Get $get) {
-                        return $get('type') !== FilamentFieldTypeEnum::REPEATER->name
-                            && $get('type') !== FilamentFieldTypeEnum::HEADING->name;
-                    }),
                 Repeater::make('schema')
                     ->label('Fields')
                     ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                Select::make('type')
+                                    ->options(function () {
+                                        $options = collect(FilamentFieldTypeEnum::cases())
+                                            ->filter(fn ($type) => $type !== FilamentFieldTypeEnum::REPEATER)
+                                            ->mapWithKeys(fn ($type) => [$type->name => $type->fieldName()])
+                                            ->toArray();
+
+                                        return $options;
+                                    })
+                                    ->required()
+                                    ->live()
+                                    ->columnSpan(1),
+                                Toggle::make('required')
+                                    ->inline(false)
+                                    ->columnSpan(1),
+                            ])
+                            ->columnSpanFull(),
                         Textarea::make('label')
-                            ->required(),
-                        Select::make('type')
-                            ->options(function () {
-                                $options = collect(FilamentFieldTypeEnum::cases())
-                                    ->filter(fn ($type) => $type !== FilamentFieldTypeEnum::REPEATER)
-                                    ->mapWithKeys(fn ($type) => [$type->name => $type->fieldName()])
-                                    ->toArray();
-
-                                return $options;
-                            })
                             ->required()
-                            ->live(),
-                        TagsInput::make('options')
-                            ->placeholder('Add options')
-                            ->hint('Press enter after inputting each option')
-                            ->visible(function (Get $get) {
-                                if ($get('type')) {
-                                    return FilamentFieldTypeEnum::fromString($get('type'))->hasOptions();
-                                }
-
-                                return false;
-                            }),
-                        Textarea::make('hint'),
+                            ->columnSpanFull(),
+                        self::optionsEditor(),
+                        Textarea::make('hint')
+                            ->columnSpanFull(),
                         // TagsInput::make('rules')
                         //     ->placeholder('Add rules')
                         //     ->hint('view list of available rules here, https://laravel.com/docs/11.x/validation#available-validation-rules'),
-                        Toggle::make('required'),
                     ])
                     ->columns(2)
                     ->columnSpanFull()
@@ -140,7 +136,17 @@ class FilamentFormFieldsRelationManager extends RelationManager
             ->modelLabel(config('filament-form-builder.admin-panel-filament-form-field-name'))
             ->reorderable('order')
             ->columns([
-                TextColumn::make('label'),
+                TextColumn::make('label')
+                    ->limit(60)
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+
+                        if (! is_string($state) || strlen($state) <= $column->getCharacterLimit()) {
+                            return null;
+                        }
+
+                        return $state;
+                    }),
                 TextColumn::make('order')
                     ->numeric()
                     ->sortable(),
@@ -204,5 +210,12 @@ class FilamentFormFieldsRelationManager extends RelationManager
                         }),
                 ]),
             ]);
+    }
+
+    private static function optionsEditor(): Grid
+    {
+        return Grid::make(1)
+            ->schema(fn (Get $get): array => OptionsEditor::components($get('type')))
+            ->columnSpanFull();
     }
 }

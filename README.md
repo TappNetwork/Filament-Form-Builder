@@ -160,8 +160,29 @@ Key configuration options include:
 - **Custom Page Classes**: Override the default `ShowForm` and `ShowEntry` pages for guest and app panels
 - **Custom Middleware**: Override the default `SetFormPanel` middleware for panel context switching
 - **Route URIs**: Customize the form and entry route paths (`filament-form-uri`, `filament-form-user-uri`)
+- **Options Editor**: Choose TagsInput (`tags`, default) or KeyValue (`key_value`) for Select / Radio / Checkbox List options. Supports a global string, a per-type map, or a Closure (`options_editor`)
 
 See `config/filament-form-builder.php` for all available configuration options.
+
+#### Options editor examples
+
+```php
+// Global TagsInput (default — unchanged for existing apps)
+'options_editor' => 'tags',
+
+// Global KeyValue (value => label)
+'options_editor' => 'key_value',
+
+// Per field type (enum case names)
+'options_editor' => [
+    'RADIO' => 'key_value',
+    'SELECT' => 'tags',
+    'default' => 'tags',
+],
+
+// Closure
+'options_editor' => fn (?string $type): string => $type === 'RADIO' ? 'key_value' : 'tags',
+```
 
 ### Private entries
 
