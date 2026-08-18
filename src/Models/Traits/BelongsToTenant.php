@@ -17,11 +17,18 @@ trait BelongsToTenant
             return;
         }
 
-        // Register the dynamic relationship
+        // Register the dynamic relationship. The relation name must be passed explicitly:
+        // Eloquent otherwise guesses it from the backtrace, which resolves to this closure
+        // and breaks `associate()` and any later `refresh()` / `load()` on the model.
         static::resolveRelationUsing(
             static::getTenantRelationshipName(),
             function ($model) {
-                return $model->belongsTo(config('filament-form-builder.tenancy.model'), static::getTenantColumnName());
+                return $model->belongsTo(
+                    config('filament-form-builder.tenancy.model'),
+                    static::getTenantColumnName(),
+                    null,
+                    static::getTenantRelationshipName(),
+                );
             }
         );
 
@@ -34,14 +41,12 @@ trait BelongsToTenant
                 return;
             }
 
-            $tenantRelationshipName = static::getTenantRelationshipName();
-
             // Try to get tenant from Filament context (Filament's standard method)
             // This handles top-level resources created outside Filament's Resource observers
             if (class_exists(Filament::class)) {
                 $tenant = Filament::getTenant();
                 if ($tenant) {
-                    $model->{$tenantRelationshipName}()->associate($tenant);
+                    $model->{$tenantColumnName} = $tenant->getKey();
 
                     return;
                 }
@@ -55,10 +60,7 @@ trait BelongsToTenant
                 $parentForm = $parentFormClass::find($parentFormId);
 
                 if ($parentForm) {
-                    $parentTenant = $parentForm->{$tenantRelationshipName};
-                    if ($parentTenant) {
-                        $model->{$tenantRelationshipName}()->associate($parentTenant);
-                    }
+                    $model->{$tenantColumnName} = $parentForm->{$tenantColumnName};
                 }
             }
         });

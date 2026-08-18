@@ -151,4 +151,35 @@ return [
     |
     */
     'user_model' => 'App\Models\User',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Options Editor
+    |--------------------------------------------------------------------------
+    |
+    | How option lists are edited for Select, Select Multiple, Radio, and
+    | Checkbox List fields in the admin Fields relation manager.
+    |
+    | Default remains TagsInput (`tags`) so existing apps are unchanged.
+    | Use KeyValue (`key_value`) when options are stored as value => label
+    | maps (for example AI quizzes with keys a/b/c/d).
+    |
+    | Supported shapes:
+    | - string: 'tags' or 'key_value' for every options-capable type
+    | - array: per-type map (keys are FilamentFieldTypeEnum names), optional
+    |          'default' fallback
+    | - Closure: fn (?string $type): string
+    |
+    | Examples:
+    | 'options_editor' => 'tags',
+    | 'options_editor' => 'key_value',
+    | 'options_editor' => [
+    |     'RADIO' => 'key_value',
+    |     'SELECT' => 'tags',
+    |     'default' => 'tags',
+    | ],
+    | 'options_editor' => fn (?string $type): string => $type === 'RADIO' ? 'key_value' : 'tags',
+    |
+    */
+    'options_editor' => 'tags',
 ];
