@@ -5,6 +5,7 @@ namespace Tapp\FilamentFormBuilder\Support;
 use Closure;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\TagsInput;
+use Filament\Schemas\Components\Utilities\Set;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
 
 /**
@@ -68,6 +69,34 @@ final class OptionsEditor
         $fieldType = FilamentFieldTypeEnum::fromString($type);
 
         return $fieldType instanceof FilamentFieldTypeEnum && $fieldType->hasOptions();
+    }
+
+    /**
+     * The options editor is mounted only after a type with options is chosen,
+     * which is after Filament has hydrated the form. TagsInput then entangles
+     * a null state and crashes when a tag is added. Write an array before that
+     * editor renders.
+     */
+    public static function syncOptionsState(Set $set, mixed $type, mixed $options): void
+    {
+        if (! self::typeHasOptions($type)) {
+            return;
+        }
+
+        $set('options', self::stateForType($type, $options));
+    }
+
+    public static function stateForType(mixed $type, mixed $options): mixed
+    {
+        if (! self::typeHasOptions($type)) {
+            return $options;
+        }
+
+        if (self::isKeyValue(is_string($type) ? $type : null)) {
+            return self::normalizeForKeyValue($options);
+        }
+
+        return self::normalizeForTags($options);
     }
 
     /**
