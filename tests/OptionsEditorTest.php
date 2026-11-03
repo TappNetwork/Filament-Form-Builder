@@ -59,6 +59,19 @@ it('builds only the editor matching the field type', function (): void {
     expect(OptionsEditor::components(null))->toBe([]);
 });
 
+it('prepares an empty list when a tags field has no options yet', function (): void {
+    expect(OptionsEditor::stateForType('CHECKBOX_LIST', null))->toBe([])
+        ->and(OptionsEditor::stateForType('SELECT', ['Alpha', 'Beta']))->toBe(['Alpha', 'Beta'])
+        ->and(OptionsEditor::stateForType('TEXT', null))->toBeNull();
+});
+
+it('prepares a key value map when that editor is configured', function (): void {
+    config(['filament-form-builder.options_editor' => 'key_value']);
+
+    expect(OptionsEditor::stateForType('RADIO', null))->toBe([])
+        ->and(OptionsEditor::stateForType('RADIO', ['Alpha']))->toBe(['Alpha' => 'Alpha']);
+});
+
 it('normalizes list and keyed option payloads for each editor', function (): void {
     expect(OptionsEditor::normalizeForTags(['a' => 'Alpha', 'b' => 'Beta']))
         ->toBe(['Alpha', 'Beta'])

@@ -17,6 +17,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -51,6 +52,9 @@ class FilamentFormFieldsRelationManager extends RelationManager
                             })
                             ->required()
                             ->live()
+                            ->afterStateUpdated(function (Set $set, Get $get, ?string $state): void {
+                                OptionsEditor::syncOptionsState($set, $state, $get('options'));
+                            })
                             ->columnSpan(1),
                         TextInput::make('order')
                             ->default(function () {
@@ -102,6 +106,9 @@ class FilamentFormFieldsRelationManager extends RelationManager
                                     })
                                     ->required()
                                     ->live()
+                                    ->afterStateUpdated(function (Set $set, Get $get, ?string $state): void {
+                                        OptionsEditor::syncOptionsState($set, $state, $get('options'));
+                                    })
                                     ->columnSpan(1),
                                 Toggle::make('required')
                                     ->inline(false)
