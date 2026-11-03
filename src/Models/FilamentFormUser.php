@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Tapp\FilamentFormBuilder\Models\Traits\BelongsToTenant;
+use Tapp\FilamentFormBuilder\Support\FieldLabel;
 
 /**
  * @property array $entry
@@ -46,10 +47,12 @@ class FilamentFormUser extends Model implements HasMedia
         $keyValueEntry = [];
 
         foreach ($this->entry as $fieldEntry) {
+            $question = FieldLabel::toPlainText((string) $fieldEntry['field']);
+
             if (is_array($fieldEntry['answer'])) {
-                $keyValueEntry[$fieldEntry['field']] = json_encode($fieldEntry['answer']);
+                $keyValueEntry[$question] = json_encode($fieldEntry['answer']);
             } else {
-                $keyValueEntry[$fieldEntry['field']] = $fieldEntry['answer'];
+                $keyValueEntry[$question] = $fieldEntry['answer'];
             }
         }
 

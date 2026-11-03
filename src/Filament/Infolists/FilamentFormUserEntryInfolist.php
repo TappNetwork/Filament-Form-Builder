@@ -10,6 +10,7 @@ use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
+use Tapp\FilamentFormBuilder\Support\FieldLabel;
 
 final class FilamentFormUserEntryInfolist
 {
@@ -40,6 +41,7 @@ final class FilamentFormUserEntryInfolist
                     ->schema([
                         TextEntry::make('custom_properties.field_label')
                             ->label('Question')
+                            ->formatStateUsing(fn (?string $state): string => FieldLabel::toPlainText((string) $state))
                             ->columnSpanFull(),
                         TextEntry::make('custom_properties.original_name')
                             ->label('File Name')
