@@ -1,0 +1,24 @@
+/*
+ * Source for dist/filament-form-builder.css.
+ *
+ * Replaces tailwind.config.js:
+ * - @source scans blade templates under resources/views only
+ *   (relative to this file; the v3 content path was ./resources/views)
+ * - preflight is not imported (v3 corePlugins.preflight was false)
+ * - utilities are nested under .filament-form-builder, the v4 equivalent of
+ *   important: ".filament-form-builder". Importing utilities with the
+ *   important flag only adds !important; it does not scope by selector.
+ * - theme(inline) writes default theme values into the utilities so this
+ *   published file does not set them on :root.
+ */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme) theme(inline);
+
+@source "../views/**/*.blade.php";
+
+@layer utilities {
+    .filament-form-builder {
+        @tailwind utilities source(none);
+    }
+}
