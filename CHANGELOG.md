@@ -2,6 +2,15 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.3.7 - 2026-11-03
+
+### What's Changed
+
+* Bump postcss-selector-parser from 6.1.1 to 6.1.4 by @dependabot[bot] in https://github.com/TappNetwork/Filament-Form-Builder/pull/85
+* Fix adding a field with multiple options by @andreia in https://github.com/TappNetwork/Filament-Form-Builder/pull/88
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.3.6...v4.3.7
+
 ## v4.3.6 - 2026-08-18
 
 ### What's Changed
@@ -262,5 +271,6 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 ```
