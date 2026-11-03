@@ -43,13 +43,13 @@ parameters:
 			path: src/Filament/Resources/FilamentFormResource/RelationManagers/FilamentFormUsersRelationManager.php
 
 		-
-			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:multiple\(\)\.$#'
+			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:disableToolbarButtons\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: src/Livewire/FilamentForm/Show.php
 
 		-
-			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:disableToolbarButtons\(\)\.$#'
+			message: '#^Call to an undefined method Filament\\Forms\\Components\\Field\:\:multiple\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: src/Livewire/FilamentForm/Show.php
@@ -59,3 +59,9 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: src/Livewire/FilamentForm/Show.php
+
+		-
+			message: '#^Parameter \$markdown of class Illuminate\\Mail\\Mailables\\Content constructor expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Mail/FormSubmissionNotification.php
