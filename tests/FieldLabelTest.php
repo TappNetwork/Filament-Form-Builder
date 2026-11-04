@@ -78,11 +78,11 @@ it('keeps existing inline formatting in labels', function (string $label) {
     '<b>Bold</b> and <i>italic</i> and <u>underlined</u>',
 ]);
 
-it('strips scripts, event handlers and dangerous links', function (string $label, string $forbidden) {
-    $html = FieldLabel::toHtml($label)->toHtml();
+it('strips scripts, event handlers and dangerous links from labels in the form schema', function (string $type, string $label, string $forbidden) {
+    $html = labelledSchema($type, $label)[0]->getLabel()->toHtml();
 
     expect(strtolower($html))->not->toContain($forbidden);
-})->with([
+})->with(['TEXT', 'CHECKBOX'])->with([
     'script tag' => ['Name<script>alert(1)</script>', '<script'],
     'script body' => ['Name<script>alert(1)</script>', 'alert(1)'],
     'img onerror' => ['<img src=x onerror="alert(1)"> Name', 'onerror'],
