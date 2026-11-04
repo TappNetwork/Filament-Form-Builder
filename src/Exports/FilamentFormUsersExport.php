@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
+use Tapp\FilamentFormBuilder\Support\FieldLabel;
 
 class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMapping
 {
@@ -41,7 +42,7 @@ class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMappi
 
         // Create a lookup array of field labels to answers for this entry
         $entryAnswers = collect($entry->entry)->mapWithKeys(function ($fieldEntry) {
-            return [$fieldEntry['field'] => $fieldEntry['answer']];
+            return [FieldLabel::toPlainText((string) $fieldEntry['field']) => $fieldEntry['answer']];
         });
 
         // For each field heading, add the corresponding answer or empty string
@@ -71,7 +72,7 @@ class FilamentFormUsersExport implements FromCollection, WithHeadings, WithMappi
         foreach ($this->entries as $entry) {
             foreach ($entry->entry as $fieldEntry) {
                 if (isset($fieldEntry['field'])) {
-                    $allFieldLabels->push($fieldEntry['field']);
+                    $allFieldLabels->push(FieldLabel::toPlainText((string) $fieldEntry['field']));
                 }
             }
         }

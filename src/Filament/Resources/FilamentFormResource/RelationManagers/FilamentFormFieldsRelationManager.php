@@ -10,6 +10,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -25,6 +26,7 @@ use Filament\Tables\Enums\RecordActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Tapp\FilamentFormBuilder\Enums\FilamentFieldTypeEnum;
+use Tapp\FilamentFormBuilder\Support\FieldLabel;
 use Tapp\FilamentFormBuilder\Support\OptionsEditor;
 
 class FilamentFormFieldsRelationManager extends RelationManager
@@ -71,11 +73,31 @@ class FilamentFormFieldsRelationManager extends RelationManager
                             ->columnSpan(1),
                     ])
                     ->columnSpanFull(),
+                Toggle::make('rich_label')
+                    ->label('Format label')
+                    ->helperText('Use headings, lists, bold text and links, for agreements or long instructions.')
+                    ->live()
+                    ->formatStateUsing(fn (?Model $record): bool => FieldLabel::isRich($record?->getAttribute('label')))
+                    ->visible(fn (Get $get): bool => self::supportsRichLabel($get('type')))
+                    ->columnSpanFull(),
                 Textarea::make('label')
                     ->required()
                     ->label(function (Get $get) {
                         return $get('type') === FilamentFieldTypeEnum::HEADING->name ? 'Heading' : 'Label';
                     })
+                    ->visible(fn (Get $get): bool => ! self::usesRichLabel($get))
+                    ->columnSpanFull(),
+                RichEditor::make('rich_label_content')
+                    ->label('Label')
+                    ->required()
+                    ->toolbarButtons([
+                        ['bold', 'italic', 'underline', 'link'],
+                        ['h2', 'h3'],
+                        ['bulletList', 'orderedList', 'blockquote'],
+                        ['undo', 'redo'],
+                    ])
+                    ->formatStateUsing(fn (?Model $record): ?string => FieldLabel::toEditorHtml($record?->getAttribute('label')))
+                    ->visible(fn (Get $get): bool => self::usesRichLabel($get))
                     ->columnSpanFull(),
                 self::optionsEditor(),
                 Textarea::make('hint')
@@ -144,9 +166,11 @@ class FilamentFormFieldsRelationManager extends RelationManager
             ->reorderable('order')
             ->columns([
                 TextColumn::make('label')
+                    ->formatStateUsing(fn (?string $state): string => FieldLabel::toPlainText((string) $state))
                     ->limit(60)
                     ->tooltip(function (TextColumn $column): ?string {
                         $state = $column->getState();
+                        $state = is_string($state) ? FieldLabel::toPlainText($state) : $state;
 
                         if (! is_string($state) || strlen($state) <= $column->getCharacterLimit()) {
                             return null;
@@ -173,6 +197,7 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     ->visible(function () use ($form) {
                         return ! $form->locked;
                     })
+                    ->mutateDataUsing(fn (array $data): array => FieldLabel::fromEditorData($data))
                     ->label('Create Field'),
                 Action::make('lock_fields')
                     ->requiresConfirmation()
@@ -202,7 +227,8 @@ class FilamentFormFieldsRelationManager extends RelationManager
                     EditAction::make()
                         ->visible(function () use ($form) {
                             return ! $form->locked;
-                        }),
+                        })
+                        ->mutateDataUsing(fn (array $data): array => FieldLabel::fromEditorData($data)),
                     DeleteAction::make()
                         ->visible(function () use ($form) {
                             return ! $form->locked;
@@ -217,6 +243,22 @@ class FilamentFormFieldsRelationManager extends RelationManager
                         }),
                 ]),
             ]);
+    }
+
+    /**
+     * Headings render their label as a title and repeaters as a group name, so only regular fields get rich labels.
+     */
+    public static function supportsRichLabel(mixed $type): bool
+    {
+        $type = $type instanceof FilamentFieldTypeEnum ? $type->name : $type;
+
+        return $type !== FilamentFieldTypeEnum::HEADING->name
+            && $type !== FilamentFieldTypeEnum::REPEATER->name;
+    }
+
+    private static function usesRichLabel(Get $get): bool
+    {
+        return (bool) $get('rich_label') && self::supportsRichLabel($get('type'));
     }
 
     private static function optionsEditor(): Grid

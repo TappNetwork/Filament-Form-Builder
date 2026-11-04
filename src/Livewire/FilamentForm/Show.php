@@ -10,7 +10,6 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -19,6 +18,7 @@ use Tapp\FilamentFormBuilder\Events\EntrySaved;
 use Tapp\FilamentFormBuilder\Models\FilamentForm;
 use Tapp\FilamentFormBuilder\Models\FilamentFormField;
 use Tapp\FilamentFormBuilder\Models\FilamentFormUser;
+use Tapp\FilamentFormBuilder\Support\FieldLabel;
 
 /**
  * @property Schema $form
@@ -89,7 +89,7 @@ class Show extends Component implements HasActions, HasForms
                             $subFieldComponent = FilamentFieldTypeEnum::fromString($subField['type'])->className()::make($subFieldId);
 
                             if (isset($subField['label'])) {
-                                $subFieldComponent = $subFieldComponent->label(new HtmlString($subField['label']));
+                                $subFieldComponent = $subFieldComponent->label(FieldLabel::toHtml($subField['label']));
                             }
 
                             if (isset($subField['required']) && $subField['required']) {
@@ -131,7 +131,7 @@ class Show extends Component implements HasActions, HasForms
     {
         if (isset($fieldData['label'])) {
             $filamentField = $filamentField
-                ->label(new HtmlString($fieldData['label']));
+                ->label(FieldLabel::toHtml($fieldData['label']));
         }
 
         if (isset($fieldData['required']) && $fieldData['required']) {
