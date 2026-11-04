@@ -2,6 +2,31 @@
 
 All notable changes to `Filament-Form-Builder` will be documented in this file.
 
+## v4.4.0 - 2026-11-04
+
+### What's Changed
+
+* Rich-text field labels with HTML sanitizing by @scottgrayson in https://github.com/TappNetwork/Filament-Form-Builder/pull/89
+
+#### Added
+
+- Field labels can hold formatted text (headings, paragraphs, lists, bold, links) via a new **Format label** toggle in the field editor. Stored in the existing `label` column; no migration.
+
+#### Security
+
+- Fixes a stored-XSS issue: field labels were previously rendered unsanitized. All labels containing HTML are now sanitized with `symfony/html-sanitizer` (scripts, event handlers, `style`, iframes, forms, images and `javascript:`/`data:` URLs are removed).
+
+#### Behaviour note
+
+- Plain labels render exactly as before. A label containing a literal `<` that looks like a tag (for example `<name>`) is now treated as HTML and sanitized.
+
+#### Other
+
+- Adds `symfony/html-sanitizer` (`^7.0|^8.0`) as a dependency.
+- Adds an existing larastan error (`FormSubmissionNotification` view-string) to `phpstan-baseline.neon`.
+
+**Full Changelog**: https://github.com/TappNetwork/Filament-Form-Builder/compare/v4.3.7...v4.4.0
+
 ## v4.3.7 - 2026-11-03
 
 ### What's Changed
@@ -271,6 +296,7 @@ Fixes a typo in locking action visibility and adds a locked column to form resou
     Schema::table('filament_forms', function (Blueprint $table) {
         $table->boolean('locked')->default(false);
     });
+
 
 
 ```
